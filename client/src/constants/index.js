@@ -6,3 +6,7 @@ export const NAVIGATION_PATH = {
   REGISTRATION_PAGE: "/signUp",
   VERIFICATION_PAGE: "/verification",
 };
+export const ROLE_MAP = {
+  admin: "ADMIN",
+  user: "USER",
+};
