@@ -5,7 +5,7 @@ const authRouter = require("./authRouter.js");
 
 const { checkToken } = require("../middlewares");
 
-router.use("/auth", userRouter);
+router.use("/auth", authRouter);
 router.use("/user", checkToken, userRouter);
 
 module.exports = router;
