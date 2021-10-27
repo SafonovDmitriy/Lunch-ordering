@@ -1,12 +1,14 @@
-import { Button } from "@material-ui/core";
-import clsx from "clsx";
 import React from "react";
-import useStyles from "./ButtonStyle";
-export default function CustomButton({ children, className, ...props }) {
-  const classes = useStyles();
-  return (
-    <Button {...props} className={clsx(className, classes.btn)}>
-      {children}
-    </Button>
-  );
-}
+import styled from "styled-components";
+
+const ButtonStyled = styled.button`
+  font-size: 16px;
+  padding: 5px 10px;
+  font-style: italic;
+  color: cornflowerblue;
+`;
+
+const Button = (props) => {
+  return <ButtonStyled {...props} />;
+};
+export default Button;

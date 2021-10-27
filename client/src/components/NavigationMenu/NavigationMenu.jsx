@@ -4,17 +4,18 @@ import styled from "styled-components";
 import { NAVIGATION_PATH, ROLE_MAP } from "../../constants";
 import { userRoleSelector } from "../../redux/selectors";
 
+const NavigationMenuWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+const NavLinkStyles = styled(NavLink)`
+  color: black;
+  &.active {
+    font-weight: bold;
+  }
+`;
+
 const NavigationMenu = () => {
-  const NavigationMenuWrapper = styled.div`
-    display: flex;
-    gap: 8px;
-  `;
-  const NavLinkStyles = styled(NavLink)`
-    color: black;
-    &.active {
-      font-weight: bold;
-    }
-  `;
   const userRole = useSelector(userRoleSelector);
   const userNavMenu = [
     { link: NAVIGATION_PATH.HOME_PAGE, title: "Home" },
