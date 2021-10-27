@@ -15,12 +15,7 @@ class UserController {
   }
 
   async logOut(req, res) {
-    res
-      .cookie("token", "", {
-        httpOnly: true,
-        expires: new Date(Date.now() + 1000),
-      })
-      .send();
+    res.clearCookie("token").send();
   }
 }
 
