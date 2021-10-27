@@ -27,7 +27,6 @@ const formGenerator = ({
   className,
   submitText,
   onSubmit = () => {},
-  formError = "",
 }) => {
   const _formJSX = [];
 
@@ -40,7 +39,7 @@ const formGenerator = ({
       error={!!error[field.name]}
       helperText={error[field.name]}
       onChange={changeFieldHendler}
-      {...field.any}
+      {...field.extra}
     />
   );
 
@@ -50,9 +49,9 @@ const formGenerator = ({
     const _form = form.reduce((acc, item) => {
       return Object.assign(acc, { [item.name]: item.value });
     }, {});
-
     const noEmptyString = Object.values(_form).every((text) => !!text.length);
-    if (noEmptyString) onSubmit(_form);
+    const isNoErrors = Object.values(error).every((error) => !error.length);
+    if (noEmptyString && isNoErrors) onSubmit(_form);
   };
 
   const validationField = (_form = form) => {
@@ -101,12 +100,11 @@ const formGenerator = ({
       onSubmit={onSubmitHendler}
     >
       {_formJSX}
-      {submitText && (
+      {!!submitText && (
         <Button disabled={disabledBtn} type="submit">
           {submitText}
         </Button>
       )}
-      {!!formError && <span>{formError}</span>}
     </LoginForm>
   ) : null;
 };
