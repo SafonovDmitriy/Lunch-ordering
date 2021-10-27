@@ -8,20 +8,27 @@ export const instance = axios.create({
   withCredentials: true,
 });
 
-export const request = ({ url, method = "get", props = {} }) => {
+const METHODS_MAP = {
+  GET: "get",
+  POST: "post",
+};
+
+export const request = ({ url, method = METHODS_MAP.GET, props = {} }) => {
   return instance[method](url, props);
 };
+
 export const requestCancel = ({
   url,
-  method = "get",
+  method = METHODS_MAP.GET,
   cancelToken,
   props = {},
 }) => {
   return instance[method](url, {
     cancelToken: cancelToken.token,
-    ...props,
+    props,
   });
 };
+// eslint-disable-next-line no-unused-vars
 const createCancelToken = () => {
   let cancelToken = new axios.CancelToken.source();
   return () => {
@@ -30,6 +37,21 @@ const createCancelToken = () => {
     return cancelToken;
   };
 };
+
+export const fetchUserApi = () => request({ url: "/api/user" });
+
+export const authorizationApi = (form) =>
+  request({ url: "/api/auth/authorization", props: { params: form } });
+export const verifyApi = (form) =>
+  request({ url: "/api/auth/verify", props: { params: form } });
+
+export const registrationApi = (form) =>
+  request({
+    url: "/api/auth/registration",
+    method: METHODS_MAP.POST,
+    props: form,
+  });
+
 //example how use CancelToken
 // const  instanceWithToken = createCancelToken();
 // const request = () =>
