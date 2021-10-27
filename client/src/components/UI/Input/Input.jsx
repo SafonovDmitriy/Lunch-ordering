@@ -34,12 +34,12 @@ const ErrorMessage = styled.span`
   padding-top: 5px;
 `;
 
-const Input = ({ title, value, validation, helperText, ...props }) => {
+const Input = ({ title, validation, helperText, ...props }) => {
   return (
     <InputWrapper>
       <TitleWithInput>
         {!!title && <span>{title}</span>}
-        <InputStyled {...props} value={value} />
+        <InputStyled {...props} />
       </TitleWithInput>
       {!!helperText && <ErrorMessage>{helperText}</ErrorMessage>}
     </InputWrapper>
