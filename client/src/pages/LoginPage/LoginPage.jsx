@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { NAVIGATION_PATH } from "../../constants";
 import formGenerator from "../../helpers/formGenerator";
 import { required, validateEmail } from "../../helpers/validationFuncs";
-
+import { authorizationAction } from "../../redux/actions/authAction";
 const LoginPageWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -36,30 +37,36 @@ const LoginFormHeader = styled.div`
 `;
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const [form, setForm] = useState([
     {
       title: "Email:",
       value: "",
       name: "email",
-      placeholde: "Email",
+
       validation: [
         { func: required, message: "it`s requided field" },
         { func: validateEmail, message: "it`s email validation" },
       ],
+      extra: {
+        placeholder: "Email",
+      },
     },
     {
       title: "Password:",
       value: "",
       name: "password",
-      placeholde: "Password",
       validation: [{ func: required, message: "it`s requided field" }],
+      extra: {
+        placeholder: "Password",
+      },
     },
   ]);
 
   const [error, setError] = useState({});
 
   const onSubmit = (newForm) => {
-    console.log(`newForm`, newForm);
+    dispatch(authorizationAction(newForm));
   };
   return (
     <LoginPageWrapper>
