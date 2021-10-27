@@ -9,6 +9,7 @@ module.exports = {
       surname: { type: String, require: true },
       role: { type: String, require: true },
       photo: { type: String },
+      verifyCode: { type: String },
     },
     {
       versionKey: false,
