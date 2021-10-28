@@ -16,13 +16,23 @@ module.exports = {
       versionKey: false,
     }
   ),
-  lanchSchema: new mongoose.Schema(
+  lanchMenuSchema: new mongoose.Schema(
     {
       index: { type: Number, require: true },
       firstCourse: { type: String, require: true },
       secondCourse: { type: String, require: true },
       salad: { type: String, require: true },
       drink: { type: String, require: true },
+      date: { type: Date },
+    },
+    {
+      versionKey: false,
+    }
+  ),
+  dishSchema: new mongoose.Schema(
+    {
+      name: { type: String, require: true },
+      type: { type: String, require: true },
     },
     {
       versionKey: false,
