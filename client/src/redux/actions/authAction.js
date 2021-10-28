@@ -10,7 +10,7 @@ import {
   REGISTRATION_TYPE_ACTION,
   VERIFICATION_TYPE_ACTION,
 } from "../actionTypes";
-import { history } from "../../";
+import history from "../../history";
 import { NAVIGATION_MAP } from "../../constants";
 export const authSagaWorker = [
   takeEvery(AUTHORIZATION_TYPE_ACTION, authorizationSaga),
