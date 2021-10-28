@@ -2,8 +2,8 @@ const { User } = require("../models");
 
 class UserController {
   async getUser(req, res) {
-    const { _id } = req.body;
-    const user = await User.findById(_id);
+    const { userId } = req.body;
+    const user = await User.findById({ _id: userId });
 
     const _user = {
       email: user.email,

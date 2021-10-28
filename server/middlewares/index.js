@@ -10,7 +10,7 @@ const checkToken = (req, res, next) => {
   const decoded = new Token({ token }).decoded();
 
   if (decoded) {
-    req.body._id = decoded._id;
+    req.body.userId = decoded._id;
     next();
   } else {
     return res.status(401).json({ message: "Token expired" });
@@ -18,7 +18,7 @@ const checkToken = (req, res, next) => {
 };
 
 const checkUserRole = async (req, res, next) => {
-  const { _id } = req.body;
+  const { userId } = req.body;
   try {
     const user = await User.findOne({ _id });
     if (user && user.role === "ADMIN") {
