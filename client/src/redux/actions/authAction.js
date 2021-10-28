@@ -10,7 +10,8 @@ import {
   REGISTRATION_TYPE_ACTION,
   VERIFICATION_TYPE_ACTION,
 } from "../actionTypes";
-
+import { history } from "../../";
+import { NAVIGATION_MAP } from "../../constants";
 export const authSagaWorker = [
   takeEvery(AUTHORIZATION_TYPE_ACTION, authorizationSaga),
   takeEvery(REGISTRATION_TYPE_ACTION, registrationSaga),
@@ -42,7 +43,8 @@ function* authorizationSaga({ payload }) {
 function* verifySaga({ payload }) {
   try {
     const { data } = yield call(verifyApi, payload);
-
+    console.log("verifySaga", data);
+    history(NAVIGATION_MAP.HOME_PAGE);
     showSuccessMessage(data.message);
   } catch (error) {
     showErrorMessage(error);

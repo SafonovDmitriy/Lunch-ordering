@@ -1,4 +1,4 @@
-export const NAVIGATION_PATH = {
+export const NAVIGATION_MAP = {
   HOME_PAGE: "/",
   STATISTICS_PAGE: "/statistics",
   ADMIN_PAGE: "/admin",

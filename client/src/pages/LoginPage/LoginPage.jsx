@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { NAVIGATION_PATH } from "../../constants";
+import { NAVIGATION_MAP } from "../../constants";
 import formGenerator from "../../helpers/formGenerator";
 import { required, validateEmail } from "../../helpers/validationFuncs";
 import { authorizationAction } from "../../redux/actions/authAction";
@@ -80,7 +80,7 @@ const LoginPage = () => {
           onSubmit,
           submitText: "Sign In",
         })}
-        <Link to={NAVIGATION_PATH.REGISTRATION_PAGE}>
+        <Link to={NAVIGATION_MAP.REGISTRATION_PAGE}>
           Go to Registration Page
         </Link>
       </LoginFormWrapper>

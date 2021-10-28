@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { NAVIGATION_PATH } from "../../constants";
+import { NAVIGATION_MAP } from "../../constants";
 import formGenerator from "../../helpers/formGenerator";
 import { required, validateEmail } from "../../helpers/validationFuncs";
 import { registrationAction } from "../../redux/actions/authAction";
@@ -92,7 +92,7 @@ const RegistrationPage = () => {
           onSubmit,
           submitText: "Sign Up",
         })}
-        <Link to={NAVIGATION_PATH.LOGIN_PAGE}>Go to Autoriz Page</Link>
+        <Link to={NAVIGATION_MAP.LOGIN_PAGE}>Go to Autoriz Page</Link>
       </RegistrationFormWrapper>
     </RegistrationPageWrapper>
   );
