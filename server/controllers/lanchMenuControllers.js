@@ -1,5 +1,3 @@
-const { User } = require("../models");
-
 class LanchMenuController {
   async getAllLanch(req, res) {}
   async getLanchById(req, res) {}
