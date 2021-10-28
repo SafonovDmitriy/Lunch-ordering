@@ -10,6 +10,7 @@ module.exports = {
       role: { type: String, require: true },
       photo: { type: String },
       verifyCode: { type: String },
+      balance: { type: Number },
     },
     {
       versionKey: false,
