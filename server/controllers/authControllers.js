@@ -10,11 +10,12 @@ class AuthController {
   async signIn(req, res) {
     const { email, password } = req.query;
     if (!email.trim().length || !password.trim().length) {
-      return res.status(400).json();
+      return res.status(400).json({ message: "Not complete data" });
     }
+
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "No such user" });
+      return res.status(401).json({ message: "No such user" });
     }
 
     const decodedPass = await new Bcrypt({
@@ -23,13 +24,13 @@ class AuthController {
     }).decoded();
 
     if (!decodedPass) {
-      return res.status(400).json({ message: "No such user" });
+      return res.status(401).json({ message: "No such user" });
     }
 
     if (user.verifyCode) {
       console.log(urlForVerification(email));
       console.log(`verifyCode`, user.verifyCode);
-      return res.status(400).json({
+      return res.status(401).json({
         message:
           "Unfortunately, you still did not verify your account, we re-sent you verification code",
       });
@@ -73,15 +74,15 @@ class AuthController {
 
   async verify(req, res) {
     const { email, code } = req.query;
-    const user = await User.findOne({ email });
+    const { verifyCode: userVerifyCode, _id } = await User.findOne({ email });
 
-    if (user.verifyCode !== code) {
+    if (userVerifyCode !== code) {
       return res.status(400).json({
         message: "Incorrect code",
       });
     }
-    await User.updateOne({ email }, { $unset: { verifyCode: 1 } });
-    const token = new Token({ _id: user._id });
+    // await User.updateOne({ email }, { $unset: { verifyCode: 1 } });
+    const token = new Token({ _id });
     res.cookie("token", token.create(), {
       httpOnly: true,
       expires: token.expiryCookies,

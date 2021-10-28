@@ -1,31 +1,32 @@
 const { User } = require("../models");
 const Token = require("../utils/Token");
-const checkToken = (res, req, next) => {
-  const { token } = res.cookies;
+
+const checkToken = (req, res, next) => {
+  const { token } = req.cookies;
 
   if (!token || token == null) {
-    return req.status(412).json({ message: "No token" });
+    return res.status(412).json({ message: "No token" });
   }
   const decoded = new Token({ token }).decoded();
 
   if (decoded) {
-    res.body._id = decoded._id;
+    req.body._id = decoded._id;
     next();
   } else {
-    return req.status(401).json({ message: "Token expired" });
+    return res.status(401).json({ message: "Token expired" });
   }
 };
 
-const checkUserRole = async (res, req, next) => {
-  const { _id } = res.body;
+const checkUserRole = async (req, res, next) => {
+  const { _id } = req.body;
   try {
     const user = await User.findOne({ _id });
     if (user && user.role === "ADMIN") {
       return next();
     }
-    return req.status(400).json({ message: "You are not an admin" });
+    return res.status(400).json({ message: "You are not an admin" });
   } catch (error) {
-    return req.status(500);
+    return res.status(500);
   }
 };
 
