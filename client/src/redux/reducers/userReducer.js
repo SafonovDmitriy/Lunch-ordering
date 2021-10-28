@@ -1,20 +1,18 @@
-import { ROLE_MAP } from "../../constants";
+import { SET_USER_DATA, SET_USER_LOADING } from "../actionTypes";
 
 const initialStore = {
-  loading: false,
-  userData: {
-    email: "test@email.com",
-    balance: 1000,
-    role: ROLE_MAP.admin,
-  },
+  loading: true,
+  userData: {},
 };
-const userReducer = (store = initialStore, action) => {
+const userReducer = (state = initialStore, action) => {
   switch (action.type) {
-    case "":
-      break;
+    case SET_USER_DATA:
+      return { ...state, userData: action.payload };
+    case SET_USER_LOADING:
+      return { ...state, loading: action.payload };
 
     default:
-      return store;
+      return state;
   }
 };
 export default userReducer;
