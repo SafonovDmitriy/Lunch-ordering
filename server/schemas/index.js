@@ -19,8 +19,8 @@ module.exports = {
   lanchMenuSchema: new mongoose.Schema(
     {
       index: { type: Number, require: true },
-      firstCourse: { type: String, require: true },
-      secondCourse: { type: String, require: true },
+      firstDish: { type: String, require: true },
+      secondDish: { type: String, require: true },
       salad: { type: String, require: true },
       drink: { type: String, require: true },
       date: { type: Date },
