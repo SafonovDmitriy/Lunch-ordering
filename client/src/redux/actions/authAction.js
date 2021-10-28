@@ -43,8 +43,7 @@ function* authorizationSaga({ payload }) {
 function* verifySaga({ payload }) {
   try {
     const { data } = yield call(verifyApi, payload);
-    console.log("verifySaga", data);
-    history(NAVIGATION_MAP.HOME_PAGE);
+    history.push(NAVIGATION_MAP.HOME_PAGE);
     showSuccessMessage(data.message);
   } catch (error) {
     showErrorMessage(error);

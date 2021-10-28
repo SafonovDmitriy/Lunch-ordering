@@ -75,13 +75,17 @@ class AuthController {
   async verify(req, res) {
     const { email, code } = req.query;
     const { verifyCode: userVerifyCode, _id } = await User.findOne({ email });
+    if (!userVerifyCode)
+      return res.status(400).json({
+        message: "You have already verified your account",
+      });
 
-    if (userVerifyCode !== code) {
+    if (userVerifyCode !== code)
       return res.status(400).json({
         message: "Incorrect code",
       });
-    }
-    // await User.updateOne({ email }, { $unset: { verifyCode: 1 } });
+
+    await User.updateOne({ email }, { $unset: { verifyCode: 1 } });
     const token = new Token({ _id });
     res.cookie("token", token.create(), {
       httpOnly: true,
