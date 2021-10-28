@@ -34,7 +34,7 @@ export const verifyAction = (payload) => ({
 function* authorizationSaga({ payload }) {
   try {
     const { data } = yield call(authorizationApi, payload);
-
+    history.push(NAVIGATION_MAP.HOME_PAGE);
     showSuccessMessage(data.message);
   } catch (error) {
     showErrorMessage(error);
