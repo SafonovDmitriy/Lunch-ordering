@@ -10,6 +10,6 @@ const { checkToken } = require("../middlewares");
 router.use("/auth", authRouter);
 router.use("/user", checkToken, userRouter);
 router.use("/lanchMenu", checkToken, lanchMenuRouter);
-router.use("/dish", checkToken, dishRouter);
+router.use("/dish", dishRouter);
 
 module.exports = router;
