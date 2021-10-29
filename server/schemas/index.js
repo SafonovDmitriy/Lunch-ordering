@@ -19,10 +19,10 @@ module.exports = {
   lunchMenuSchema: new mongoose.Schema(
     {
       index: { type: Number, require: true, unique: true },
-      firstDish: { type: String, require: true },
-      secondDish: { type: String, require: true },
-      salad: { type: String, require: true },
-      drink: { type: String, require: true },
+      firstDish: { type: mongoose.Types.ObjectId, require: true },
+      secondDish: { type: mongoose.Types.ObjectId, require: true },
+      salad: { type: mongoose.Types.ObjectId, require: true },
+      drink: { type: mongoose.Types.ObjectId, require: true },
     },
     {
       versionKey: false,
