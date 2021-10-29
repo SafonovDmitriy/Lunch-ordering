@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { NAVIGATION_MAP } from "../../constants";
 import LunchMenu from "./LunchMenu";
 import LunchMenuAdmin from "./LunchMenuAdmin";
-
+import { Modal } from "../UI/Modal";
+import { Button } from "../UI/Button";
 const Container = styled.div`
   box-shadow: 0px 0px 0px
     ${({ id, selectMenu }) => {
@@ -40,24 +41,38 @@ const LunchMenuWrapper = ({ lunchMenu }) => {
   const [selectMenu, setSelectMenu] = useState(null);
   console.log(`selectMenu`, selectMenu);
   const [openModal, setOpenModal] = useState(false);
+  const setOpenModalHendler = () => {
+    setOpenModal((prev) => !prev);
+  };
   const selectLunch = (lunchID) => {
     console.log(`lunchID`, lunchID);
     setSelectMenu(lunchID);
+    setOpenModalHendler();
   };
-  return lunchMenu.map((lunch) => {
-    return (
-      <Container key={lunch._id} selectMenu={selectMenu} id={lunch._id}>
-        <LunchWrapper onClick={() => selectLunch(lunch._id)}>
-          <IndexLunchMenu>{lunch.index}</IndexLunchMenu>
-          {location.pathname === NAVIGATION_MAP.ADMIN_PAGE ? (
-            <LunchMenuAdmin lunch={lunch} />
-          ) : (
-            <LunchMenu lunch={lunch} />
-          )}
-        </LunchWrapper>
-      </Container>
-    );
-  });
+  return (
+    <>
+      <Modal open={openModal} onClose={setOpenModalHendler}>
+        <h1></h1>
+        <p></p>
+        <Button></Button>
+        <Button></Button>
+      </Modal>
+      {lunchMenu.map((lunch) => {
+        return (
+          <Container key={lunch._id} selectMenu={selectMenu} id={lunch._id}>
+            <LunchWrapper onClick={() => selectLunch(lunch._id)}>
+              <IndexLunchMenu>{lunch.index}</IndexLunchMenu>
+              {location.pathname === NAVIGATION_MAP.ADMIN_PAGE ? (
+                <LunchMenuAdmin lunch={lunch} />
+              ) : (
+                <LunchMenu lunch={lunch} />
+              )}
+            </LunchWrapper>
+          </Container>
+        );
+      })}
+    </>
+  );
 };
 
 export default LunchMenuWrapper;
