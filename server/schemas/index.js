@@ -16,14 +16,13 @@ module.exports = {
       versionKey: false,
     }
   ),
-  lanchMenuSchema: new mongoose.Schema(
+  lunchMenuSchema: new mongoose.Schema(
     {
-      index: { type: Number, require: true },
+      index: { type: Number, require: true, unique: true },
       firstDish: { type: String, require: true },
       secondDish: { type: String, require: true },
       salad: { type: String, require: true },
       drink: { type: String, require: true },
-      date: { type: Date },
     },
     {
       versionKey: false,
@@ -33,6 +32,17 @@ module.exports = {
     {
       name: { type: String, require: true },
       type: { type: String, require: true },
+      image: { type: String, require: true },
+    },
+    {
+      versionKey: false,
+    }
+  ),
+  userOrderHistorySchema: new mongoose.Schema(
+    {
+      idLunchMenu: { type: mongoose.Types.ObjectId, require: true },
+      idUser: { type: mongoose.Types.ObjectId, require: true },
+      data: { type: Date, require: true },
     },
     {
       versionKey: false,
