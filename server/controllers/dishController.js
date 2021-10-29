@@ -10,7 +10,7 @@ class DishController {
       return Object.assign(acc, {
         [dish.type]: [
           ...(acc[dish.type] ? acc[dish.type] : []),
-          { _id: dish._id, name: dish.name },
+          { _id: dish._id, name: dish.name, image: dish.image },
         ],
       });
     }, {});
@@ -33,7 +33,11 @@ class DishController {
   // /add
   async addDish(req, res) {
     const { name, type } = req.body;
-    const newDish = new Dish({ name, type });
+    const newDish = new Dish({
+      name,
+      type,
+      image: "img/defaultPlaceholderDish.png",
+    });
     await newDish.save();
     res.status(200).json({
       message: "Successfully created new dish",
