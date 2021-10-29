@@ -1,5 +1,7 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import { fetchUserApi } from "../../api/httpService";
+import { NAVIGATION_MAP } from "../../constants";
+import history from "../../history";
 
 import {
   CLEAR_DATA,
@@ -8,31 +10,31 @@ import {
   SET_USER_DATA,
 } from "../actionTypes";
 
-export const userSagaWorker = [takeEvery(FETCH_USER, fetchUserAction)];
+export const userSagaWorker = [takeEvery(FETCH_USER, fetchUserSaga)];
 
-export const userFetch = () => ({
+export const userDataFetchAction = () => ({
   type: FETCH_USER,
 });
-export const dataClear = () => ({
+export const dataClearAction = () => ({
   type: CLEAR_DATA,
 });
-export const setUserLoading = (payload) => ({
+export const setUserLoadingAction = (payload) => ({
   type: SET_USER_LOADING,
   payload,
 });
-export const setUserData = (payload) => ({
+export const setUserDataAction = (payload) => ({
   type: SET_USER_DATA,
   payload,
 });
 
-function* fetchUserAction() {
-  yield put(setUserLoading(true));
+function* fetchUserSaga() {
+  yield put(setUserLoadingAction(true));
   try {
     const { data } = yield call(fetchUserApi);
-    console.log(`data`, data);
-    yield put(setUserData(data.user));
+    yield put(setUserDataAction(data.user));
   } catch (error) {
+    history.push(NAVIGATION_MAP.LOGIN_PAGE);
   } finally {
-    yield put(setUserLoading(false));
+    yield put(setUserLoadingAction(false));
   }
 }

@@ -1,4 +1,4 @@
-import { SET_USER_DATA, SET_USER_LOADING } from "../actionTypes";
+import { CLEAR_DATA, SET_USER_DATA, SET_USER_LOADING } from "../actionTypes";
 
 const initialStore = {
   loading: true,
@@ -10,7 +10,8 @@ const userReducer = (state = initialStore, action) => {
       return { ...state, userData: action.payload };
     case SET_USER_LOADING:
       return { ...state, loading: action.payload };
-
+    case CLEAR_DATA:
+      return { ...state, userData: initialStore.userData };
     default:
       return state;
   }

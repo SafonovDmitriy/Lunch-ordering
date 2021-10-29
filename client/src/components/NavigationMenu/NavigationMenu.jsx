@@ -31,7 +31,7 @@ const NavigationMenu = () => {
   return (
     <NavigationMenuWrapper>
       {menuShow.map((menuItem) => (
-        <NavLinkStyles exact to={menuItem.link}>
+        <NavLinkStyles exact to={menuItem.link} key={menuItem.link}>
           {menuItem.title}
         </NavLinkStyles>
       ))}

@@ -1,5 +1,6 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { logOutAction } from "../../redux/actions/authAction";
 import { userBalanceSelector, userEmailSelector } from "../../redux/selectors";
 
 const InformPanelWrapper = styled.div`
@@ -9,13 +10,17 @@ const InformPanelWrapper = styled.div`
   align-items: center;
 `;
 const InformPanel = () => {
+  const dispatch = useDispatch();
   const balance = useSelector(userBalanceSelector);
   const email = useSelector(userEmailSelector);
+  const logOut = () => {
+    dispatch(logOutAction());
+  };
   return (
     <InformPanelWrapper>
       <span>{`Balance: ${balance} грн`}</span>
       <span>{email}</span>
-      <button>SignOut</button>
+      <button onClick={logOut}>SignOut</button>
     </InformPanelWrapper>
   );
 };

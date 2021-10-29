@@ -42,6 +42,7 @@ export const fetchUserApi = () => request({ url: "/api/user" });
 
 export const authorizationApi = (form) =>
   request({ url: "/api/auth/authorization", props: { params: form } });
+export const logoutApi = () => request({ url: "/api/user/logout" });
 export const verifyApi = (form) =>
   request({ url: "/api/auth/verify", props: { params: form } });
 
