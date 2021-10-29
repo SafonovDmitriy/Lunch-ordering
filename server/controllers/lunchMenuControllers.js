@@ -14,7 +14,29 @@ class LunchMenuController {
   // /:id
   async getLanchById(req, res) {}
   // /add
-  async createNewLunchMenu(req, res) {}
+  async createNewLunchMenu(req, res) {
+    const { firstDishID, secondDishID, saladID, drinkID } = req.body;
+    const lunchMenus = await LunchMenu.find({});
+
+    const lunchMenusLength = lunchMenus.length;
+
+    const index = lunchMenusLength + 1;
+    if (lunchMenusLength >= 4)
+      return res.status(500).json({
+        message: "Sorry but we can't store more than 4 menu",
+      });
+    const newLunchMenu = new LunchMenu({
+      index,
+      firstDish: firstDishID,
+      secondDish: secondDishID,
+      salad: saladID,
+      drink: drinkID,
+    });
+    await newLunchMenu.save();
+    res.status(200).json({
+      message: "That's all the lanch menu what is in the database",
+    });
+  }
 
   // put/:id
   async updateLunchMenuById(req, res) {}
@@ -29,4 +51,3 @@ module.exports = new LunchMenuController();
 //       secondDish: { type: String, require: true },
 //       salad: { type: String, require: true },
 //       drink: { type: String, require: true },
-//       date: { type: Date },
