@@ -1,4 +1,3 @@
-import { NotificationManager } from "react-notifications";
 import { call, put, takeEvery } from "redux-saga/effects";
 import {
   authorizationApi,
@@ -7,12 +6,16 @@ import {
   verifyApi,
 } from "../../api/httpService";
 import { NAVIGATION_MAP } from "../../constants";
+import {
+  showErrorMessage,
+  showSuccessMessage,
+} from "../../helpers/showNotificationMessage";
 import history from "../../history";
 import {
   AUTHORIZATION_TYPE_ACTION,
+  LOGOUT_TYPE_ACTION,
   REGISTRATION_TYPE_ACTION,
   VERIFICATION_TYPE_ACTION,
-  LOGOUT_TYPE_ACTION,
 } from "../actionTypes";
 import { dataClearAction, userDataFetchAction } from "./userAction";
 export const authSagaWorker = [
@@ -77,10 +80,3 @@ function* logoutSaga() {
     showErrorMessage("Something went wrong");
   }
 }
-
-const showSuccessMessage = (message) => {
-  NotificationManager.success(message);
-};
-const showErrorMessage = ({ response }) => {
-  NotificationManager.error(response?.data?.message);
-};

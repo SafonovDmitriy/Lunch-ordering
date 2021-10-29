@@ -1,12 +1,21 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { userLoadingSelector } from "../../redux/selectors";
-const HomePageWrapper = styled.div``;
-const LunchMenuWrapper = styled.div``;
-const HomePage = () => {
-  const userLoading = useSelector(userLoadingSelector);
+import { LunchMenu } from "../../components/LunchMenu";
+const HomePageWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  padding: 15px;
+  box-sizing: border-box;
+  margin: 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+`;
 
-  return !userLoading && <HomePageWrapper></HomePageWrapper>;
+const HomePage = ({ lunchMenu }) => {
+  return (
+    <HomePageWrapper>
+      <LunchMenu />
+    </HomePageWrapper>
+  );
 };
 export default HomePage;

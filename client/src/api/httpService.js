@@ -39,6 +39,7 @@ const createCancelToken = () => {
 };
 
 export const fetchUserApi = () => request({ url: "/api/user" });
+export const fetchLunchMenuApi = () => request({ url: "/api/lunchMenu/" });
 
 export const authorizationApi = (form) =>
   request({ url: "/api/auth/authorization", props: { params: form } });
