@@ -19,10 +19,14 @@ module.exports = {
   lunchMenuSchema: new mongoose.Schema(
     {
       index: { type: Number, require: true, unique: true },
-      firstDish: { type: mongoose.Types.ObjectId, require: true },
-      secondDish: { type: mongoose.Types.ObjectId, require: true },
-      salad: { type: mongoose.Types.ObjectId, require: true },
-      drink: { type: mongoose.Types.ObjectId, require: true },
+      firstDish: {
+        type: mongoose.Types.ObjectId,
+        require: true,
+        ref: "Dish",
+      },
+      secondDish: { type: mongoose.Types.ObjectId, require: true, ref: "Dish" },
+      salad: { type: mongoose.Types.ObjectId, require: true, ref: "Dish" },
+      drink: { type: mongoose.Types.ObjectId, require: true, ref: "Dish" },
     },
     {
       versionKey: false,
@@ -40,8 +44,12 @@ module.exports = {
   ),
   userOrderHistorySchema: new mongoose.Schema(
     {
-      idLunchMenu: { type: mongoose.Types.ObjectId, require: true },
-      idUser: { type: mongoose.Types.ObjectId, require: true },
+      idLunchMenu: {
+        type: mongoose.Types.ObjectId,
+        require: true,
+        ref: "LunchMenu",
+      },
+      idUser: { type: mongoose.Types.ObjectId, require: true, ref: "User" },
       data: { type: Date, require: true },
     },
     {

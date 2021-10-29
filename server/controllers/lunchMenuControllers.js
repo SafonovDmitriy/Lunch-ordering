@@ -1,18 +1,21 @@
-const { LunchMenu } = require("../models");
+const { LunchMenu, Dish } = require("../models");
 
 class LunchMenuController {
   // /lunchMenu
 
   // /
-  async getAllLanch(req, res) {
-    const lunchMenu = await LunchMenu.find({});
+  async getAllLunch(req, res) {
+    const lunchMenu = await LunchMenu.find({}).populate(
+      "firstDish secondDish salad drink"
+    );
+
     res.status(200).json({
       message: "That's all the lanch menu what is in the database",
       lunchMenu,
     });
   }
   // /:id
-  async getLanchById(req, res) {}
+  async getLunchById(req, res) {}
   // /add
   async createNewLunchMenu(req, res) {
     const { firstDishID, secondDishID, saladID, drinkID } = req.body;
@@ -46,8 +49,3 @@ class LunchMenuController {
 }
 
 module.exports = new LunchMenuController();
-// index: { type: Number, require: true },
-//       firstDish: { type: String, require: true },
-//       secondDish: { type: String, require: true },
-//       salad: { type: String, require: true },
-//       drink: { type: String, require: true },
