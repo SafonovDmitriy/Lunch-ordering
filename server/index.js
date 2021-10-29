@@ -15,6 +15,8 @@ app.use(cors(corsConfig));
 app.use(cookieParser());
 app.use(express.json());
 
+app.use("/img", express.static("img"));
+
 app.use("/api", router);
 
 const start = () => {
