@@ -10,12 +10,14 @@ const ModalWrapper = styled.div`
   left: 0;
   right: 0;
   z-index: 1;
+  backdrop-filter: blur(3px);
 `;
 const ContentWrapper = styled.div`
   border: solid 2px;
-  padding: 10px;
+  padding: 50px;
   border-radius: 10px;
-  border-color: coral;
+  border-color: darkslateblue;
+  background-color: whitesmoke;
 `;
 const Modal = ({ children, open, onClose }) => {
   return (

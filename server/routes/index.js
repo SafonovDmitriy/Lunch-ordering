@@ -9,7 +9,7 @@ const { checkToken } = require("../middlewares");
 
 router.use("/auth", authRouter);
 router.use("/user", checkToken, userRouter);
-router.use("/lunchMenu", lunchMenuRouter);
+router.use("/lunch-menu", checkToken, lunchMenuRouter);
 router.use("/dish", dishRouter);
 
 module.exports = router;

@@ -44,13 +44,27 @@ module.exports = {
   ),
   userOrderHistorySchema: new mongoose.Schema(
     {
-      idLunchMenu: {
-        type: mongoose.Types.ObjectId,
-        require: true,
-        ref: "LunchMenu",
+      order: {
+        menuId: {
+          type: mongoose.Types.ObjectId,
+          require: true,
+          ref: "LunchMenu",
+        },
+        firstDish: {
+          type: mongoose.Types.ObjectId,
+          require: true,
+          ref: "Dish",
+        },
+        secondDish: {
+          type: mongoose.Types.ObjectId,
+          require: true,
+          ref: "Dish",
+        },
+        salad: { type: mongoose.Types.ObjectId, require: true, ref: "Dish" },
+        drink: { type: mongoose.Types.ObjectId, require: true, ref: "Dish" },
       },
-      idUser: { type: mongoose.Types.ObjectId, require: true, ref: "User" },
-      data: { type: Date, require: true },
+      userId: { type: mongoose.Types.ObjectId, require: true, ref: "User" },
+      date: { type: String, require: true },
     },
     {
       versionKey: false,

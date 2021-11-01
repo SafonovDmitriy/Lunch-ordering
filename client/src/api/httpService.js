@@ -13,9 +13,8 @@ const METHODS_MAP = {
   POST: "post",
 };
 
-export const request = ({ url, method = METHODS_MAP.GET, props = {} }) => {
-  return instance[method](url, props);
-};
+export const request = ({ url, method = METHODS_MAP.GET, props = {} }) =>
+  instance[method](url, props);
 
 export const requestCancel = ({
   url,
@@ -39,7 +38,15 @@ const createCancelToken = () => {
 };
 
 export const fetchUserApi = () => request({ url: "/api/user" });
-export const fetchLunchMenuApi = () => request({ url: "/api/lunchMenu/" });
+export const fetchLunchMenuApi = () => request({ url: "/api/lunch-menu" });
+export const selectLunchMenuApi = (props) =>
+  request({
+    url: "/api/lunch-menu/select",
+    method: METHODS_MAP.POST,
+    props,
+  });
+export const getSelectLunchMenuApi = () =>
+  request({ url: "/api/lunch-menu/select" });
 
 export const authorizationApi = (form) =>
   request({ url: "/api/auth/authorization", props: { params: form } });

@@ -1,7 +1,9 @@
-const { LunchMenu, Dish } = require("../models");
+const { LunchMenu, UserOrderHistory } = require("../models");
+const date = require("date-and-time");
 
+const dateNow = date.format(new Date(), "YYYY.MM.DD");
 class LunchMenuController {
-  // /lunchMenu
+  // /lunch-menu
 
   // /
   async getAllLunch(req, res) {
@@ -46,6 +48,53 @@ class LunchMenuController {
 
   // delete/:delete
   async deleteLunchMenuById(req, res) {}
+  // /select
+  async getSelectLunchMenu(req, res) {
+    const { userId } = req.body;
+
+    const lunchMenu = await UserOrderHistory.findOne({
+      userId,
+      date: dateNow,
+    });
+
+    res
+      .status(200)
+      .json({ selectLunchMenuId: lunchMenu ? lunchMenu.order.menuId : null });
+  }
+  // /select
+  async selectLunchMenu(req, res) {
+    const { idLunchMenu, userId } = req.body;
+
+    const isOldOrder = await UserOrderHistory.findOne({
+      userId,
+      date: dateNow,
+    });
+    if (isOldOrder)
+      return res
+        .status(400)
+        .json({ message: "You have already done an order today" });
+
+    if (!idLunchMenu)
+      return res.status(400).json({ message: "Not selected menu" });
+
+    const lunchMenu = await LunchMenu.findById(idLunchMenu);
+
+    const order = {
+      menuId: lunchMenu._id,
+      firstDish: lunchMenu.firstDish,
+      secondDish: lunchMenu.secondDish,
+      salad: lunchMenu.salad,
+      drink: lunchMenu.drink,
+    };
+
+    const orderLunchMenu = new UserOrderHistory({
+      order,
+      userId,
+      date: dateNow,
+    });
+    await orderLunchMenu.save();
+    res.status(200).json({ message: "You have successfully made an order" });
+  }
 }
 
 module.exports = new LunchMenuController();

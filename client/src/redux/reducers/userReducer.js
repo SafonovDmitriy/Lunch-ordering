@@ -5,11 +5,12 @@ const initialStore = {
   userData: {},
 };
 const userReducer = (state = initialStore, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
     case SET_USER_DATA:
-      return { ...state, userData: action.payload };
+      return { ...state, userData: payload };
     case SET_USER_LOADING:
-      return { ...state, loading: action.payload };
+      return { ...state, loading: payload };
     case CLEAR_DATA:
       return { ...state, userData: initialStore.userData };
     default:

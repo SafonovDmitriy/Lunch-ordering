@@ -20,7 +20,7 @@ const checkToken = (req, res, next) => {
 const checkUserRole = async (req, res, next) => {
   const { userId } = req.body;
   try {
-    const user = await User.findOne({ _id });
+    const user = await User.findOne({ _id: userId });
     if (user && user.role === "ADMIN") {
       return next();
     }

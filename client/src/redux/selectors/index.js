@@ -7,3 +7,4 @@ export const userLoadingSelector = (state) => state.user.loading;
 
 export const lunchMenuSelector = (state) => state.lunchMenu.lunchMenu;
 export const lunchMenuLoadingSelector = (state) => state.lunchMenu.loading;
+export const selectMenuSelector = (state) => state.lunchMenu.selectMenu;

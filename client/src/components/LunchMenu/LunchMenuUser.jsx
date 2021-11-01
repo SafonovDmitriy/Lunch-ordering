@@ -15,8 +15,10 @@ const TitleOfDishes = styled.h2`
   font-weight: 500;
 `;
 
-const LunchMenu = ({ lunch: { index, _id, ...dishes } }) =>
-  Object.values(dishes).map((dish) => (
+const LunchMenuUser = ({ lunch: { index, _id, ...dishes } }) => {
+  console.log("LunchMenuUser");
+
+  return Object.values(dishes).map((dish) => (
     <DishWrapper key={dish._id}>
       <PhotoOfDishes
         src={`${process.env.REACT_APP_URL_SERVER}/${dish.image}`}
@@ -25,5 +27,5 @@ const LunchMenu = ({ lunch: { index, _id, ...dishes } }) =>
       <TitleOfDishes>{dish.name}</TitleOfDishes>
     </DishWrapper>
   ));
-
-export default LunchMenu;
+};
+export default LunchMenuUser;

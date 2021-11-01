@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { LunchMenu } from "../../components/LunchMenu";
+
 const HomePageWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;

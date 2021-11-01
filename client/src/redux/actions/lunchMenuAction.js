@@ -1,17 +1,26 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { fetchLunchMenuApi } from "../../api/httpService";
+import {
+  fetchLunchMenuApi,
+  getSelectLunchMenuApi,
+  selectLunchMenuApi,
+} from "../../api/httpService";
 import {
   showSuccessMessage,
   showErrorMessage,
 } from "../../helpers/showNotificationMessage";
 import {
   FETCH_LUNCH_MENU,
+  SELECT_LUNCH_MENU,
   SET_LUNCH_MENU,
   SET_LUNCH_MENU_LOADING,
+  GET_SELECT_LUNCH_MENU,
+  SET_SELECT_LUNCH_MENU,
 } from "../actionTypes";
 
 export const lunchmenuSagaWorker = [
   takeEvery(FETCH_LUNCH_MENU, fetchLunchMenuSaga),
+  takeEvery(SELECT_LUNCH_MENU, selectLunchMenuSaga),
+  takeEvery(GET_SELECT_LUNCH_MENU, getSelectLunchMenuSaga),
 ];
 
 export const lunchMenuFetchAction = () => ({
@@ -23,6 +32,17 @@ export const setLunchMenuAction = (payload) => ({
 });
 export const setLunchMenuLoadingAction = (payload) => ({
   type: SET_LUNCH_MENU_LOADING,
+  payload,
+});
+export const selectLunchMenuAction = (payload) => ({
+  type: SELECT_LUNCH_MENU,
+  payload,
+});
+export const getSelectLunchMenuAction = () => ({
+  type: GET_SELECT_LUNCH_MENU,
+});
+export const setSelectLunchMenuAction = (payload) => ({
+  type: SET_SELECT_LUNCH_MENU,
   payload,
 });
 
@@ -38,5 +58,27 @@ function* fetchLunchMenuSaga() {
     showErrorMessage(error);
   } finally {
     yield put(setLunchMenuLoadingAction(false));
+  }
+}
+
+function* selectLunchMenuSaga({ payload }) {
+  try {
+    const {
+      data: { message },
+    } = yield call(selectLunchMenuApi, { idLunchMenu: payload });
+    yield put(getSelectLunchMenuAction());
+    showSuccessMessage(message);
+  } catch (error) {
+    showErrorMessage(error);
+  }
+}
+function* getSelectLunchMenuSaga() {
+  try {
+    const {
+      data: { selectLunchMenuId },
+    } = yield call(getSelectLunchMenuApi);
+    yield put(setSelectLunchMenuAction(selectLunchMenuId));
+  } catch (error) {
+    showErrorMessage(error);
   }
 }
