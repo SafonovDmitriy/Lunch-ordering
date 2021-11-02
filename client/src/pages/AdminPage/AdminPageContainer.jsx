@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminPage from "./AdminPage";
 
 const AdminPageContainer = () => {
-  return <AdminPage />;
+  const [mode, setMode] = useState(false);
+  const setModeHendler = () => {
+    setMode(!mode);
+  };
+  return <AdminPage mode={mode} setModeHendler={setModeHendler} />;
 };
 
 export default AdminPageContainer;

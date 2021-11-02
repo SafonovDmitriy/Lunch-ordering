@@ -19,3 +19,26 @@ a:hover {
 a:active {
   text-decoration: none;
 }
+@keyframes ball-move-up {
+  0% {
+    align-items: flex-start;
+  }
+  50% {
+    align-items: center;
+  }
+  100% {
+    align-items: flex-end;
+  }
+}
+@keyframes ball-move-down {
+  0% {
+    align-items: flex-end;
+  }
+
+  50% {
+    align-items: center;
+  }
+  100% {
+    align-items: flex-start;
+  }
+}
