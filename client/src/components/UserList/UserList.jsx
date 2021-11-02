@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { Pagination } from "../UI/Pagination";
 import UserItem from "./UserItem";
 const UserListContainer = styled.div`
-  width: 50%;
   display: flex;
-  height: 100%;
+  width: 50%;
   align-items: center;
 `;
 const UserListBox = styled.div`

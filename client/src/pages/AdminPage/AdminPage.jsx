@@ -28,7 +28,7 @@ const ChangeUserBalanceContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  min-height: calc(100vh - 30px);
 `;
 
 const ShadeAnOrder = styled.div`
