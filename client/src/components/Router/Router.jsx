@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { NAVIGATION_MAP } from "../../constants";
+import { AdminPage } from "../../pages/AdminPage";
 import { HomePage } from "../../pages/HomePage";
 import { LoginPage } from "../../pages/LoginPage";
 import { RegistrationPage } from "../../pages/RegistrationPage";
@@ -50,7 +51,9 @@ const Router = () => {
         <Route path={NAVIGATION_MAP.STATISTICS_PAGE}>
           <StatisticsPage />
         </Route>
-        <Route path={NAVIGATION_MAP.ADMIN_PAGE}></Route>
+        <Route path={NAVIGATION_MAP.ADMIN_PAGE}>
+          <AdminPage />
+        </Route>
         <Redirect to={NAVIGATION_MAP.HOME_PAGE} />
       </Switch>
     </>
