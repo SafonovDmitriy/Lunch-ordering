@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { LunchMenu } from "../../components/LunchMenu";
 const Container = styled.div`
   height: calc(100vh - 30px);
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 `;
 const SwitchModeContainer = styled.div`
   width: 50px;
@@ -19,10 +23,11 @@ const SwitchMode = styled.div`
   justify-content: center;
   box-sizing: border-box;
   padding: 2px 0;
-  align-items: ${({ mode }) => (mode ? "flex-end" : "flex-start")};
-  background-color: ${({ mode }) => (mode ? "green" : "red")};
+  align-items: ${({ mode }) => (mode === "true" ? "flex-end" : "flex-start")};
+  background-color: ${({ mode }) => (mode === "true" ? "green" : "red")};
   transition: all 0.3s;
-  animation: 0.03s ${({ mode }) => (mode ? "ball-move-up" : "ball-move-down")};
+  animation: 0.03s
+    ${({ mode }) => (mode === "true" ? "ball-move-up" : "ball-move-down")};
 `;
 const Ball = styled.div`
   height: 25px;
@@ -31,15 +36,27 @@ const Ball = styled.div`
   border-radius: 25px;
   background-color: white;
 `;
+const ChangeMenuContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+const ChangeUserBalanceContainer = styled.div``;
 const AdminPage = ({ mode, setModeHendler }) => {
-  console.log(`mode`, mode);
+  console.log(`AdminPage`);
   return (
     <Container>
       <SwitchModeContainer>
-        <SwitchMode mode={mode} onClick={setModeHendler}>
+        <SwitchMode mode={mode.toString()} onClick={setModeHendler}>
           <Ball />
         </SwitchMode>
       </SwitchModeContainer>
+      {mode ? (
+        <ChangeUserBalanceContainer>312</ChangeUserBalanceContainer>
+      ) : (
+        <ChangeMenuContainer>
+          <LunchMenu />
+        </ChangeMenuContainer>
+      )}
     </Container>
   );
 };

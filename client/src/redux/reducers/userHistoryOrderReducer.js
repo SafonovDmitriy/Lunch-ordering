@@ -21,7 +21,7 @@ const userHistoryOrderReducer = (state = initialStore, action) => {
       return { ...state, total: payload };
 
     case CLEAR_DATA:
-      return { ...state, lunchMenu: initialStore.lunchMenu };
+      return initialStore;
     default:
       return state;
   }

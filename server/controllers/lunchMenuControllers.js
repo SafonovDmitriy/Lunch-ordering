@@ -43,8 +43,15 @@ class LunchMenuController {
     });
   }
 
-  // put/:id
-  async updateLunchMenuById(req, res) {}
+  // put
+  async updateLunchMenuById(req, res) {
+    const { dishId, dishType, lunchId } = req.body;
+    await LunchMenu.findByIdAndUpdate(lunchId, {
+      [dishType]: dishId,
+    });
+
+    res.status(200).json({ message: "Success" });
+  }
 
   // delete/:delete
   async deleteLunchMenuById(req, res) {}

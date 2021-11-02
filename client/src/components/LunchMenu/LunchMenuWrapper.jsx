@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import LunchMenuAdmin from "./LunchMenuAdmin";
+import { LunchMenuAdmin } from ".";
+
 import LunchMenuUser from "./LunchMenuUser";
 
 const ContainerContent = styled.div`

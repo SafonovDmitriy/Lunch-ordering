@@ -5,12 +5,14 @@ import { rootSagaWatcher } from "./actions";
 import lunchMenuReducer from "./reducers/lunchMenuReducer";
 import userHistoryOrderReducer from "./reducers/userHistoryOrderReducer";
 import userReducer from "./reducers/userReducer";
+import dishesReducer from "./reducers/dishesReducer";
 
 const saga = createSagaMiddleware();
 const reducers = combineReducers({
   user: userReducer,
   lunchMenu: lunchMenuReducer,
   historyOrder: userHistoryOrderReducer,
+  dishes: dishesReducer,
 });
 
 const store = createStore(

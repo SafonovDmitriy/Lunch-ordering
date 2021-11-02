@@ -1,4 +1,4 @@
-const { Dish } = require("../models");
+const { Dish, LunchMenu } = require("../models");
 
 class DishController {
   // /dish
@@ -44,12 +44,10 @@ class DishController {
     });
   }
 
-  // /put:id
-  async updateDishById(req, res) {
-    const { name, type, _id } = req.body;
-  }
+  // /put
+  async updateDishById(req, res) {}
 
-  // /delete:id
+  // /delete
   async deleteDishById(req, res) {}
 }
 

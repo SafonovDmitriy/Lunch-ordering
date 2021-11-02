@@ -12,3 +12,6 @@ export const selectMenuSelector = (state) => state.lunchMenu.selectMenu;
 export const userHistorySelector = (state) => state.historyOrder.userHistory;
 export const userHistoryLoadingSelector = (state) => state.historyOrder.loading;
 export const userHistoryTotalPageSelector = (state) => state.historyOrder.total;
+
+export const dishesDataSelector = (state) => state.dishes.dishes;
+export const dishesloadingSelector = (state) => state.dishes.loading;

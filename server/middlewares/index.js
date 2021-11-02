@@ -1,6 +1,11 @@
 const { User } = require("../models");
 const Token = require("../utils/Token");
 
+const ROLE_MAP = {
+  USER: "USER",
+  ADMIN: "ADMIN",
+};
+
 const checkToken = (req, res, next) => {
   const { token } = req.cookies;
 
@@ -21,7 +26,8 @@ const checkUserRole = async (req, res, next) => {
   const { userId } = req.body;
   try {
     const user = await User.findOne({ _id: userId });
-    if (user && user.role === "ADMIN") {
+
+    if (user && user.role === ROLE_MAP.ADMIN) {
       return next();
     }
     return res.status(400).json({ message: "You are not an admin" });

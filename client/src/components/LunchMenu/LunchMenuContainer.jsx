@@ -51,6 +51,7 @@ const LunchMenuContainer = () => {
   const selectLunchMenuHendler = () => {
     dispatch(selectLunchMenuAction(desiredMenuSelection));
   };
+
   return (
     <>
       {!isAdmin && !selectMenu && !lunchMenuLoading && (

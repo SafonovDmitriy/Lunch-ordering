@@ -20,7 +20,7 @@ const lunchMenuReducer = (state = initialStore, action) => {
     case SET_SELECT_LUNCH_MENU:
       return { ...state, selectMenu: payload };
     case CLEAR_DATA:
-      return { ...state, lunchMenu: initialStore.lunchMenu };
+      return initialStore;
     default:
       return state;
   }

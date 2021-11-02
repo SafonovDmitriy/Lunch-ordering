@@ -11,6 +11,8 @@ export const instance = axios.create({
 const METHODS_MAP = {
   GET: "get",
   POST: "post",
+  PUT: "put",
+  DELETE: "delete",
 };
 
 export const request = ({ url, method = METHODS_MAP.GET, props = {} }) =>
@@ -63,9 +65,17 @@ export const selectLunchMenuApi = (props) =>
 export const getSelectLunchMenuApi = () =>
   request({ url: "/api/lunch-menu/select" });
 
+export const updateLunchMenuApi = (props) =>
+  request({ url: "/api/lunch-menu/put", method: METHODS_MAP.PUT, props });
+
 // user-order-history
 export const getUsersHistoryApi = (props) =>
   request({ url: "/api/user-order-history", props: { params: props } });
+
+// /dish
+export const getDishesApi = () => request({ url: "/api/dish" });
+
+// /admin
 
 //example how use CancelToken
 // const  instanceWithToken = createCancelToken();
