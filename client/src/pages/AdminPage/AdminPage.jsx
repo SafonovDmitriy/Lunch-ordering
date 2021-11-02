@@ -5,7 +5,7 @@ import { Button } from "../../components/UI/Button";
 import { Switch } from "../../components/UI/Switch";
 import UserListContainer from "../../components/UserList/UserListContainer";
 const Container = styled.div`
-  height: calc(100vh - 30px);
+  min-height: calc(100vh - 30px);
   display: flex;
   flex-direction: row;
   gap: 10px;

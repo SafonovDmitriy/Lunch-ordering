@@ -27,7 +27,7 @@ const Ball = styled.div`
   width: 25px;
   border: solid 1px;
   border-radius: 25px;
-  background-color: white;\
+  background-color: white;
 `;
 const Switch = ({ mode, setModeHendler }) => {
   return (
