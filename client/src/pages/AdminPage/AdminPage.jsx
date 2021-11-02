@@ -1,60 +1,59 @@
 import React from "react";
 import styled from "styled-components";
 import { LunchMenu } from "../../components/LunchMenu";
+import { Button } from "../../components/UI/Button";
+import { Switch } from "../../components/UI/Switch";
+import UserListContainer from "../../components/UserList/UserListContainer";
 const Container = styled.div`
   height: calc(100vh - 30px);
   display: flex;
   flex-direction: row;
   gap: 10px;
+  align-items: center;
 `;
-const SwitchModeContainer = styled.div`
-  width: 50px;
+
+const ChangeMenuContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+const ChangeMenuBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1120px;
+  height: min-content;
+`;
+
+const ChangeUserBalanceContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
   height: 100%;
+`;
+
+const ShadeAnOrder = styled.div`
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-const SwitchMode = styled.div`
-  height: 70px;
-  width: 35px;
-  border: solid 1px;
-  border-radius: 25px;
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-  padding: 2px 0;
-  align-items: ${({ mode }) => (mode === "true" ? "flex-end" : "flex-start")};
-  background-color: ${({ mode }) => (mode === "true" ? "green" : "red")};
-  transition: all 0.3s;
-  animation: 0.03s
-    ${({ mode }) => (mode === "true" ? "ball-move-up" : "ball-move-down")};
-`;
-const Ball = styled.div`
-  height: 25px;
-  width: 25px;
-  border: solid 1px;
-  border-radius: 25px;
-  background-color: white;
-`;
-const ChangeMenuContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
-const ChangeUserBalanceContainer = styled.div``;
 const AdminPage = ({ mode, setModeHendler }) => {
   console.log(`AdminPage`);
   return (
     <Container>
-      <SwitchModeContainer>
-        <SwitchMode mode={mode.toString()} onClick={setModeHendler}>
-          <Ball />
-        </SwitchMode>
-      </SwitchModeContainer>
+      <Switch mode={mode} setModeHendler={setModeHendler} />
       {mode ? (
-        <ChangeUserBalanceContainer>312</ChangeUserBalanceContainer>
+        <ChangeUserBalanceContainer>
+          <UserListContainer />
+          <ShadeAnOrder>
+            <Button>Shade an order</Button>
+          </ShadeAnOrder>
+        </ChangeUserBalanceContainer>
       ) : (
         <ChangeMenuContainer>
-          <LunchMenu />
+          <ChangeMenuBox>
+            <LunchMenu />
+          </ChangeMenuBox>
         </ChangeMenuContainer>
       )}
     </Container>

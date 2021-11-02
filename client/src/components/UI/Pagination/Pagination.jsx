@@ -1,12 +1,13 @@
 import { Button } from "../Button";
 
-const styled = require("styled-components");
+import styled from "styled-components";
 
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
   gap: 10px;
+  margin-top: auto;
 `;
 const Pagination = ({ page, changePage, total }) => {
   const incrementPage = () => {

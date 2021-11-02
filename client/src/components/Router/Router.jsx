@@ -35,10 +35,9 @@ const Router = () => {
         component={RegistrationPage}
         path={NAVIGATION_MAP.REGISTRATION_PAGE}
       />
-      <Route
-        component={VerificationPage}
-        path={`${NAVIGATION_MAP.VERIFICATION_PAGE}/:email`}
-      />
+      <Route path={`${NAVIGATION_MAP.VERIFICATION_PAGE}/:email`}>
+        <VerificationPage />
+      </Route>
       <Redirect to={NAVIGATION_MAP.LOGIN_PAGE} />
     </Switch>
   ) : (

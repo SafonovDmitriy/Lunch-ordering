@@ -4,10 +4,16 @@ import { LunchMenuAdmin } from ".";
 
 import LunchMenuUser from "./LunchMenuUser";
 
+const Container = styled.div`
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const ContainerContent = styled.div`
   box-shadow: 0px 0px 0px
-    ${({ id, selectMenu }) => {
-      return id === selectMenu ? "2px" : "0px";
+    ${({ id, selectMenu, isAdmin }) => {
+      return id === selectMenu && isAdmin === "false" ? "2px" : "0px";
     }}
     coral;
   padding: 15px;
@@ -26,7 +32,7 @@ const LunchWrapper = styled.div`
   position: relative;
   justify-content: center;
   padding: 0 15px;
-  box-sizing: content-box;
+  // box-sizing: content-box;
 `;
 const IndexLunchMenu = styled.h1`
   position: absolute;
@@ -44,8 +50,12 @@ const LunchMenuWrapper = ({
   return (
     <>
       {lunchMenu.map((lunch) => (
-        <div key={lunch._id}>
-          <ContainerContent selectMenu={desiredMenuSelection} id={lunch._id}>
+        <Container key={lunch._id}>
+          <ContainerContent
+            selectMenu={desiredMenuSelection}
+            id={lunch._id}
+            isAdmin={isAdmin.toString()}
+          >
             <LunchWrapper onClick={() => selectLunchHendler(lunch._id)}>
               <IndexLunchMenu>{lunch.index}</IndexLunchMenu>
               {isAdmin ? (
@@ -55,7 +65,7 @@ const LunchMenuWrapper = ({
               )}
             </LunchWrapper>
           </ContainerContent>
-        </div>
+        </Container>
       ))}
     </>
   );

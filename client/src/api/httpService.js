@@ -76,6 +76,10 @@ export const getUsersHistoryApi = (props) =>
 export const getDishesApi = () => request({ url: "/api/dish" });
 
 // /admin
+export const getAllUsersApi = (props) =>
+  request({ url: "/api/admin/users", props: { params: props } });
+export const updateUserBalanceApi = (props) =>
+  request({ url: "/api/admin/balance", method: METHODS_MAP.PUT, props });
 
 //example how use CancelToken
 // const  instanceWithToken = createCancelToken();

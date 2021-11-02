@@ -15,3 +15,6 @@ export const userHistoryTotalPageSelector = (state) => state.historyOrder.total;
 
 export const dishesDataSelector = (state) => state.dishes.dishes;
 export const dishesloadingSelector = (state) => state.dishes.loading;
+
+export const usersSelector = (state) => state.admin.users;
+export const usersTotalPageSelector = (state) => state.admin.total;

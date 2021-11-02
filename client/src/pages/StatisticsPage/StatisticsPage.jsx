@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "../../components/UI/Button";
+import { Pagination } from "../../components/UI/Pagination";
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  height: 95%;
 `;
 
 const TableContainer = styled.div`
@@ -11,6 +12,12 @@ const TableContainer = styled.div`
   flex-direction: column;
   gap: 10px;
   width: 70vw;
+  background-color: ghostwhite;
+  border: solid 1px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  padding: 10px;
+  margin-top: 10px;
 `;
 const HeaderTable = styled.div`
   display: grid;
@@ -21,6 +28,7 @@ const HeaderTable = styled.div`
   border: solid 1px;
   border-radius: 5px;
   margin-top: 10px;
+  box-shadow: 1px 1px 0px 0px;
 `;
 const ItemOfHistoryListWrapper = styled.div`
   display: grid;
@@ -30,6 +38,7 @@ const ItemOfHistoryListWrapper = styled.div`
   align-items: center;
   border: solid 1px;
   border-radius: 5px;
+  box-shadow: 1px 1px 0px 0px;
 `;
 const StatisticsPage = ({
   userHistory,
@@ -62,25 +71,4 @@ const StatisticsPage = ({
   );
 };
 
-const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  gap: 10px;
-`;
 export default StatisticsPage;
-const Pagination = ({ page, changePage, total }) => {
-  const incrementPage = () => {
-    changePage(page + 1);
-  };
-  const decrementPage = () => {
-    changePage(page - 1);
-  };
-  return (
-    <PaginationContainer>
-      <Button onClick={decrementPage}>-</Button>
-      {`${page + 1} / ${total}`}
-      <Button onClick={incrementPage}>+</Button>
-    </PaginationContainer>
-  );
-};

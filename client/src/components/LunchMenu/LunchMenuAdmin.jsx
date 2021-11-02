@@ -8,6 +8,9 @@ const DishWrapper = styled.div`
 const PhotoOfDishes = styled.img`
   width: 50px;
 `;
+const SelectDish = styled.select`
+  width: 80%;
+`;
 const LunchMenuAdmin = ({ lunch, dishes, changeMenu }) => {
   const { index, _id, ...selectedDishes } = lunch;
 
@@ -18,7 +21,7 @@ const LunchMenuAdmin = ({ lunch, dishes, changeMenu }) => {
           src={`${process.env.REACT_APP_URL_SERVER}/${selectDish.image}`}
           alt={selectDish._id}
         />
-        <select
+        <SelectDish
           defaultValue={selectDish._id}
           onChange={(e) =>
             changeMenu({ e, dishType: selectDish.type, lunchId: _id })
@@ -31,7 +34,7 @@ const LunchMenuAdmin = ({ lunch, dishes, changeMenu }) => {
               </option>
             );
           })}
-        </select>
+        </SelectDish>
       </DishWrapper>
     );
   });

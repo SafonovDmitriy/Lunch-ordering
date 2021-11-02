@@ -55,6 +55,7 @@ function* verifySaga({ payload }) {
   try {
     const { data } = yield call(verifyApi, payload);
     history.push(NAVIGATION_MAP.HOME_PAGE);
+    yield put(userDataFetchAction());
     showSuccessMessage(data.message);
   } catch (error) {
     showErrorMessage(error);
@@ -75,6 +76,7 @@ function* logoutSaga() {
   try {
     yield call(logoutApi);
     yield put(dataClearAction());
+    history.push(NAVIGATION_MAP.LOGIN_PAGE);
     showSuccessMessage("Return to us quickly");
   } catch (error) {
     showErrorMessage("Something went wrong");

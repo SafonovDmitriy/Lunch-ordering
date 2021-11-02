@@ -6,6 +6,7 @@ import lunchMenuReducer from "./reducers/lunchMenuReducer";
 import userHistoryOrderReducer from "./reducers/userHistoryOrderReducer";
 import userReducer from "./reducers/userReducer";
 import dishesReducer from "./reducers/dishesReducer";
+import adminReducer from "./reducers/adminReducer";
 
 const saga = createSagaMiddleware();
 const reducers = combineReducers({
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   lunchMenu: lunchMenuReducer,
   historyOrder: userHistoryOrderReducer,
   dishes: dishesReducer,
+  admin: adminReducer,
 });
 
 const store = createStore(
