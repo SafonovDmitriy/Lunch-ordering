@@ -5,6 +5,7 @@ import { NAVIGATION_MAP } from "../../constants";
 import { HomePage } from "../../pages/HomePage";
 import { LoginPage } from "../../pages/LoginPage";
 import { RegistrationPage } from "../../pages/RegistrationPage";
+import { StatisticsPage } from "../../pages/StatisticsPage";
 import { VerificationPage } from "../../pages/VerificationPage";
 import { userDataFetchAction } from "../../redux/actions/userAction";
 import {
@@ -46,7 +47,9 @@ const Router = () => {
         <Route exact c path={NAVIGATION_MAP.HOME_PAGE}>
           <HomePage />
         </Route>
-        <Route path={NAVIGATION_MAP.STATISTICS_PAGE}></Route>
+        <Route path={NAVIGATION_MAP.STATISTICS_PAGE}>
+          <StatisticsPage />
+        </Route>
         <Route path={NAVIGATION_MAP.ADMIN_PAGE}></Route>
         <Redirect to={NAVIGATION_MAP.HOME_PAGE} />
       </Switch>

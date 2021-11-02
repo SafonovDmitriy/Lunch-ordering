@@ -16,8 +16,6 @@ const TitleOfDishes = styled.h2`
 `;
 
 const LunchMenuUser = ({ lunch: { index, _id, ...dishes } }) => {
-  console.log("LunchMenuUser");
-
   return Object.values(dishes).map((dish) => (
     <DishWrapper key={dish._id}>
       <PhotoOfDishes

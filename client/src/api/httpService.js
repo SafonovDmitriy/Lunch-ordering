@@ -37,17 +37,7 @@ const createCancelToken = () => {
   };
 };
 
-export const fetchUserApi = () => request({ url: "/api/user" });
-export const fetchLunchMenuApi = () => request({ url: "/api/lunch-menu" });
-export const selectLunchMenuApi = (props) =>
-  request({
-    url: "/api/lunch-menu/select",
-    method: METHODS_MAP.POST,
-    props,
-  });
-export const getSelectLunchMenuApi = () =>
-  request({ url: "/api/lunch-menu/select" });
-
+// auth
 export const authorizationApi = (form) =>
   request({ url: "/api/auth/authorization", props: { params: form } });
 export const logoutApi = () => request({ url: "/api/user/logout" });
@@ -60,6 +50,22 @@ export const registrationApi = (form) =>
     method: METHODS_MAP.POST,
     props: form,
   });
+
+//lunch-menu
+export const fetchUserApi = () => request({ url: "/api/user" });
+export const fetchLunchMenuApi = () => request({ url: "/api/lunch-menu" });
+export const selectLunchMenuApi = (props) =>
+  request({
+    url: "/api/lunch-menu/select",
+    method: METHODS_MAP.POST,
+    props,
+  });
+export const getSelectLunchMenuApi = () =>
+  request({ url: "/api/lunch-menu/select" });
+
+// user-order-history
+export const getUsersHistoryApi = (props) =>
+  request({ url: "/api/user-order-history", props: { params: props } });
 
 //example how use CancelToken
 // const  instanceWithToken = createCancelToken();

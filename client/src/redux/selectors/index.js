@@ -8,3 +8,7 @@ export const userLoadingSelector = (state) => state.user.loading;
 export const lunchMenuSelector = (state) => state.lunchMenu.lunchMenu;
 export const lunchMenuLoadingSelector = (state) => state.lunchMenu.loading;
 export const selectMenuSelector = (state) => state.lunchMenu.selectMenu;
+
+export const userHistorySelector = (state) => state.historyOrder.userHistory;
+export const userHistoryLoadingSelector = (state) => state.historyOrder.loading;
+export const userHistoryTotalPageSelector = (state) => state.historyOrder.total;

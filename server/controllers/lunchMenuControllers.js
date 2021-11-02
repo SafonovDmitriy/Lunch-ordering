@@ -1,7 +1,7 @@
 const { LunchMenu, UserOrderHistory } = require("../models");
 const date = require("date-and-time");
 
-const dateNow = date.format(new Date(), "YYYY.MM.DD");
+const dateNow = date.format(new Date(), "DD.MM.YYYY");
 class LunchMenuController {
   // /lunch-menu
 

@@ -3,12 +3,14 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import { rootSagaWatcher } from "./actions";
 import lunchMenuReducer from "./reducers/lunchMenuReducer";
+import userHistoryOrderReducer from "./reducers/userHistoryOrderReducer";
 import userReducer from "./reducers/userReducer";
 
 const saga = createSagaMiddleware();
 const reducers = combineReducers({
   user: userReducer,
   lunchMenu: lunchMenuReducer,
+  historyOrder: userHistoryOrderReducer,
 });
 
 const store = createStore(

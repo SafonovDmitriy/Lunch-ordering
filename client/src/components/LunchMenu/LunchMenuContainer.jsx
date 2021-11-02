@@ -15,7 +15,6 @@ import { useLocation } from "react-router";
 import { NAVIGATION_MAP } from "../../constants";
 import ModalWindowSelectMenu from "./ModalWindowSelectMenu";
 const LunchMenuContainer = () => {
-  console.log("LunchMenuContainer");
   const dispatch = useDispatch();
   const location = useLocation();
 
