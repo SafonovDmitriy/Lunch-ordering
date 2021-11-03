@@ -25,10 +25,9 @@ class OrderController {
       acc.push({ date, description: _namesDishes.join(", "), id: _id });
       return acc;
     }, []);
-
     res.status(200).json({
       message: "Success",
-      userHistory: chunk(userHistoryToOrder.reverse(), limit)[page],
+      userHistory: chunk(userHistoryToOrder.reverse(), limit)[page] || [],
       total: Math.ceil(userHistoryToOrder.length / limit),
     });
   }
