@@ -3,8 +3,8 @@ import StatisticsPage from "./StatisticsPage";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserHistoryOrderAction } from "../../redux/actions/userHistoryOrderAction";
 import {
-  userHistoryLoadedSelector,
-  userHistoryLoadingSelector,
+  isUserHistoryLoadedSelector,
+  isUserHistoryLoadingSelector,
   userHistorySelector,
   userHistoryTotalPageSelector,
 } from "../../redux/selectors";
@@ -15,8 +15,8 @@ const StatisticsPageContainer = () => {
   const [numberPage, setNumberPage] = useState(0);
 
   const userHistory = useSelector(userHistorySelector);
-  const isUserHistoryLoading = useSelector(userHistoryLoadingSelector);
-  const isUserHistoryLoaded = useSelector(userHistoryLoadedSelector);
+  const isUserHistoryLoading = useSelector(isUserHistoryLoadingSelector);
+  const isUserHistoryLoaded = useSelector(isUserHistoryLoadedSelector);
   const userHistoryTotalPage = useSelector(userHistoryTotalPageSelector);
 
   const setNumberPageHendler = (page) => {

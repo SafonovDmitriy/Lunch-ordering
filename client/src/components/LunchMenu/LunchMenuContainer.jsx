@@ -9,7 +9,7 @@ import {
   selectLunchMenuAction,
 } from "../../redux/actions/lunchMenuAction";
 import {
-  lunchMenuLoadingSelector,
+  isLunchMenuLoadingSelector,
   lunchMenuSelector,
   selectMenuSelector,
 } from "../../redux/selectors";
@@ -24,7 +24,7 @@ const LunchMenuContainer = () => {
 
   const lunchMenu = useSelector(lunchMenuSelector);
   const selectMenu = useSelector(selectMenuSelector);
-  const lunchMenuLoading = useSelector(lunchMenuLoadingSelector);
+  const isLunchMenuLoading = useSelector(isLunchMenuLoadingSelector);
   const [desiredMenuSelection, setDesiredMenuSelection] = useState(null);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -63,7 +63,7 @@ const LunchMenuContainer = () => {
   };
 
   return (
-    !lunchMenuLoading && (
+    !isLunchMenuLoading && (
       <>
         {!isAdmin && isOpenModal && !selectMenu && (
           <ModalWindowSelectMenu

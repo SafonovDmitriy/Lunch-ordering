@@ -1,6 +1,6 @@
 import { USER_ROLE_MAP } from "../../constants";
 
-export const userIsEmptySelector = (state) =>
+export const isUserIsEmptySelector = (state) =>
   !Object.keys(state.user.userData).length;
 export const userRoleSelector = (state) => state.user.userData.role;
 export const isAdminSelector = (state) =>
@@ -10,16 +10,19 @@ export const userBalanceSelector = (state) => state.user.userData.balance;
 export const userLoadingSelector = (state) => state.user.loading;
 
 export const lunchMenuSelector = (state) => state.lunchMenu.lunchMenu;
-export const lunchMenuLoadingSelector = (state) => state.lunchMenu.loading;
+export const isLunchMenuLoadingSelector = (state) => state.lunchMenu.loading;
 export const selectMenuSelector = (state) => state.lunchMenu.selectMenu;
 
 export const userHistorySelector = (state) => state.historyOrder.userHistory;
-export const userHistoryLoadingSelector = (state) => state.historyOrder.loading;
-export const userHistoryLoadedSelector = (state) => state.historyOrder.loaded;
+export const isUserHistoryLoadingSelector = (state) =>
+  state.historyOrder.loading;
+export const isUserHistoryLoadedSelector = (state) => state.historyOrder.loaded;
 export const userHistoryTotalPageSelector = (state) => state.historyOrder.total;
 
 export const dishesDataSelector = (state) => state.dishes.dishes;
-export const dishesloadingSelector = (state) => state.dishes.loading;
+export const isDishesloadingSelector = (state) => state.dishes.loading;
 
-export const usersSelector = (state) => state.admin.users;
-export const usersTotalPageSelector = (state) => state.admin.total;
+export const usersSelector = (state) => state.admin.users.data;
+export const usersTotalPageSelector = (state) => state.admin.users.total;
+export const isUsersLoadingSelector = (state) => state.admin.users.loading;
+export const isUsersLoadedSelector = (state) => state.admin.users.loaded;

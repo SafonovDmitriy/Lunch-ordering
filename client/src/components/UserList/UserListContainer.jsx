@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsersAction } from "../../redux/actions/adminAction";
-import { usersSelector, usersTotalPageSelector } from "../../redux/selectors";
+import {
+  isUsersLoadedSelector,
+  isUsersLoadingSelector,
+  usersSelector,
+  usersTotalPageSelector,
+} from "../../redux/selectors";
 import UserList from "./UserList";
 
 const UserListContainer = () => {
@@ -10,6 +15,9 @@ const UserListContainer = () => {
   const [numberPage, setNumberPage] = useState(0);
   const users = useSelector(usersSelector);
   const usersTotalPage = useSelector(usersTotalPageSelector);
+  const isUsersLoading = useSelector(isUsersLoadingSelector);
+  const isUsersLoaded = useSelector(isUsersLoadedSelector);
+
   const setNumberPageHendler = (page) => {
     if (page === usersTotalPage) {
       return setNumberPage(0);
@@ -18,12 +26,15 @@ const UserListContainer = () => {
       return setNumberPage(usersTotalPage - 1);
     }
     setNumberPage(page);
+    dispatch(getAllUsersAction(page));
   };
   useEffect(() => {
     dispatch(getAllUsersAction(numberPage));
-  }, [dispatch, numberPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
   return (
-    !!usersTotalPage && (
+    !isUsersLoading &&
+    isUsersLoaded && (
       <UserList
         users={users}
         numberPage={numberPage}

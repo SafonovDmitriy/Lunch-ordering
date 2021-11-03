@@ -4,13 +4,13 @@ import LunchMenuAdmin from "./LunchMenuAdmin";
 import { updateDishAction } from "../../redux/actions/dishesAction";
 import {
   dishesDataSelector,
-  dishesloadingSelector,
+  isDishesloadingSelector,
 } from "../../redux/selectors";
 import { dishType } from "./types";
 const LunchMenuAdminContainer = (props) => {
   const dispatch = useDispatch();
   const dishes = useSelector(dishesDataSelector);
-  const dishesLoading = useSelector(dishesloadingSelector);
+  const dishesLoading = useSelector(isDishesloadingSelector);
   const changeMenu = ({
     e: {
       target: { value: dishId },

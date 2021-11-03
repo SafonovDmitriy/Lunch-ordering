@@ -6,6 +6,8 @@ import {
   SET_USERS,
   SET_USERS_TOTAL_PAGE,
   UPDATE_BALANCE_USER,
+  USERS_LOADING,
+  USERS_LOADED,
 } from "../actionTypes";
 
 export const adminSagaWorker = [
@@ -25,6 +27,14 @@ export const setUsersTotalPageAction = (payload) => ({
   type: SET_USERS_TOTAL_PAGE,
   payload,
 });
+export const setUsersLoadingAction = (payload) => ({
+  type: USERS_LOADING,
+  payload,
+});
+export const setUsersLoadedAction = (payload) => ({
+  type: USERS_LOADED,
+  payload,
+});
 export const updateBalanceUserAction = (payload) => ({
   type: UPDATE_BALANCE_USER,
   payload,
@@ -32,6 +42,8 @@ export const updateBalanceUserAction = (payload) => ({
 
 function* fetchAllUsersSaga({ payload }) {
   try {
+    yield put(setUsersLoadedAction(false));
+    yield put(setUsersLoadingAction(true));
     const {
       data: { total, users },
     } = yield call(getAllUsersApi, { limit: 2, page: payload });
@@ -40,6 +52,9 @@ function* fetchAllUsersSaga({ payload }) {
     yield put(setUsersTotalPageAction(total));
   } catch (error) {
     showErrorMessage(error);
+  } finally {
+    yield put(setUsersLoadingAction(false));
+    yield put(setUsersLoadedAction(true));
   }
 }
 function* updateUserBalanceSaga({

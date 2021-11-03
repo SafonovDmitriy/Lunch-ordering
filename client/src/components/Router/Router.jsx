@@ -11,7 +11,7 @@ import { VerificationPage } from "../../pages/VerificationPage";
 import { userDataFetchAction } from "../../redux/actions/userAction";
 import {
   isAdminSelector,
-  userIsEmptySelector,
+  isUserIsEmptySelector,
   userLoadingSelector,
 } from "../../redux/selectors";
 import { Header } from "../Header";
@@ -25,7 +25,7 @@ const Router = () => {
   }, [dispatch]);
 
   const userLoading = useSelector(userLoadingSelector);
-  const isEmptyUser = useSelector(userIsEmptySelector);
+  const isEmptyUser = useSelector(isUserIsEmptySelector);
 
   if (userLoading) {
     return null;
