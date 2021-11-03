@@ -33,7 +33,6 @@ const LunchWrapper = styled.div`
   position: relative;
   justify-content: center;
   padding: 0 15px;
-  // box-sizing: content-box;
 `;
 const IndexLunchMenu = styled.h1`
   position: absolute;
