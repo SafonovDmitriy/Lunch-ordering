@@ -38,7 +38,6 @@ const ShadeAnOrder = styled.div`
   align-items: center;
 `;
 const AdminPage = ({ mode, setModeHendler }) => {
-  console.log("AdminPage");
   return (
     <Container>
       <Switch mode={mode} setModeHendler={setModeHendler} />
