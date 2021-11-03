@@ -1,5 +1,7 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+
 const ModalWrapper = styled.div`
   display: ${({ open }) => (open ? "flex" : "none")};
   justify-content: center;
@@ -28,5 +30,9 @@ const Modal = ({ children, open, onClose }) => {
     </ModalWrapper>
   );
 };
-
+Modal.propTypes = {
+  children: PropTypes.node,
+  open: PropTypes.bool,
+  onClose: PropTypes.func,
+};
 export default Modal;

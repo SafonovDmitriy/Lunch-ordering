@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 const SwitchModeContainer = styled.div`
@@ -38,5 +39,8 @@ const Switch = ({ mode, setModeHendler }) => {
     </SwitchModeContainer>
   );
 };
-
+Switch.propTypes = {
+  mode: PropTypes.bool,
+  setModeHendler: PropTypes.func,
+};
 export default Switch;

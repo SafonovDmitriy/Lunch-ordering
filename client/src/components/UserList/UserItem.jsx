@@ -1,7 +1,9 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { updateBalanceUserAction } from "../../redux/actions/adminAction";
+import { userType } from "./types";
 
 const UserItemContainer = styled.div`
   display: flex;
@@ -49,5 +51,9 @@ const UserItem = ({
       )}
     </UserItemContainer>
   );
+};
+UserItem.propTypes = {
+  user: userType,
+  numberPage: PropTypes.number,
 };
 export default UserItem;

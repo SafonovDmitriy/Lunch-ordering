@@ -1,6 +1,6 @@
-import { Button } from "../Button";
-
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import { Button } from "../Button";
 
 const PaginationContainer = styled.div`
   display: flex;
@@ -23,5 +23,10 @@ const Pagination = ({ page, changePage, total }) => {
       <Button onClick={incrementPage} children={">"} />
     </PaginationContainer>
   );
+};
+Pagination.propTypes = {
+  page: PropTypes.number,
+  changePage: PropTypes.func,
+  total: PropTypes.number,
 };
 export default Pagination;

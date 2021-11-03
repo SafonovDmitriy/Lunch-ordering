@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import { LunchMenu } from "../../components/LunchMenu";
@@ -58,5 +59,8 @@ const AdminPage = ({ mode, setModeHendler }) => {
     </Container>
   );
 };
-
+AdminPage.propTypes = {
+  mode: PropTypes.bool,
+  setModeHendler: PropTypes.func,
+};
 export default AdminPage;

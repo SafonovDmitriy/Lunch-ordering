@@ -1,6 +1,6 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-
 const TitleWithInput = styled.div`
   display: flex;
   flex-direction: row;
@@ -34,7 +34,7 @@ const ErrorMessage = styled.span`
   padding-top: 5px;
 `;
 
-const Input = ({ title, validation, helperText, ...props }) => {
+const Input = ({ title, helperText, ...props }) => {
   return (
     <InputWrapper>
       <TitleWithInput>
@@ -44,5 +44,9 @@ const Input = ({ title, validation, helperText, ...props }) => {
       {!!helperText && <ErrorMessage>{helperText}</ErrorMessage>}
     </InputWrapper>
   );
+};
+Input.propTypes = {
+  title: PropTypes.string,
+  helperText: PropTypes.string,
 };
 export default Input;

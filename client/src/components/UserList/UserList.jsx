@@ -1,6 +1,8 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import { Pagination } from "../UI/Pagination";
+import { userType } from "./types";
 import UserItem from "./UserItem";
 const UserListContainer = styled.div`
   display: flex;
@@ -59,5 +61,10 @@ const UserList = ({
     </UserListContainer>
   );
 };
-
+UserList.propTypes = {
+  users: PropTypes.arrayOf(userType),
+  numberPage: PropTypes.number,
+  setNumberPageHendler: PropTypes.func,
+  usersTotalPage: PropTypes.number,
+};
 export default UserList;
