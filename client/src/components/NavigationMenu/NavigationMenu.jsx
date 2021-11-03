@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { NAVIGATION_MAP, ROLE_MAP } from "../../constants";
+import { NAVIGATION_MAP, USER_ROLE_MAP } from "../../constants";
 import { userRoleSelector } from "../../redux/selectors";
 
 const NavigationMenuWrapper = styled.div`
@@ -26,7 +26,8 @@ const NavigationMenu = () => {
     { link: NAVIGATION_MAP.ADMIN_PAGE, title: "Admin" },
   ];
 
-  const menuShow = userRole === ROLE_MAP.admin ? adminNavMenu : userNavMenu;
+  const menuShow =
+    userRole === USER_ROLE_MAP.admin ? adminNavMenu : userNavMenu;
 
   return (
     <NavigationMenuWrapper>

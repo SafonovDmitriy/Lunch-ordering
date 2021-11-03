@@ -10,6 +10,7 @@ import { StatisticsPage } from "../../pages/StatisticsPage";
 import { VerificationPage } from "../../pages/VerificationPage";
 import { userDataFetchAction } from "../../redux/actions/userAction";
 import {
+  isAdminSelector,
   userIsEmptySelector,
   userLoadingSelector,
 } from "../../redux/selectors";
@@ -17,6 +18,7 @@ import { Header } from "../Header";
 
 const Router = () => {
   const dispatch = useDispatch();
+  const isAdmin = useSelector(isAdminSelector);
 
   useEffect(() => {
     dispatch(userDataFetchAction());
@@ -50,9 +52,11 @@ const Router = () => {
         <Route path={NAVIGATION_MAP.STATISTICS_PAGE}>
           <StatisticsPage />
         </Route>
-        <Route path={NAVIGATION_MAP.ADMIN_PAGE}>
-          <AdminPage />
-        </Route>
+        {isAdmin && (
+          <Route path={NAVIGATION_MAP.ADMIN_PAGE}>
+            <AdminPage />
+          </Route>
+        )}
         <Redirect to={NAVIGATION_MAP.HOME_PAGE} />
       </Switch>
     </>
