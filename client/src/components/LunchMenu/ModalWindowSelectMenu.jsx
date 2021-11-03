@@ -2,19 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import { Button } from "../UI/Button";
 import { Modal } from "../UI/Modal";
+import PropTypes from "prop-types";
+
 const ButtonBox = styled.div`
   display: flex;
   gap: 10px;
   justify-content: center;
 `;
+
 const ModalWindowSelectMenu = ({
-  isOpenModal,
-  setDesiredMenuSelection,
+  setDesiredMenuSelectionHendler,
   closeModalWindowHendler,
   selectLunchMenuHendler,
 }) => {
+  console.log("ModalWindowSelectMenu");
   const cancelClickButtonHendler = () => {
-    setDesiredMenuSelection(null);
+    setDesiredMenuSelectionHendler(null);
     closeModalWindowHendler();
   };
   const okClickButtonHendler = () => {
@@ -22,7 +25,7 @@ const ModalWindowSelectMenu = ({
     closeModalWindowHendler();
   };
   return (
-    <Modal open={isOpenModal} onClose={cancelClickButtonHendler}>
+    <Modal open={true} onClose={cancelClickButtonHendler}>
       <h1>Are you sure you want to choose this menu?</h1>
       <p>Today you can no longer change your choice</p>
       <ButtonBox>
@@ -32,4 +35,11 @@ const ModalWindowSelectMenu = ({
     </Modal>
   );
 };
+ModalWindowSelectMenu.propTypes = {
+  setDesiredMenuSelectionHendler: PropTypes.func.isRequired,
+  closeModalWindowHendler: PropTypes.func.isRequired,
+  selectLunchMenuHendler: PropTypes.func.isRequired,
+};
 export default ModalWindowSelectMenu;
+
+// PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(null)]);

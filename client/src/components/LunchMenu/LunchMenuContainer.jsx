@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
+import { NAVIGATION_MAP } from "../../constants";
+import { dishesFetchAction } from "../../redux/actions/dishesAction";
 import {
   getSelectLunchMenuAction,
   lunchMenuFetchAction,
@@ -11,9 +14,8 @@ import {
   selectMenuSelector,
 } from "../../redux/selectors";
 import LunchMenuWrapper from "./LunchMenuWrapper";
-import { useLocation } from "react-router";
-import { NAVIGATION_MAP } from "../../constants";
 import ModalWindowSelectMenu from "./ModalWindowSelectMenu";
+
 const LunchMenuContainer = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -27,25 +29,33 @@ const LunchMenuContainer = () => {
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
+  const setDesiredMenuSelectionHendler = (lunchID) => {
+    setDesiredMenuSelection(lunchID);
+  };
+
   const closeModalWindowHendler = () => {
     setIsOpenModal(false);
   };
   const openModalWindowHendler = () => {
     setIsOpenModal(true);
   };
+
   const selectLunchHendler = (lunchID) => {
     if (!selectMenu) {
-      setDesiredMenuSelection(lunchID);
+      setDesiredMenuSelectionHendler(lunchID);
       openModalWindowHendler();
     }
   };
+
   useEffect(() => {
     dispatch(lunchMenuFetchAction());
     dispatch(getSelectLunchMenuAction());
+    if (isAdmin) dispatch(dishesFetchAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   useEffect(() => {
-    setDesiredMenuSelection(selectMenu);
+    setDesiredMenuSelectionHendler(selectMenu);
   }, [selectMenu]);
 
   const selectLunchMenuHendler = () => {
@@ -53,25 +63,24 @@ const LunchMenuContainer = () => {
   };
 
   return (
-    <>
-      {!isAdmin && !selectMenu && !lunchMenuLoading && (
-        <ModalWindowSelectMenu
-          isOpenModal={isOpenModal}
-          setDesiredMenuSelection={setDesiredMenuSelection}
-          closeModalWindowHendler={closeModalWindowHendler}
-          selectMenu={selectMenu}
-          selectLunchMenuHendler={selectLunchMenuHendler}
-        />
-      )}
-      {!lunchMenuLoading && lunchMenu.length && (
+    !lunchMenuLoading && (
+      <>
+        {!isAdmin && isOpenModal && !selectMenu && (
+          <ModalWindowSelectMenu
+            setDesiredMenuSelectionHendler={setDesiredMenuSelectionHendler}
+            closeModalWindowHendler={closeModalWindowHendler}
+            selectLunchMenuHendler={selectLunchMenuHendler}
+          />
+        )}
+
         <LunchMenuWrapper
           lunchMenu={lunchMenu}
           selectLunchHendler={selectLunchHendler}
           desiredMenuSelection={desiredMenuSelection}
           isAdmin={isAdmin}
         />
-      )}
-    </>
+      </>
+    )
   );
 };
 

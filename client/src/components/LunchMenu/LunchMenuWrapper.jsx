@@ -1,8 +1,9 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import { LunchMenuAdmin } from ".";
-
 import LunchMenuUser from "./LunchMenuUser";
+import { lunchMenuType } from "./types";
 
 const Container = styled.div`
   height: 350px;
@@ -47,6 +48,7 @@ const LunchMenuWrapper = ({
   desiredMenuSelection,
   isAdmin,
 }) => {
+  console.log(`LunchMenuWrapper`);
   return (
     <>
       {lunchMenu.map((lunch) => (
@@ -71,4 +73,13 @@ const LunchMenuWrapper = ({
   );
 };
 
+LunchMenuWrapper.propTypes = {
+  lunchMenu: lunchMenuType,
+  selectLunchHendler: PropTypes.func,
+  desiredMenuSelection: PropTypes.oneOfType([
+    PropTypes.oneOf([null]),
+    PropTypes.string.isRequired,
+  ]),
+  isAdmin: PropTypes.bool,
+};
 export default LunchMenuWrapper;

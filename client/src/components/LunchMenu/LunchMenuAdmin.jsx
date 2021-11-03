@@ -1,42 +1,34 @@
-import styled from "styled-components";
+import PropTypes from "prop-types";
+import React from "react";
+import LunchMenuItemAdmin from "./LunchMenuItemAdmin";
+import { dishType } from "./types";
 
-const DishWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-const PhotoOfDishes = styled.img`
-  width: 50px;
-`;
-const SelectDish = styled.select`
-  width: 80%;
-`;
-const LunchMenuAdmin = ({ lunch, dishes, changeMenu }) => {
-  const { index, _id, ...selectedDishes } = lunch;
+const LunchMenuAdmin = ({
+  lunch: { index, _id, ...selectedDishes },
+  dishes,
+  changeMenu,
+}) => {
+  console.log(`LunchMenuAdmin`);
 
-  return Object.values(selectedDishes).map((selectDish) => {
-    return (
-      <DishWrapper key={selectDish._id}>
-        <PhotoOfDishes
-          src={`${process.env.REACT_APP_URL_SERVER}/${selectDish.image}`}
-          alt={selectDish._id}
-        />
-        <SelectDish
-          defaultValue={selectDish._id}
-          onChange={(e) =>
-            changeMenu({ e, dishType: selectDish.type, lunchId: _id })
-          }
-        >
-          {dishes[selectDish.type].map((dish) => {
-            return (
-              <option key={dish._id} value={dish._id}>
-                {dish.name}
-              </option>
-            );
-          })}
-        </SelectDish>
-      </DishWrapper>
-    );
-  });
+  return Object.values(selectedDishes).map((selectDish) => (
+    <LunchMenuItemAdmin
+      key={selectDish._id}
+      selectDish={selectDish}
+      dishes={dishes}
+      changeMenu={changeMenu}
+      lunchId={_id}
+    />
+  ));
+};
+
+LunchMenuAdmin.propTypes = {
+  lunch: dishType,
+  dishes: PropTypes.shape({
+    firstDish: PropTypes.arrayOf(dishType),
+    secondDish: PropTypes.arrayOf(dishType),
+    salad: PropTypes.arrayOf(dishType),
+    drink: PropTypes.arrayOf(dishType),
+  }),
+  changeMenu: PropTypes.func,
 };
 export default LunchMenuAdmin;

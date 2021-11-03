@@ -12,7 +12,7 @@ const HomePageWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const HomePage = ({ lunchMenu }) => {
+const HomePage = () => {
   return (
     <HomePageWrapper>
       <LunchMenu />

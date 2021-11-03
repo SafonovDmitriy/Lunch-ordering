@@ -18,9 +18,9 @@ const Pagination = ({ page, changePage, total }) => {
   };
   return (
     <PaginationContainer>
-      <Button onClick={decrementPage}>-</Button>
+      <Button onClick={decrementPage} children={"<"} />
       {`${page + 1} / ${total}`}
-      <Button onClick={incrementPage}>+</Button>
+      <Button onClick={incrementPage} children={">"} />
     </PaginationContainer>
   );
 };

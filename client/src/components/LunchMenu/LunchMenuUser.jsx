@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { dishType } from "./types";
 
 const DishWrapper = styled.div`
   display: flex;
@@ -25,5 +26,8 @@ const LunchMenuUser = ({ lunch: { index, _id, ...dishes } }) => {
       <TitleOfDishes>{dish.name}</TitleOfDishes>
     </DishWrapper>
   ));
+};
+LunchMenuUser.propTypes = {
+  lunch: dishType,
 };
 export default LunchMenuUser;

@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
-import {
-  dishesFetchAction,
-  updateDishAction,
-} from "../../redux/actions/dishesAction";
-import LunchMenuAdmin from "./LunchMenuAdmin";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import LunchMenuAdmin from "./LunchMenuAdmin";
+import { updateDishAction } from "../../redux/actions/dishesAction";
 import {
   dishesDataSelector,
   dishesloadingSelector,
 } from "../../redux/selectors";
+import { dishType } from "./types";
 const LunchMenuAdminContainer = (props) => {
+  console.log("LunchMenuAdminContainer");
   const dispatch = useDispatch();
   const dishes = useSelector(dishesDataSelector);
   const dishesLoading = useSelector(dishesloadingSelector);
@@ -22,9 +21,6 @@ const LunchMenuAdminContainer = (props) => {
   }) => {
     dispatch(updateDishAction({ dishId, dishType, lunchId }));
   };
-  useEffect(() => {
-    dispatch(dishesFetchAction());
-  }, [dispatch]);
 
   return (
     !dishesLoading && (
@@ -32,5 +28,7 @@ const LunchMenuAdminContainer = (props) => {
     )
   );
 };
-
+LunchMenuAdminContainer.propTypes = {
+  lunch: dishType,
+};
 export default LunchMenuAdminContainer;
