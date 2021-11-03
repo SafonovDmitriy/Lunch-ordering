@@ -2,7 +2,6 @@ import {
   CLEAR_DATA,
   SET_USERS,
   SET_USERS_TOTAL_PAGE,
-  USERS_LOADING,
   USERS_LOADED,
 } from "../actionTypes";
 
@@ -10,7 +9,6 @@ const initialStore = {
   users: {
     data: [],
     total: null,
-    loading: false,
     loaded: false,
   },
 };
@@ -21,8 +19,6 @@ const adminReducer = (state = initialStore, action) => {
       return { ...state, users: { ...state.users, data: payload } };
     case SET_USERS_TOTAL_PAGE:
       return { ...state, users: { ...state.users, total: payload } };
-    case USERS_LOADING:
-      return { ...state, users: { ...state.users, loading: payload } };
     case USERS_LOADED:
       return { ...state, users: { ...state.users, loaded: payload } };
     case CLEAR_DATA:

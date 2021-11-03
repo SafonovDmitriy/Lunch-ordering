@@ -8,7 +8,7 @@ const userReducer = (state = initialStore, action) => {
   const { type, payload } = action;
   switch (type) {
     case SET_USER_DATA:
-      return { ...state, userData: payload };
+      return { ...state, userData: { ...state.userData, ...payload } };
     case SET_USER_LOADING:
       return { ...state, loading: payload };
     case CLEAR_DATA:

@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsersAction } from "../../redux/actions/adminAction";
 import {
   isUsersLoadedSelector,
-  isUsersLoadingSelector,
   usersSelector,
   usersTotalPageSelector,
 } from "../../redux/selectors";
@@ -15,7 +13,6 @@ const UserListContainer = () => {
   const [numberPage, setNumberPage] = useState(0);
   const users = useSelector(usersSelector);
   const usersTotalPage = useSelector(usersTotalPageSelector);
-  const isUsersLoading = useSelector(isUsersLoadingSelector);
   const isUsersLoaded = useSelector(isUsersLoadedSelector);
 
   const setNumberPageHendler = (page) => {
@@ -33,7 +30,6 @@ const UserListContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
   return (
-    !isUsersLoading &&
     isUsersLoaded && (
       <UserList
         users={users}

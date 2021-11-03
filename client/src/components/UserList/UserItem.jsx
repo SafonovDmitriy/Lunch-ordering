@@ -13,17 +13,17 @@ const UserItemContainer = styled.div`
   border-radius: 5px;
   box-shadow: 1px 1px 0px 0px;
 `;
-const UserItem = ({ user, numberPage }) => {
+const UserItem = ({
+  user: { _id: userId, email: userEmail, balance: userBalance },
+  numberPage,
+}) => {
   const dispatch = useDispatch();
   const [isShowInput, setIsShowInput] = useState(false);
-  const [balance, onChange] = useState(user.balance);
-  const onChangeHendler = ({
-    e: {
-      target: { value },
-    },
-  }) => {
+  const [balance, onChange] = useState(userBalance);
+  const onChangeHendler = (value) => {
     onChange(value);
   };
+
   const setIsShowInputHendler = () => {
     setIsShowInput(!isShowInput);
   };
@@ -33,16 +33,16 @@ const UserItem = ({ user, numberPage }) => {
   };
   return (
     <UserItemContainer>
-      <span>{user.email}</span>
+      <span>{userEmail}</span>
       {!isShowInput ? (
-        <span onDoubleClick={setIsShowInputHendler}>{user.balance}</span>
+        <span onDoubleClick={setIsShowInputHendler}>{userBalance}</span>
       ) : (
         <input
           type="number"
           value={balance}
-          onChange={(e) => onChangeHendler({ e })}
+          onChange={(e) => onChangeHendler(e.target.value)}
           autoFocus
-          onBlur={() => onBlurHendler(user._id)}
+          onBlur={() => onBlurHendler(userId)}
         />
       )}
     </UserItemContainer>

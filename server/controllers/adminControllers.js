@@ -16,7 +16,7 @@ class AdminController {
     });
   }
   async updateBalanceUser(req, res) {
-    const { selectUserId: _id, balance } = req.body;
+    const { selectUserId: _id, balance, userId } = req.body;
     if (balance < 0 || !balance.toString().length) {
       return res.status(400).json({
         message: "Investigious importance",
@@ -26,6 +26,7 @@ class AdminController {
 
     res.status(200).json({
       message: "Success",
+      mainUser: _id === userId ? { balance } : null,
     });
   }
 }

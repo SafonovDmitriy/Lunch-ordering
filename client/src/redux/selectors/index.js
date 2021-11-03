@@ -24,5 +24,4 @@ export const isDishesloadingSelector = (state) => state.dishes.loading;
 
 export const usersSelector = (state) => state.admin.users.data;
 export const usersTotalPageSelector = (state) => state.admin.users.total;
-export const isUsersLoadingSelector = (state) => state.admin.users.loading;
 export const isUsersLoadedSelector = (state) => state.admin.users.loaded;
