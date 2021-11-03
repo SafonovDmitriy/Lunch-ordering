@@ -8,8 +8,6 @@ const LunchMenuAdmin = ({
   dishes,
   changeMenu,
 }) => {
-  console.log(`LunchMenuAdmin`);
-
   return Object.values(selectedDishes).map((selectDish) => (
     <LunchMenuItemAdmin
       key={selectDish._id}

@@ -48,7 +48,6 @@ const LunchMenuWrapper = ({
   desiredMenuSelection,
   isAdmin,
 }) => {
-  console.log(`LunchMenuWrapper`);
   return (
     <>
       {lunchMenu.map((lunch) => (

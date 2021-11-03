@@ -15,7 +15,6 @@ const ModalWindowSelectMenu = ({
   closeModalWindowHendler,
   selectLunchMenuHendler,
 }) => {
-  console.log("ModalWindowSelectMenu");
   const cancelClickButtonHendler = () => {
     setDesiredMenuSelectionHendler(null);
     closeModalWindowHendler();

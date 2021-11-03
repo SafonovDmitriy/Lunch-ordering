@@ -23,8 +23,6 @@ const LunchMenuItemAdmin = ({
   changeMenu,
   lunchId,
 }) => {
-  console.log(`LunchMenuItemAdmin`);
-
   return (
     <DishWrapper>
       <PhotoOfDishes

@@ -8,7 +8,6 @@ import {
 } from "../../redux/selectors";
 import { dishType } from "./types";
 const LunchMenuAdminContainer = (props) => {
-  console.log("LunchMenuAdminContainer");
   const dispatch = useDispatch();
   const dishes = useSelector(dishesDataSelector);
   const dishesLoading = useSelector(dishesloadingSelector);
