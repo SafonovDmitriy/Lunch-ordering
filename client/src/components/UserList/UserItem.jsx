@@ -35,7 +35,9 @@ const UserItem = ({
     <UserItemContainer>
       <span>{userEmail}</span>
       {!isShowInput ? (
-        <span onDoubleClick={setIsShowInputHendler}>{userBalance}</span>
+        <span
+          onDoubleClick={setIsShowInputHendler}
+        >{`${userBalance} грн`}</span>
       ) : (
         <input
           type="number"
