@@ -1,7 +1,6 @@
-const { LunchMenu, UserOrderHistory } = require("../models");
-const date = require("date-and-time");
+const dateNow = require("../helpers/dateNow");
+const { LunchMenu, UserOrderHistory, OrderHistory } = require("../models");
 
-const dateNow = date.format(new Date(), "DD.MM.YYYY");
 class LunchMenuController {
   // /lunch-menu
 
@@ -71,7 +70,13 @@ class LunchMenuController {
   // /select
   async selectLunchMenu(req, res) {
     const { idLunchMenu, userId } = req.body;
-
+    const todaysOrder = await OrderHistory.findOne({ date: dateNow });
+    if (todaysOrder) {
+      return res.status(400).json({
+        message:
+          "Sorry but the administrator has already made the order and left you hungry",
+      });
+    }
     const isOldOrder = await UserOrderHistory.findOne({
       userId,
       date: dateNow,

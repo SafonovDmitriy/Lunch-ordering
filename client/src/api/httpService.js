@@ -81,6 +81,8 @@ export const getAllUsersApi = (props) =>
 export const updateUserBalanceApi = (props) =>
   request({ url: "/api/admin/balance", method: METHODS_MAP.PUT, props });
 
+export const shadeAnOrderApi = () => request({ url: "/api/admin/order" });
+
 //example how use CancelToken
 // const  instanceWithToken = createCancelToken();
 // const request = () =>

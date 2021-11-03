@@ -4,6 +4,7 @@ const {
   dishSchema,
   lunchMenuSchema,
   userOrderHistorySchema,
+  OrderHistorySchema,
 } = require("../schemas");
 
 module.exports = {
@@ -11,4 +12,5 @@ module.exports = {
   LunchMenu: mongoose.model("LunchMenu", lunchMenuSchema),
   Dish: mongoose.model("Dish", dishSchema),
   UserOrderHistory: mongoose.model("UserOrderHistory", userOrderHistorySchema),
+  OrderHistory: mongoose.model("OrderHistory", OrderHistorySchema),
 };

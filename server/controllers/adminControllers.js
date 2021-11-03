@@ -1,5 +1,6 @@
+const dateNow = require("../helpers/dateNow");
 const chunk = require("../helpers/splitAnArrayToChunk");
-const { User } = require("../models");
+const { User, UserOrderHistory, OrderHistory } = require("../models");
 
 class AdminController {
   async getUsers(req, res) {
@@ -29,6 +30,32 @@ class AdminController {
       mainUser: _id === userId ? { balance } : null,
     });
   }
-}
+  async shadeAnOrder(req, res) {
+    const { userId } = req.body;
 
+    const userHistory = await UserOrderHistory.find({ date: dateNow }).populate(
+      "order.firstDish order.secondDish order.salad order.drink"
+    );
+    const order = userHistory.reduce((acc, item) => {
+      const { order: ItemOrder } = item;
+
+      Object.values(ItemOrder).forEach((item) => {
+        if (item.name) {
+          acc = Object.assign(acc, {
+            [item.name]: acc[item.name] ? acc[item.name] + 1 : 1,
+          });
+        }
+      });
+
+      return acc;
+    }, {});
+    const todaysOrder = new OrderHistory({ userId, date: dateNow, order });
+    await todaysOrder.save();
+    console.log(`order`, order);
+    res.status(200).json({ message: "Success" });
+  }
+}
+// order: { type: Object },
+//       userId: { type: mongoose.Types.ObjectId, require: true, ref: "User" },
+//       date: { type: String, require: true },
 module.exports = new AdminController();

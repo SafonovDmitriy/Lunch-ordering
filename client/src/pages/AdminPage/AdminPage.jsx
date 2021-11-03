@@ -38,7 +38,7 @@ const ShadeAnOrder = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const AdminPage = ({ mode, setModeHendler }) => {
+const AdminPage = ({ mode, setModeHendler, shadeAnOrder }) => {
   return (
     <Container>
       <Switch mode={mode} setModeHendler={setModeHendler} />
@@ -46,7 +46,7 @@ const AdminPage = ({ mode, setModeHendler }) => {
         <ChangeUserBalanceContainer>
           <UserListContainer />
           <ShadeAnOrder>
-            <Button>Shade an order</Button>
+            <Button onClick={shadeAnOrder}>Shade an order</Button>
           </ShadeAnOrder>
         </ChangeUserBalanceContainer>
       ) : (
@@ -62,5 +62,6 @@ const AdminPage = ({ mode, setModeHendler }) => {
 AdminPage.propTypes = {
   mode: PropTypes.bool,
   setModeHendler: PropTypes.func,
+  shadeAnOrder: PropTypes.func,
 };
 export default AdminPage;

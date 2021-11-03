@@ -1,18 +1,27 @@
 import { call, takeLatest, put } from "redux-saga/effects";
-import { getAllUsersApi, updateUserBalanceApi } from "../../api/httpService";
-import { showErrorMessage } from "../../helpers/showNotificationMessage";
+import {
+  getAllUsersApi,
+  shadeAnOrderApi,
+  updateUserBalanceApi,
+} from "../../api/httpService";
+import {
+  showErrorMessage,
+  showSuccessMessage,
+} from "../../helpers/showNotificationMessage";
 import {
   FETCH_ALL_USERS,
   SET_USERS,
   SET_USERS_TOTAL_PAGE,
   UPDATE_BALANCE_USER,
   USERS_LOADED,
+  SHADE_AN_ORDER,
 } from "../actionTypes";
 import { setUserDataAction } from "./userAction";
 
 export const adminSagaWorker = [
   takeLatest(FETCH_ALL_USERS, fetchAllUsersSaga),
   takeLatest(UPDATE_BALANCE_USER, updateUserBalanceSaga),
+  takeLatest(SHADE_AN_ORDER, shadeAnOrderSaga),
 ];
 
 export const getAllUsersAction = (payload) => ({
@@ -35,6 +44,9 @@ export const setUsersLoadedAction = (payload) => ({
 export const updateBalanceUserAction = (payload) => ({
   type: UPDATE_BALANCE_USER,
   payload,
+});
+export const shadeAnOrderAction = () => ({
+  type: SHADE_AN_ORDER,
 });
 
 function* fetchAllUsersSaga({ payload }) {
@@ -60,6 +72,16 @@ function* updateUserBalanceSaga({
     } = yield call(updateUserBalanceApi, { balance, selectUserId });
     yield put(getAllUsersAction(numberPage));
     if (mainUser) yield put(setUserDataAction(mainUser));
+  } catch (error) {
+    showErrorMessage(error);
+  }
+}
+function* shadeAnOrderSaga() {
+  try {
+    const {
+      data: { message },
+    } = yield call(shadeAnOrderApi);
+    showSuccessMessage(message);
   } catch (error) {
     showErrorMessage(error);
   }
