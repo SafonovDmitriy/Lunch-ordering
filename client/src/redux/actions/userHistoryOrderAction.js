@@ -6,6 +6,7 @@ import {
   SET_USER_HISTORY_ORDER,
   SET_USER_HISTORY_ORDER_LOADING,
   SET_USER_HISTORY_ORDER_TOTAL_PAGE,
+  SET_USER_HISTORY_ORDER_LOADED,
 } from "../actionTypes";
 
 export const userHistorySagaWorker = [
@@ -27,9 +28,14 @@ export const setUserHistoryOrderLoadingAction = (payload) => ({
   type: SET_USER_HISTORY_ORDER_LOADING,
   payload,
 });
+export const setUserHistoryOrderLoadedAction = (payload) => ({
+  type: SET_USER_HISTORY_ORDER_LOADED,
+  payload,
+});
 
 function* getUserHistoryOrderSaga({ payload }) {
   try {
+    yield put(setUserHistoryOrderLoadedAction(false));
     yield put(setUserHistoryOrderLoadingAction(true));
     const {
       data: { userHistory, total },
@@ -40,5 +46,6 @@ function* getUserHistoryOrderSaga({ payload }) {
     showErrorMessage(error);
   } finally {
     yield put(setUserHistoryOrderLoadingAction(false));
+    yield put(setUserHistoryOrderLoadedAction(true));
   }
 }

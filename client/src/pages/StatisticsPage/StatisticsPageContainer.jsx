@@ -3,6 +3,7 @@ import StatisticsPage from "./StatisticsPage";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserHistoryOrderAction } from "../../redux/actions/userHistoryOrderAction";
 import {
+  userHistoryLoadedSelector,
   userHistoryLoadingSelector,
   userHistorySelector,
   userHistoryTotalPageSelector,
@@ -14,8 +15,10 @@ const StatisticsPageContainer = () => {
   const [numberPage, setNumberPage] = useState(0);
 
   const userHistory = useSelector(userHistorySelector);
-  const userHistoryLoading = useSelector(userHistoryLoadingSelector);
+  const isUserHistoryLoading = useSelector(userHistoryLoadingSelector);
+  const isUserHistoryLoaded = useSelector(userHistoryLoadedSelector);
   const userHistoryTotalPage = useSelector(userHistoryTotalPageSelector);
+
   const setNumberPageHendler = (page) => {
     if (page === userHistoryTotalPage) {
       return setNumberPage(0);
@@ -24,13 +27,15 @@ const StatisticsPageContainer = () => {
       return setNumberPage(userHistoryTotalPage - 1);
     }
     setNumberPage(page);
+    dispatch(getUserHistoryOrderAction(page));
   };
 
   useEffect(() => {
     dispatch(getUserHistoryOrderAction(numberPage));
-  }, [dispatch, numberPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
-  return !userHistoryLoading ? (
+  return !isUserHistoryLoading && isUserHistoryLoaded ? (
     <StatisticsPage
       userHistory={userHistory}
       numberPage={numberPage}

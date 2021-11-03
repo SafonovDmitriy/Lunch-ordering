@@ -1,6 +1,8 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import { Pagination } from "../../components/UI/Pagination";
+import { userHistoryType } from "./types";
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -70,5 +72,10 @@ const StatisticsPage = ({
     </Container>
   );
 };
-
+StatisticsPage.propTypes = {
+  userHistory: userHistoryType,
+  numberPage: PropTypes.number,
+  setNumberPageHendler: PropTypes.func,
+  userHistoryTotalPage: PropTypes.number,
+};
 export default StatisticsPage;
