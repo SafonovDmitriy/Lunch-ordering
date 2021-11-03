@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { getDishesApi, updateLunchMenuApi } from "../../api/httpService";
 import {
   FETCH_DISHES,
@@ -8,8 +8,8 @@ import {
 } from "../actionTypes";
 
 export const dishesSagaWorker = [
-  takeEvery(FETCH_DISHES, fetchDishesSaga),
-  takeEvery(UPDATE_DISH, updateDishSaga),
+  takeLatest(FETCH_DISHES, fetchDishesSaga),
+  takeLatest(UPDATE_DISH, updateDishSaga),
 ];
 
 export const dishesFetchAction = () => ({

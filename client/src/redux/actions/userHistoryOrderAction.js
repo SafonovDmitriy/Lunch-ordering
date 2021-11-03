@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { getUsersHistoryApi } from "../../api/httpService";
 import { showErrorMessage } from "../../helpers/showNotificationMessage";
 import {
@@ -10,7 +10,7 @@ import {
 } from "../actionTypes";
 
 export const userHistorySagaWorker = [
-  takeEvery(GET_USER_HISTORY_ORDER, getUserHistoryOrderSaga),
+  takeLatest(GET_USER_HISTORY_ORDER, getUserHistoryOrderSaga),
 ];
 export const getUserHistoryOrderAction = (payload) => ({
   type: GET_USER_HISTORY_ORDER,

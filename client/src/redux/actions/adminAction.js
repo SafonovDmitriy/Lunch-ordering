@@ -1,4 +1,4 @@
-import { call, takeEvery, put } from "redux-saga/effects";
+import { call, takeLatest, put } from "redux-saga/effects";
 import { getAllUsersApi, updateUserBalanceApi } from "../../api/httpService";
 import { showErrorMessage } from "../../helpers/showNotificationMessage";
 import {
@@ -9,8 +9,8 @@ import {
 } from "../actionTypes";
 
 export const adminSagaWorker = [
-  takeEvery(FETCH_ALL_USERS, fetchAllUsersSaga),
-  takeEvery(UPDATE_BALANCE_USER, updateUserBalanceSaga),
+  takeLatest(FETCH_ALL_USERS, fetchAllUsersSaga),
+  takeLatest(UPDATE_BALANCE_USER, updateUserBalanceSaga),
 ];
 
 export const getAllUsersAction = (payload) => ({

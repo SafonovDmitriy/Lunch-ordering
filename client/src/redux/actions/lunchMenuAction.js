@@ -1,4 +1,4 @@
-import { takeEvery, call, put } from "redux-saga/effects";
+import { takeLatest, call, put } from "redux-saga/effects";
 import {
   fetchLunchMenuApi,
   getSelectLunchMenuApi,
@@ -18,9 +18,9 @@ import {
 } from "../actionTypes";
 
 export const lunchmenuSagaWorker = [
-  takeEvery(FETCH_LUNCH_MENU, fetchLunchMenuSaga),
-  takeEvery(SELECT_LUNCH_MENU, selectLunchMenuSaga),
-  takeEvery(GET_SELECT_LUNCH_MENU, getSelectLunchMenuSaga),
+  takeLatest(FETCH_LUNCH_MENU, fetchLunchMenuSaga),
+  takeLatest(SELECT_LUNCH_MENU, selectLunchMenuSaga),
+  takeLatest(GET_SELECT_LUNCH_MENU, getSelectLunchMenuSaga),
 ];
 
 export const lunchMenuFetchAction = () => ({

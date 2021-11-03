@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import {
   authorizationApi,
   logoutApi,
@@ -19,10 +19,10 @@ import {
 } from "../actionTypes";
 import { dataClearAction, userDataFetchAction } from "./userAction";
 export const authSagaWorker = [
-  takeEvery(AUTHORIZATION_TYPE_ACTION, authorizationSaga),
-  takeEvery(REGISTRATION_TYPE_ACTION, registrationSaga),
-  takeEvery(VERIFICATION_TYPE_ACTION, verifySaga),
-  takeEvery(LOGOUT_TYPE_ACTION, logoutSaga),
+  takeLatest(AUTHORIZATION_TYPE_ACTION, authorizationSaga),
+  takeLatest(REGISTRATION_TYPE_ACTION, registrationSaga),
+  takeLatest(VERIFICATION_TYPE_ACTION, verifySaga),
+  takeLatest(LOGOUT_TYPE_ACTION, logoutSaga),
 ];
 
 export const authorizationAction = (payload) => ({

@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { fetchUserApi } from "../../api/httpService";
 import { NAVIGATION_MAP } from "../../constants";
 import history from "../../history";
@@ -9,7 +9,7 @@ import {
   SET_USER_LOADING,
 } from "../actionTypes";
 
-export const userSagaWorker = [takeEvery(FETCH_USER, fetchUserSaga)];
+export const userSagaWorker = [takeLatest(FETCH_USER, fetchUserSaga)];
 
 export const userDataFetchAction = () => ({
   type: FETCH_USER,
