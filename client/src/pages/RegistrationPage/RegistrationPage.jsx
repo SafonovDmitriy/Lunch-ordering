@@ -75,7 +75,6 @@ const RegistrationPage = () => {
   const [error, setError] = useState({});
 
   const onSubmit = (newForm) => {
-    console.log(`newForm`, newForm);
     dispatch(registrationAction(newForm));
   };
   return (
