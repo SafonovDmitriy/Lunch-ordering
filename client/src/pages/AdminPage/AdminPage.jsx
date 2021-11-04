@@ -22,6 +22,7 @@ const ChangeMenuBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   max-width: 1120px;
+  justify-content: center;
   height: min-content;
 `;
 

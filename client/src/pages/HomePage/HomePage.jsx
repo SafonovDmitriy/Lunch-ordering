@@ -7,13 +7,14 @@ const HomePageWrapper = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  align-items: center;
 `;
 const HomePageBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   max-width: 1120px;
   height: min-content;
+  justify-content: center;
+  margin: auto 0;
 `;
 
 const HomePage = () => {
