@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { NotificationContainer } from "react-notifications";
-import "react-notifications/lib/notifications.css";
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import App from "./App";
@@ -13,7 +13,7 @@ import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <NotificationContainer />
+      <ReactNotification />
       <App />
     </Router>
   </Provider>,

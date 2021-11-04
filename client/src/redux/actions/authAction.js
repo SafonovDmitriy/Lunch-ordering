@@ -74,10 +74,12 @@ function* registrationSaga({ payload }) {
 }
 function* logoutSaga() {
   try {
-    yield call(logoutApi);
+    const {
+      data: { message },
+    } = yield call(logoutApi);
     yield put(dataClearAction());
     history.push(NAVIGATION_MAP.LOGIN_PAGE);
-    showSuccessMessage("Return to us quickly");
+    showSuccessMessage(message);
   } catch (error) {
     showErrorMessage("Something went wrong");
   }

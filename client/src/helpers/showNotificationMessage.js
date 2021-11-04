@@ -1,7 +1,20 @@
-import { NotificationManager } from "react-notifications";
+import { store as notificationStore } from "react-notifications-component";
+const TIME_FOR_NOTIFICATION = 2000;
 
 export const showSuccessMessage = (message) => {
-  NotificationManager.success(message);
+  notificationStore.addNotification({
+    title: "Success!",
+    message,
+    type: "success",
+    insert: "top",
+    container: "top-right",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: TIME_FOR_NOTIFICATION,
+      onScreen: true,
+    },
+  });
 };
 
 export const showErrorMessage = ({
@@ -9,5 +22,17 @@ export const showErrorMessage = ({
     data: { message },
   },
 }) => {
-  NotificationManager.error(message);
+  notificationStore.addNotification({
+    title: "Error",
+    message,
+    type: "danger",
+    insert: "top",
+    container: "top-right",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: TIME_FOR_NOTIFICATION,
+      onScreen: true,
+    },
+  });
 };
