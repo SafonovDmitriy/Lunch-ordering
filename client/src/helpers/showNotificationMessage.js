@@ -1,38 +1,29 @@
 import { store as notificationStore } from "react-notifications-component";
 const TIME_FOR_NOTIFICATION = 2000;
-
-export const showSuccessMessage = (message) => {
+const congigForNotification = {
+  insert: "top",
+  container: "top-right",
+  animationIn: ["animate__animated", "animate__fadeIn"],
+  animationOut: ["animate__animated", "animate__fadeOut"],
+  dismiss: {
+    duration: TIME_FOR_NOTIFICATION,
+    onScreen: true,
+  },
+};
+export const showSuccessMessage = (message = "") => {
   notificationStore.addNotification({
     title: "Success!",
     message,
     type: "success",
-    insert: "top",
-    container: "top-right",
-    animationIn: ["animate__animated", "animate__fadeIn"],
-    animationOut: ["animate__animated", "animate__fadeOut"],
-    dismiss: {
-      duration: TIME_FOR_NOTIFICATION,
-      onScreen: true,
-    },
+    ...congigForNotification,
   });
 };
 
-export const showErrorMessage = ({
-  response: {
-    data: { message },
-  },
-}) => {
+export const showErrorMessage = ({ message }) => {
   notificationStore.addNotification({
     title: "Error",
     message,
     type: "danger",
-    insert: "top",
-    container: "top-right",
-    animationIn: ["animate__animated", "animate__fadeIn"],
-    animationOut: ["animate__animated", "animate__fadeOut"],
-    dismiss: {
-      duration: TIME_FOR_NOTIFICATION,
-      onScreen: true,
-    },
+    ...congigForNotification,
   });
 };
