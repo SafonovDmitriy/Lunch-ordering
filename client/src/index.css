@@ -21,24 +21,35 @@ a:active {
 }
 @keyframes ball-move-up {
   0% {
-    align-items: flex-start;
+    top: 3%;
+  }
+  25% {
+    top: 15%;
   }
   50% {
-    align-items: center;
+    top: 25%;
+  }
+  75% {
+    top: 40%;
   }
   100% {
-    align-items: flex-end;
+    top: 57%;
   }
 }
 @keyframes ball-move-down {
   0% {
-    align-items: flex-end;
+    top: 57%;
   }
-
+  25% {
+    top: 40%;
+  }
   50% {
-    align-items: center;
+    top: 25%;
+  }
+  75% {
+    top: 15%;
   }
   100% {
-    align-items: flex-start;
+    top: 3%;
   }
 }
