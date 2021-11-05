@@ -43,12 +43,16 @@ const formGenerator = ({
     />
   );
 
+  const getFormKeyAndValue = () =>
+    form.reduce(
+      (acc, item) => Object.assign(acc, { [item.name]: item.value }),
+      {}
+    );
+
   const onSubmitHendler = (e) => {
     e.preventDefault();
     validationField();
-    const _form = form.reduce((acc, item) => {
-      return Object.assign(acc, { [item.name]: item.value });
-    }, {});
+    const _form = getFormKeyAndValue();
     const noEmptyString = Object.values(_form).every((text) => !!text.length);
     const isNoErrors = Object.values(error).every((error) => !error.length);
     if (noEmptyString && isNoErrors) onSubmit(_form);
@@ -56,10 +60,20 @@ const formGenerator = ({
 
   const validationField = (_form = form) => {
     let _errors = { ...error };
+
     for (const field of _form) {
       if (field.validation) {
         for (const validationItem of field.validation) {
-          if (validationItem.func(field.value, { ...validationItem.extra })) {
+          if (validationItem.byField) {
+            var valueByField = getFormKeyAndValue()[validationItem.byField];
+          }
+
+          if (
+            validationItem.func(field.value, {
+              ...validationItem.extra,
+              byField: valueByField ? valueByField : null,
+            })
+          ) {
             _errors = Object.assign(_errors, {
               [field.name]: validationItem.message,
             });
