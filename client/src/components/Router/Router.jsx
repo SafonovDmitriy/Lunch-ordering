@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { NAVIGATION_MAP } from "../../constants";
 import { AdminPage } from "../../pages/AdminPage";
@@ -8,29 +8,18 @@ import { LoginPage } from "../../pages/LoginPage";
 import { RegistrationPage } from "../../pages/RegistrationPage";
 import { StatisticsPage } from "../../pages/StatisticsPage";
 import { VerificationPage } from "../../pages/VerificationPage";
-import { userDataFetchAction } from "../../redux/actions/userAction";
-import {
-  isAdminSelector,
-  isUserIsEmptySelector,
-  userLoadingSelector,
-} from "../../redux/selectors";
-import { Header } from "../Header";
+import { isAdminSelector, userLoadingSelector } from "../../redux/selectors";
+import { Loading } from "../Loading";
 
-const Router = () => {
-  const dispatch = useDispatch();
+const Router = ({ isNotEmptyUser }) => {
   const isAdmin = useSelector(isAdminSelector);
 
-  useEffect(() => {
-    dispatch(userDataFetchAction());
-  }, [dispatch]);
-
   const userLoading = useSelector(userLoadingSelector);
-  const isEmptyUser = useSelector(isUserIsEmptySelector);
 
   if (userLoading) {
-    return null;
+    return <Loading />;
   }
-  return isEmptyUser ? (
+  return isNotEmptyUser ? (
     <Switch>
       <Route component={LoginPage} path={NAVIGATION_MAP.LOGIN_PAGE} />
       <Route
@@ -43,23 +32,20 @@ const Router = () => {
       <Redirect to={NAVIGATION_MAP.LOGIN_PAGE} />
     </Switch>
   ) : (
-    <>
-      <Header />
-      <Switch>
-        <Route exact c path={NAVIGATION_MAP.HOME_PAGE}>
-          <HomePage />
+    <Switch>
+      <Route exact c path={NAVIGATION_MAP.HOME_PAGE}>
+        <HomePage />
+      </Route>
+      <Route path={NAVIGATION_MAP.STATISTICS_PAGE}>
+        <StatisticsPage />
+      </Route>
+      {isAdmin && (
+        <Route path={NAVIGATION_MAP.ADMIN_PAGE}>
+          <AdminPage />
         </Route>
-        <Route path={NAVIGATION_MAP.STATISTICS_PAGE}>
-          <StatisticsPage />
-        </Route>
-        {isAdmin && (
-          <Route path={NAVIGATION_MAP.ADMIN_PAGE}>
-            <AdminPage />
-          </Route>
-        )}
-        <Redirect to={NAVIGATION_MAP.HOME_PAGE} />
-      </Switch>
-    </>
+      )}
+      <Redirect to={NAVIGATION_MAP.HOME_PAGE} />
+    </Switch>
   );
 };
 export default Router;
