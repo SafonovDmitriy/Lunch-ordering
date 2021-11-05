@@ -81,7 +81,7 @@ const RegistrationPage = () => {
         },
         {
           func: sameFields,
-          extra: {}, //TODO VALIDAATION CONFIRM PASSWORD
+          extra: {},
           byField: "password",
           message: "Confirming password does not meet the original",
         },
