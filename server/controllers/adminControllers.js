@@ -5,15 +5,19 @@ const { User, UserOrderHistory, OrderHistory } = require("../models");
 class AdminController {
   async getUsers(req, res) {
     const { limit, page } = req.query;
+
     const users = await User.find({});
-    const response = chunk(users, limit)[page].reduce((acc, item) => {
+    const totalPage = Math.ceil(users.length / limit);
+    const partUsers = chunk(users, limit, page);
+
+    const response = partUsers.reduce((acc, item) => {
       acc.push({ _id: item._id, email: item.email, balance: item.balance });
       return acc;
     }, []);
     res.status(200).json({
       message: "Success",
       users: response,
-      total: Math.ceil(users.length / limit),
+      total: totalPage,
     });
   }
   async updateBalanceUser(req, res) {
@@ -32,6 +36,12 @@ class AdminController {
   }
   async shadeAnOrder(req, res) {
     const { userId } = req.body;
+    const prevTodaysOrder = await OrderHistory.findOne({ date: dateNow });
+    if (prevTodaysOrder) {
+      return res
+        .status(400)
+        .json({ message: "Today I was already placed an order" });
+    }
 
     const userHistory = await UserOrderHistory.find({ date: dateNow }).populate(
       "order.firstDish order.secondDish order.salad order.drink"

@@ -11,7 +11,7 @@ class LunchMenuController {
     );
 
     res.status(200).json({
-      message: "That's all the lanch menu what is in the database",
+      message: "The menu has been updated",
       lunchMenu,
     });
   }

@@ -25,9 +25,10 @@ class OrderController {
       acc.push({ date, description: _namesDishes.join(", "), id: _id });
       return acc;
     }, []);
+    const partUserHistoryToOrder = chunk(userHistoryToOrder, limit, page);
     res.status(200).json({
       message: "Success",
-      userHistory: chunk(userHistoryToOrder.reverse(), limit)[page] || [],
+      userHistory: partUserHistoryToOrder.reverse() || [],
       total: Math.ceil(userHistoryToOrder.length / limit),
     });
   }
