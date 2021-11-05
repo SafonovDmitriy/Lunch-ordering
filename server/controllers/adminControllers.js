@@ -21,7 +21,8 @@ class AdminController {
     });
   }
   async updateBalanceUser(req, res) {
-    const { selectUserId: _id, balance, userId } = req.body;
+    const { selectUserId: _id, balance } = req.body;
+    const { userId } = req.user;
     if (balance < 0 || !balance.toString().length) {
       return res.status(400).json({
         message: "Investigious importance",
@@ -35,7 +36,7 @@ class AdminController {
     });
   }
   async shadeAnOrder(req, res) {
-    const { userId } = req.body;
+    const { userId } = req.user;
     const prevTodaysOrder = await OrderHistory.findOne({ date: dateNow });
     if (prevTodaysOrder) {
       return res
@@ -65,7 +66,5 @@ class AdminController {
     res.status(200).json({ message: "Success" });
   }
 }
-// order: { type: Object },
-//       userId: { type: mongoose.Types.ObjectId, require: true, ref: "User" },
-//       date: { type: String, require: true },
+
 module.exports = new AdminController();

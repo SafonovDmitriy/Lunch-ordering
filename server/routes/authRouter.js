@@ -1,4 +1,5 @@
 const Router = require("express");
+const passport = require("passport");
 const router = new Router();
 const AuthController = require("../controllers/authControllers.js");
 

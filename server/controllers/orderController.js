@@ -5,7 +5,7 @@ class OrderController {
   //  /user-order-history
 
   async getTheHistoryOfOrders(req, res) {
-    const { userId } = req.body;
+    const { userId } = req.user;
     const { limit, page } = req.query;
 
     const userHistory = await UserOrderHistory.find({ userId }).populate(

@@ -1,29 +1,12 @@
 const { User } = require("../models");
-const Token = require("../utils/Token");
 
 const ROLE_MAP = {
   USER: "USER",
   ADMIN: "ADMIN",
 };
 
-const checkToken = (req, res, next) => {
-  const { token } = req.cookies;
-
-  if (!token || token == null) {
-    return res.status(412).json({ message: "No token" });
-  }
-  const decoded = new Token({ token }).decoded();
-
-  if (decoded) {
-    req.body.userId = decoded._id;
-    next();
-  } else {
-    return res.status(401).json({ message: "Token expired" });
-  }
-};
-
 const checkUserRole = async (req, res, next) => {
-  const { userId } = req.body;
+  const { userId } = req.user;
   try {
     const user = await User.findOne({ _id: userId });
 
@@ -36,4 +19,4 @@ const checkUserRole = async (req, res, next) => {
   }
 };
 
-module.exports = { checkToken, checkUserRole };
+module.exports = { checkUserRole };

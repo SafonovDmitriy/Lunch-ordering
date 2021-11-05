@@ -5,7 +5,6 @@ class DishController {
   // /
   async getAllDish(req, res) {
     const dishes = await Dish.find({});
-
     const dishesByCategory = dishes.reduce((acc, dish) => {
       return Object.assign(acc, {
         [dish.type]: [
@@ -21,7 +20,6 @@ class DishController {
   }
   // /:id
   async getDishById(req, res) {
-    const { userId } = req.body;
     const { id: dishId } = req.params;
     const dish = await Dish.find({ _id: dishId });
 

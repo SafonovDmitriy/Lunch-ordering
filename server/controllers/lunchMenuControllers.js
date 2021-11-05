@@ -56,7 +56,7 @@ class LunchMenuController {
   async deleteLunchMenuById(req, res) {}
   // /select
   async getSelectLunchMenu(req, res) {
-    const { userId } = req.body;
+    const { userId } = req.user;
 
     const lunchMenu = await UserOrderHistory.findOne({
       userId,
@@ -69,7 +69,8 @@ class LunchMenuController {
   }
   // /select
   async selectLunchMenu(req, res) {
-    const { idLunchMenu, userId } = req.body;
+    const { idLunchMenu } = req.body;
+    const { userId } = req.user;
     const todaysOrder = await OrderHistory.findOne({ date: dateNow });
     if (todaysOrder) {
       return res.status(400).json({

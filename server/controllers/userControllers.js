@@ -2,7 +2,7 @@ const { User } = require("../models");
 
 class UserController {
   async getUser(req, res) {
-    const { userId } = req.body;
+    const { userId } = req.user;
     const user = await User.findById({ _id: userId });
 
     const _user = {
