@@ -10,18 +10,18 @@ export const userBalanceSelector = (state) => state.user.userData.balance;
 export const userLoadingSelector = (state) => state.user.loading;
 
 export const lunchMenuSelector = (state) => state.lunchMenu.lunchMenu;
-export const isLunchMenuLoadingSelector = (state) => state.lunchMenu.loading;
+export const isLunchMenuLoadedSelector = (state) => state.lunchMenu.loaded;
 export const selectMenuSelector = (state) => state.lunchMenu.selectMenu;
 
 export const userHistorySelector = (state) => state.historyOrder.userHistory;
-export const isUserHistoryLoadingSelector = (state) =>
-  state.historyOrder.loading;
+
 export const isUserHistoryLoadedSelector = (state) => state.historyOrder.loaded;
-export const userHistoryTotalPageSelector = (state) => state.historyOrder.total;
+export const userHistoryTotalPageSelector = (state) =>
+  state.historyOrder.totalPage;
 
 export const dishesDataSelector = (state) => state.dishes.dishes;
-export const isDishesloadingSelector = (state) => state.dishes.loading;
+export const isDishesloadedSelector = (state) => state.dishes.loaded;
 
 export const usersSelector = (state) => state.admin.users.data;
-export const usersTotalPageSelector = (state) => state.admin.users.total;
+export const usersTotalPageSelector = (state) => state.admin.users.totalPage;
 export const isUsersLoadedSelector = (state) => state.admin.users.loaded;
