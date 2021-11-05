@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
-import StatisticsPage from "./StatisticsPage";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserHistoryOrderAction } from "../../redux/actions/userHistoryOrderAction";
+import { Loading } from "../../components/Loading";
+import {
+  getUserHistoryOrderAction,
+  setUserHistoryOrderLoadedAction,
+} from "../../redux/actions/userHistoryOrderAction";
 import {
   isUserHistoryLoadedSelector,
-  isUserHistoryLoadingSelector,
   userHistorySelector,
   userHistoryTotalPageSelector,
 } from "../../redux/selectors";
-import { Loading } from "../../components/Loading";
+import StatisticsPage from "./StatisticsPage";
 
 const StatisticsPageContainer = () => {
   const dispatch = useDispatch();
   const [numberPage, setNumberPage] = useState(0);
 
   const userHistory = useSelector(userHistorySelector);
-  const isUserHistoryLoading = useSelector(isUserHistoryLoadingSelector);
+
   const isUserHistoryLoaded = useSelector(isUserHistoryLoadedSelector);
   const userHistoryTotalPage = useSelector(userHistoryTotalPageSelector);
 
@@ -32,10 +34,14 @@ const StatisticsPageContainer = () => {
 
   useEffect(() => {
     dispatch(getUserHistoryOrderAction(numberPage));
+    return () => {
+      dispatch(setUserHistoryOrderLoadedAction(false));
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
-  return !isUserHistoryLoading && isUserHistoryLoaded ? (
+  console.log(isUserHistoryLoaded);
+  return isUserHistoryLoaded ? (
     <StatisticsPage
       userHistory={userHistory}
       numberPage={numberPage}

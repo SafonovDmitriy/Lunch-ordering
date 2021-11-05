@@ -1,7 +1,7 @@
-import { CLEAR_DATA, SET_DISHES, SET_DISHES_LOADING } from "../actionTypes";
+import { CLEAR_DATA, SET_DISHES, SET_DISHES_LOADED } from "../actionTypes";
 
 const initialStore = {
-  loading: true,
+  loaded: false,
   dishes: {},
 };
 const dishesReducer = (state = initialStore, action) => {
@@ -9,8 +9,8 @@ const dishesReducer = (state = initialStore, action) => {
   switch (type) {
     case SET_DISHES:
       return { ...state, dishes: payload };
-    case SET_DISHES_LOADING:
-      return { ...state, loading: payload };
+    case SET_DISHES_LOADED:
+      return { ...state, loaded: payload };
     case CLEAR_DATA:
       return initialStore;
     default:

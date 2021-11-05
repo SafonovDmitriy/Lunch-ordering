@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { NAVIGATION_MAP } from "../../constants";
 import formGenerator from "../../helpers/formGenerator";
-import { required, validateEmail } from "../../helpers/validationFuncs";
+import {
+  required,
+  sameFields,
+  validateEmail,
+} from "../../helpers/validationFuncs";
 import { registrationAction } from "../../redux/actions/authAction";
 const RegistrationPageWrapper = styled.div`
   display: flex;
@@ -45,8 +49,11 @@ const RegistrationPage = () => {
       name: "email",
 
       validation: [
-        { func: required, message: "it`s requided field" },
-        { func: validateEmail, message: "it`s email validation" },
+        { func: required, message: "The email field must be filled" },
+        {
+          func: validateEmail,
+          message: "In this field there must be an existing email",
+        },
       ],
       extra: {
         placeholder: "Email",
@@ -56,7 +63,9 @@ const RegistrationPage = () => {
       title: "Password:",
       value: "",
       name: "password",
-      validation: [{ func: required, message: "it`s requided field" }],
+      validation: [
+        { func: required, message: "The Password field must be filled" },
+      ],
       extra: {
         placeholder: "Password",
       },
@@ -65,7 +74,17 @@ const RegistrationPage = () => {
       title: "Confirm password:",
       value: "",
       name: "confirmPassword",
-      validation: [{ func: required, message: "it`s requided field" }],
+      validation: [
+        {
+          func: required,
+          message: "The Confirm password field must be filled",
+        },
+        {
+          func: sameFields,
+          extra: {}, //TODO VALIDAATION CONFIRM PASSWORD
+          message: "Confirming password does not meet the original",
+        },
+      ],
       extra: {
         placeholder: "Confirm password",
       },

@@ -3,7 +3,7 @@ import { getDishesApi, updateLunchMenuApi } from "../../api/httpService";
 import {
   FETCH_DISHES,
   SET_DISHES,
-  SET_DISHES_LOADING,
+  SET_DISHES_LOADED,
   UPDATE_DISH,
 } from "../actionTypes";
 
@@ -23,13 +23,12 @@ export const setDishesAction = (payload) => ({
   type: SET_DISHES,
   payload,
 });
-export const setDishesLoadingAction = (payload) => ({
-  type: SET_DISHES_LOADING,
+export const setDishesLoadedAction = (payload) => ({
+  type: SET_DISHES_LOADED,
   payload,
 });
 
 function* fetchDishesSaga() {
-  yield put(setDishesLoadingAction(true));
   try {
     const {
       data: { dishes },
@@ -38,7 +37,7 @@ function* fetchDishesSaga() {
     yield put(setDishesAction(dishes));
   } catch (error) {
   } finally {
-    yield put(setDishesLoadingAction(false));
+    yield put(setDishesLoadedAction(true));
   }
 }
 function* updateDishSaga({ payload }) {

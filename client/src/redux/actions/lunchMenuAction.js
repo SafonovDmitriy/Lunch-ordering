@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put, select } from "redux-saga/effects";
 import {
   fetchLunchMenuApi,
   getSelectLunchMenuApi,
@@ -12,7 +12,7 @@ import {
   FETCH_LUNCH_MENU,
   SELECT_LUNCH_MENU,
   SET_LUNCH_MENU,
-  SET_LUNCH_MENU_LOADING,
+  SET_LUNCH_MENU_LOADED,
   GET_SELECT_LUNCH_MENU,
   SET_SELECT_LUNCH_MENU,
 } from "../actionTypes";
@@ -30,8 +30,8 @@ export const setLunchMenuAction = (payload) => ({
   type: SET_LUNCH_MENU,
   payload,
 });
-export const setLunchMenuLoadingAction = (payload) => ({
-  type: SET_LUNCH_MENU_LOADING,
+export const setLunchMenuLoadedAction = (payload) => ({
+  type: SET_LUNCH_MENU_LOADED,
   payload,
 });
 export const selectLunchMenuAction = (payload) => ({
@@ -48,16 +48,26 @@ export const setSelectLunchMenuAction = (payload) => ({
 
 function* fetchLunchMenuSaga() {
   try {
-    yield put(setLunchMenuLoadingAction(true));
+    const {
+      lunchMenu: { lunchMenu: lunchMenuList },
+    } = yield select();
+    const JSON_PREV_LUNCH_MENU_LIST = JSON.stringify(lunchMenuList);
     const { data } = yield call(fetchLunchMenuApi);
     const { message, lunchMenu } = data;
-    yield put(setLunchMenuAction(lunchMenu));
+    const JSON_LUNCH_MENU_LIST = JSON.stringify(lunchMenu);
 
-    showSuccessMessage(message);
-  } catch (error) {
-    showErrorMessage(error);
+    if (JSON_PREV_LUNCH_MENU_LIST !== JSON_LUNCH_MENU_LIST) {
+      yield put(setLunchMenuAction(lunchMenu));
+      showSuccessMessage(message);
+    }
+  } catch ({
+    response: {
+      data: { message },
+    },
+  }) {
+    showErrorMessage(message);
   } finally {
-    yield put(setLunchMenuLoadingAction(false));
+    yield put(setLunchMenuLoadedAction(true));
   }
 }
 
@@ -68,8 +78,12 @@ function* selectLunchMenuSaga({ payload }) {
     } = yield call(selectLunchMenuApi, { idLunchMenu: payload });
     yield put(getSelectLunchMenuAction());
     showSuccessMessage(message);
-  } catch (error) {
-    showErrorMessage(error);
+  } catch ({
+    response: {
+      data: { message },
+    },
+  }) {
+    showErrorMessage(message);
   }
 }
 function* getSelectLunchMenuSaga() {
@@ -78,7 +92,11 @@ function* getSelectLunchMenuSaga() {
       data: { selectLunchMenuId },
     } = yield call(getSelectLunchMenuApi);
     yield put(setSelectLunchMenuAction(selectLunchMenuId));
-  } catch (error) {
-    showErrorMessage(error);
+  } catch ({
+    response: {
+      data: { message },
+    },
+  }) {
+    showErrorMessage(message);
   }
 }

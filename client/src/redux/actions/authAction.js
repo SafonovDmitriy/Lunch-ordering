@@ -47,8 +47,12 @@ function* authorizationSaga({ payload }) {
     history.push(NAVIGATION_MAP.HOME_PAGE);
     yield put(userDataFetchAction());
     showSuccessMessage(data.message);
-  } catch (error) {
-    showErrorMessage(error);
+  } catch ({
+    response: {
+      data: { message },
+    },
+  }) {
+    showErrorMessage(message);
   }
 }
 function* verifySaga({ payload }) {
@@ -57,8 +61,12 @@ function* verifySaga({ payload }) {
     history.push(NAVIGATION_MAP.HOME_PAGE);
     yield put(userDataFetchAction());
     showSuccessMessage(data.message);
-  } catch (error) {
-    showErrorMessage(error);
+  } catch ({
+    response: {
+      data: { message },
+    },
+  }) {
+    showErrorMessage(message);
   }
 }
 function* registrationSaga({ payload }) {
@@ -68,8 +76,12 @@ function* registrationSaga({ payload }) {
       password: payload.password,
     });
     showSuccessMessage(data.message);
-  } catch (error) {
-    showErrorMessage(error);
+  } catch ({
+    response: {
+      data: { message },
+    },
+  }) {
+    showErrorMessage(message);
   }
 }
 function* logoutSaga() {
@@ -80,7 +92,11 @@ function* logoutSaga() {
     yield put(dataClearAction());
     history.push(NAVIGATION_MAP.LOGIN_PAGE);
     showSuccessMessage(message);
-  } catch (error) {
-    showErrorMessage("Something went wrong");
+  } catch ({
+    response: {
+      data: { message },
+    },
+  }) {
+    showErrorMessage(message);
   }
 }

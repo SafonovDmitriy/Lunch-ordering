@@ -57,8 +57,12 @@ function* fetchAllUsersSaga({ payload }) {
 
     yield put(setUsersAction(users));
     yield put(setUsersTotalPageAction(total));
-  } catch (error) {
-    showErrorMessage(error);
+  } catch ({
+    response: {
+      data: { message },
+    },
+  }) {
+    showErrorMessage(message);
   } finally {
     yield put(setUsersLoadedAction(true));
   }
@@ -72,8 +76,12 @@ function* updateUserBalanceSaga({
     } = yield call(updateUserBalanceApi, { balance, selectUserId });
     yield put(getAllUsersAction(numberPage));
     if (mainUser) yield put(setUserDataAction(mainUser));
-  } catch (error) {
-    showErrorMessage(error);
+  } catch ({
+    response: {
+      data: { message },
+    },
+  }) {
+    showErrorMessage(message);
   }
 }
 function* shadeAnOrderSaga() {
@@ -82,7 +90,11 @@ function* shadeAnOrderSaga() {
       data: { message },
     } = yield call(shadeAnOrderApi);
     showSuccessMessage(message);
-  } catch (error) {
-    showErrorMessage(error);
+  } catch ({
+    response: {
+      data: { message },
+    },
+  }) {
+    showErrorMessage(message);
   }
 }

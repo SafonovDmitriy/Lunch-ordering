@@ -8,8 +8,8 @@ import {
 const initialStore = {
   users: {
     data: [],
-    total: null,
     loaded: false,
+    totalPage: null,
   },
 };
 const adminReducer = (state = initialStore, action) => {
@@ -18,7 +18,7 @@ const adminReducer = (state = initialStore, action) => {
     case SET_USERS:
       return { ...state, users: { ...state.users, data: payload } };
     case SET_USERS_TOTAL_PAGE:
-      return { ...state, users: { ...state.users, total: payload } };
+      return { ...state, users: { ...state.users, totalPage: payload } };
     case USERS_LOADED:
       return { ...state, users: { ...state.users, loaded: payload } };
     case CLEAR_DATA:
