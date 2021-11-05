@@ -16,7 +16,6 @@ const LoginForm = styled.form`
   gap: 15px;
   justify-content: center;
   align-items: center;
-  margin: 15px;
 `;
 
 const formGenerator = ({
@@ -115,7 +114,7 @@ const formGenerator = ({
     >
       {_formJSX}
       {!!submitText && (
-        <Button disabled={disabledBtn} type="submit">
+        <Button disabled={disabledBtn} type="submit" padding="10px 30px">
           {submitText}
         </Button>
       )}

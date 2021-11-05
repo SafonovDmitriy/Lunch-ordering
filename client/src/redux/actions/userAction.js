@@ -33,7 +33,7 @@ function* fetchUserSaga() {
     const { data } = yield call(fetchUserApi);
     yield put(setUserDataAction(data.user));
   } catch ({ response: { status } }) {
-    if (status === 401) {
+    if (status === 412) {
       history.push(NAVIGATION_MAP.LOGIN_PAGE);
     }
   } finally {

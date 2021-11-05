@@ -7,7 +7,7 @@ const HeaderWrapper = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 30px;
+  height: 45px;
   padding: 0 15px;
   background-color: darkcyan;
 `;

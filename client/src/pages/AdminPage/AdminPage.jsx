@@ -6,7 +6,6 @@ import ChangeMenu from "./ChangeMenu";
 import ChangeUserBalance from "./ChangeUserBalance";
 
 const Container = styled.div`
-  min-height: calc(100vh - 30px);
   display: flex;
   flex-direction: row;
   gap: 10px;

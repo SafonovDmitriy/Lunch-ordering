@@ -13,7 +13,7 @@ const LoadingContainer = styled.div`
 `;
 const Loading = () => (
   <LoadingContainer>
-    <Spinner color={"green"} loading={true} size={100} />
+    <Spinner color={"#5dcfc3"} loading={true} size={100} />
   </LoadingContainer>
 );
 

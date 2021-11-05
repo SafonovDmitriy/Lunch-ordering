@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { NAVIGATION_MAP } from "../../constants";
 import formGenerator from "../../components/UI/Forms/formGenerator";
+import { NAVIGATION_MAP } from "../../constants";
 import {
   required,
   sameFields,
@@ -15,29 +15,54 @@ const RegistrationPageWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  background-image: url(https://oir.mobi/uploads/posts/2020-01/1579584660_2-p-sinyaya-abstraktsiya-4.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 const RegistrationFormWrapper = styled.div`
+  width: 340px;
   display: flex;
-  flex-direction: column;
-  border: solid black 1px;
-  border-radius: 10px;
-  width: 330px;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding-bottom: 5px;
+  flex-direction: column;
+  background-color: #052a6e;
+  border: solid 1px;
+  box-shadow: 3px 3px 2px 0px;
+  border-radius: 10px;
 `;
 
-const RegistrationFormHeader = styled.div`
+const FormHeader = styled.div`
   width: 100%;
-  height: 25px;
-  background-color: grey;
-  color: white;
+  height: 40px;
+  background-color: #3415b0;
+  border-radius: 7px 7px 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 19px;
-  border-radius: 8px 8px 0 0;
-  padding: 5px 0;
+`;
+
+const FormHeaderTitle = styled.h1`
+  font-size: 21px;
+  color: #5dcfc3;
+`;
+
+const FormContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: white;
+  width: 100%;
+  padding: 30px 25px;
+  box-sizing: border-box;
+  & input {
+    width: 180px;
+    color: #5dcfc3;
+  }
+`;
+const FormLinkBox = styled.div`
+  margin: 5px 0;
+  & a {
+    color: #5dcfc3;
+  }
 `;
 
 const RegistrationPage = () => {
@@ -100,18 +125,29 @@ const RegistrationPage = () => {
   return (
     <RegistrationPageWrapper>
       <RegistrationFormWrapper>
-        <RegistrationFormHeader>
-          Register with 'Lanch Menu' app
-        </RegistrationFormHeader>
-        {formGenerator({
-          form,
-          error,
-          setForm,
-          setError,
-          onSubmit,
-          submitText: "Sign Up",
-        })}
-        <Link to={NAVIGATION_MAP.LOGIN_PAGE}>Go to Autoriz Page</Link>
+        <FormHeader
+          children={
+            <FormHeaderTitle children={"Register with 'Lanch Menu' app"} />
+          }
+        />
+        <FormContent
+          children={formGenerator({
+            form,
+            error,
+            setForm,
+            setError,
+            onSubmit,
+            submitText: "Sign Up",
+          })}
+        />
+        <FormLinkBox
+          children={
+            <Link
+              to={NAVIGATION_MAP.LOGIN_PAGE}
+              children={"Go to Autoriz Page"}
+            />
+          }
+        />
       </RegistrationFormWrapper>
     </RegistrationPageWrapper>
   );

@@ -28,8 +28,12 @@ const ModalWindowSelectMenu = ({
       <h1>Are you sure you want to choose this menu?</h1>
       <p>Today you can no longer change your choice</p>
       <ButtonBox>
-        <Button onClick={cancelClickButtonHendler}>Cancel</Button>
-        <Button onClick={okClickButtonHendler}>OK</Button>
+        <Button padding={"5px 15px"} onClick={cancelClickButtonHendler}>
+          Cancel
+        </Button>
+        <Button padding={"5px 15px"} onClick={okClickButtonHendler}>
+          OK
+        </Button>
       </ButtonBox>
     </Modal>
   );

@@ -11,29 +11,48 @@ const VerificationPageWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 const VerificationFormWrapper = styled.div`
+  width: 380px;
   display: flex;
-  flex-direction: column;
-  border: solid black 1px;
-  border-radius: 10px;
-  width: 330px;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding-bottom: 5px;
+  flex-direction: column;
+  background-color: #052a6e;
+  border: solid 1px;
+  box-shadow: 3px 3px 2px 0px;
+  border-radius: 10px;
 `;
 
-const VerificationFormHeader = styled.div`
+const FormHeader = styled.div`
   width: 100%;
-  height: 25px;
-  background-color: grey;
-  color: white;
+  height: 40px;
+  background-color: #3415b0;
+  border-radius: 7px 7px 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 19px;
-  border-radius: 8px 8px 0 0;
-  padding: 5px 0;
+`;
+
+const FormHeaderTitle = styled.h1`
+  font-size: 21px;
+  color: #5dcfc3;
+`;
+
+const FormContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: white;
+  width: 100%;
+  padding: 30px 25px;
+  box-sizing: border-box;
+  & input {
+    width: 180px;
+    color: #5dcfc3;
+  }
 `;
 
 const VerificationPage = () => {
@@ -54,7 +73,9 @@ const VerificationPage = () => {
       title: "Code:",
       value: "",
       name: "code",
-      validation: [{ func: required, message: "it`s requided field" }],
+      validation: [
+        { func: required, message: "The Code field must be filled" },
+      ],
       extra: {
         placeholder: "Verification Code",
       },
@@ -69,17 +90,21 @@ const VerificationPage = () => {
   return (
     <VerificationPageWrapper>
       <VerificationFormWrapper>
-        <VerificationFormHeader>
-          Email verification 'Lunch menu' app
-        </VerificationFormHeader>
-        {formGenerator({
-          form,
-          error,
-          setForm,
-          setError,
-          onSubmit,
-          submitText: "Verify account",
-        })}
+        <FormHeader
+          children={
+            <FormHeaderTitle children={"Email verification 'Lunch menu' app"} />
+          }
+        />
+        <FormContent
+          children={formGenerator({
+            form,
+            error,
+            setForm,
+            setError,
+            onSubmit,
+            submitText: "Verify account",
+          })}
+        />
       </VerificationFormWrapper>
     </VerificationPageWrapper>
   );

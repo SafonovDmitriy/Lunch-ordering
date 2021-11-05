@@ -22,7 +22,9 @@ const ChangeUserBalance = ({ shadeAnOrder }) => {
     <ChangeUserBalanceContainer>
       <UserListContainer />
       <ShadeAnOrder>
-        <Button onClick={shadeAnOrder}>Shade an order</Button>
+        <Button onClick={shadeAnOrder} padding="5px 10px">
+          Shade an order
+        </Button>
       </ShadeAnOrder>
     </ChangeUserBalanceContainer>
   );

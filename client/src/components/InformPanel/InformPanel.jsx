@@ -2,11 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { logOutAction } from "../../redux/actions/authAction";
 import { userBalanceSelector, userEmailSelector } from "../../redux/selectors";
+import { Button } from "../UI/Button";
 
 const InformPanelWrapper = styled.div`
   display: flex;
   gap: 15px;
-  font-size: 14px;
+  font-size: 15px;
   align-items: center;
 `;
 const InformPanel = () => {
@@ -18,9 +19,11 @@ const InformPanel = () => {
   };
   return (
     <InformPanelWrapper>
-      <span>{`Balance: ${balance} грн`}</span>
+      <span>{`Balance: ${balance} `}</span>
       <span>{email}</span>
-      <button onClick={logOut}>SignOut</button>
+      <Button onClick={logOut} padding="5px 10px">
+        SignOut
+      </Button>
     </InformPanelWrapper>
   );
 };

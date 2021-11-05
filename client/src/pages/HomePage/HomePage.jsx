@@ -5,8 +5,6 @@ import { LunchMenu } from "../../components/LunchMenu";
 const HomePageWrapper = styled.div`
   display: flex;
   justify-content: center;
-  width: 100%;
-  height: 100%;
 `;
 const HomePageBox = styled.div`
   display: flex;
