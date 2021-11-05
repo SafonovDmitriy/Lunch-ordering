@@ -12,7 +12,8 @@ const SwitchMode = styled.div`
   border-radius: 25px;
   box-sizing: border-box;
   padding: 2px 0;
-  background-color: ${({ mode }) => (mode === "true" ? "green" : "red")};
+  background-color: ${({ switchMode }) =>
+    switchMode === "true" ? "green" : "red"};
   transition: all 0.3s;
   position: fixed;
   top: 50%;
@@ -27,20 +28,21 @@ const Ball = styled.div`
   position: absolute;
   left: 3px;
   animation: 0.03s
-    ${({ mode }) => (mode === "true" ? "ball-move-up" : "ball-move-down")};
-  top: ${({ mode }) => (mode === "true" ? "3%" : "57%")}; ;
+    ${({ switchMode }) =>
+      switchMode === "true" ? "ball-move-up" : "ball-move-down"};
+  top: ${({ switchMode }) => (switchMode === "true" ? "3%" : "57%")}; ;
 `;
-const Switch = ({ mode, setModeHendler }) => {
+const Switch = ({ switchMode, setModeHendler }) => {
   return (
     <SwitchModeContainer>
-      <SwitchMode mode={mode.toString()} onClick={setModeHendler}>
-        <Ball mode={mode.toString()} />
+      <SwitchMode mode={switchMode.toString()} onClick={setModeHendler}>
+        <Ball mode={switchMode.toString()} />
       </SwitchMode>
     </SwitchModeContainer>
   );
 };
 Switch.propTypes = {
-  mode: PropTypes.bool,
+  switchMode: PropTypes.bool,
   setModeHendler: PropTypes.func,
 };
 export default Switch;

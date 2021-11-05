@@ -5,16 +5,16 @@ import AdminPage from "./AdminPage";
 
 const AdminPageContainer = () => {
   const dispatch = useDispatch();
-  const [mode, setMode] = useState(false);
+  const [switchMode, setSwitchMode] = useState(false);
   const setModeHendler = () => {
-    setMode(!mode);
+    setSwitchMode(!switchMode);
   };
   const shadeAnOrder = () => {
     dispatch(shadeAnOrderAction());
   };
   return (
     <AdminPage
-      mode={mode}
+      switchMode={switchMode}
       setModeHendler={setModeHendler}
       shadeAnOrder={shadeAnOrder}
     />

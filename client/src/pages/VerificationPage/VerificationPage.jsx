@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import formGenerator from "../../components/UI/Forms/formGenerator";
-import { NAVIGATION_MAP } from "../../constants";
-
 import { required } from "../../helpers/validationFuncs";
 import { verifyAction } from "../../redux/actions/authAction";
+
 const VerificationPageWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -79,9 +78,8 @@ const VerificationPage = () => {
           setForm,
           setError,
           onSubmit,
-          submitText: "Sign Up",
+          submitText: "Verify account",
         })}
-        <Link to={NAVIGATION_MAP.LOGIN_PAGE}>Go to Autoriz Page</Link>
       </VerificationFormWrapper>
     </VerificationPageWrapper>
   );
