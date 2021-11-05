@@ -53,8 +53,9 @@ const LunchMenuContainer = () => {
   };
 
   useEffect(() => {
-    dispatch(lunchMenuFetchAction());
     dispatch(getSelectLunchMenuAction());
+    dispatch(lunchMenuFetchAction());
+
     if (isAdmin) dispatch(dishesFetchAction());
     return () => {
       if (isAdmin) dispatch(setDishesLoadedAction(false));

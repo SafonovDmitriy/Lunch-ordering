@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { NAVIGATION_MAP } from "../../constants";
-import formGenerator from "../../helpers/formGenerator";
+import formGenerator from "../../components/UI/Forms/formGenerator";
 import {
   required,
   sameFields,

@@ -7,8 +7,8 @@
 //  }]
 
 import styled from "styled-components";
-import { Button } from "../components/UI/Button";
-import { Input } from "../components/UI/Input";
+import { Button } from "../Button";
+import { Input } from "../Input";
 
 const LoginForm = styled.form`
   display: flex;

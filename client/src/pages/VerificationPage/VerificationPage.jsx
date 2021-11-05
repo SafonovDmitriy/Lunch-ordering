@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
+import formGenerator from "../../components/UI/Forms/formGenerator";
 import { NAVIGATION_MAP } from "../../constants";
-import formGenerator from "../../helpers/formGenerator";
+
 import { required } from "../../helpers/validationFuncs";
 import { verifyAction } from "../../redux/actions/authAction";
 const VerificationPageWrapper = styled.div`

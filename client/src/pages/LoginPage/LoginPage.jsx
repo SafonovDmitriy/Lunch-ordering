@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import formGenerator from "../../components/UI/Forms/formGenerator";
 import { NAVIGATION_MAP } from "../../constants";
-import formGenerator from "../../helpers/formGenerator";
+
 import { required, validateEmail } from "../../helpers/validationFuncs";
 import { authorizationAction } from "../../redux/actions/authAction";
 const LoginPageWrapper = styled.div`

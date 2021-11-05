@@ -19,7 +19,7 @@ export const showSuccessMessage = (message = "") => {
   });
 };
 
-export const showErrorMessage = ({ message }) => {
+export const showErrorMessage = (message = "") => {
   notificationStore.addNotification({
     title: "Error",
     message,
