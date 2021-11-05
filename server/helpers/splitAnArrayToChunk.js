@@ -1,10 +1,5 @@
-const chunk = (arr, size) => {
-  const result = [];
-
-  for (let i = 0; i < Math.ceil(arr.length / size); i++) {
-    result.push(arr.slice(i * size, i * size + size));
-  }
-
-  return result;
+const chunk = (arr, size, page) => {
+  const startIndex = page * size;
+  return [...arr].splice(startIndex, size);
 };
 module.exports = chunk;
