@@ -11,9 +11,6 @@ const VerificationPageWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-
-  background-repeat: no-repeat;
-  background-size: cover;
 `;
 const VerificationFormWrapper = styled.div`
   width: 380px;

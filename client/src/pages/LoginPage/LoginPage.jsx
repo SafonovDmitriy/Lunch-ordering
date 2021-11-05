@@ -12,9 +12,6 @@ const LoginPageWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url(https://oir.mobi/uploads/posts/2020-01/1579584660_2-p-sinyaya-abstraktsiya-4.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
 `;
 
 const LoginFormWrapper = styled.div`
