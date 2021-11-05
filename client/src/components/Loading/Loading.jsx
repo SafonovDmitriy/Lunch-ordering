@@ -1,5 +1,5 @@
 import React from "react";
-import ClipLoader from "react-spinners/ClipLoader";
+import Spinner from "react-spinners/PacmanLoader";
 import styled from "styled-components";
 const LoadingContainer = styled.div`
   position: absolute;
@@ -13,7 +13,7 @@ const LoadingContainer = styled.div`
 `;
 const Loading = () => (
   <LoadingContainer>
-    <ClipLoader color={"red"} loading={true} size={150} />
+    <Spinner color={"green"} loading={true} size={100} />
   </LoadingContainer>
 );
 
