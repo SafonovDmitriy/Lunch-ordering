@@ -2,20 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { NAVIGATION_MAP } from "../../constants";
-import { dishesFetchAction } from "../../redux/actions/dishesAction";
+import {
+  dishesFetchAction,
+  setDishesLoadedAction,
+} from "../../redux/actions/dishesAction";
 import {
   getSelectLunchMenuAction,
   lunchMenuFetchAction,
   selectLunchMenuAction,
+  setLunchMenuLoadedAction,
 } from "../../redux/actions/lunchMenuAction";
 import {
-  isLunchMenuLoadingSelector,
+  isLunchMenuLoadedSelector,
   lunchMenuSelector,
   selectMenuSelector,
 } from "../../redux/selectors";
+import { Loading } from "../Loading";
 import LunchMenuWrapper from "./LunchMenuWrapper";
 import ModalWindowSelectMenu from "./ModalWindowSelectMenu";
-
 const LunchMenuContainer = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -24,7 +28,8 @@ const LunchMenuContainer = () => {
 
   const lunchMenu = useSelector(lunchMenuSelector);
   const selectMenu = useSelector(selectMenuSelector);
-  const isLunchMenuLoading = useSelector(isLunchMenuLoadingSelector);
+  const isLunchMenuLoaded = useSelector(isLunchMenuLoadedSelector);
+
   const [desiredMenuSelection, setDesiredMenuSelection] = useState(null);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -51,6 +56,10 @@ const LunchMenuContainer = () => {
     dispatch(lunchMenuFetchAction());
     dispatch(getSelectLunchMenuAction());
     if (isAdmin) dispatch(dishesFetchAction());
+    return () => {
+      if (isAdmin) dispatch(setDishesLoadedAction(false));
+      dispatch(setLunchMenuLoadedAction(false));
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
@@ -62,25 +71,25 @@ const LunchMenuContainer = () => {
     dispatch(selectLunchMenuAction(desiredMenuSelection));
   };
 
-  return (
-    !isLunchMenuLoading && (
-      <>
-        {!isAdmin && isOpenModal && !selectMenu && (
-          <ModalWindowSelectMenu
-            setDesiredMenuSelectionHendler={setDesiredMenuSelectionHendler}
-            closeModalWindowHendler={closeModalWindowHendler}
-            selectLunchMenuHendler={selectLunchMenuHendler}
-          />
-        )}
-
-        <LunchMenuWrapper
-          lunchMenu={lunchMenu}
-          selectLunchHendler={selectLunchHendler}
-          desiredMenuSelection={desiredMenuSelection}
-          isAdmin={isAdmin}
+  return isLunchMenuLoaded ? (
+    <>
+      {!isAdmin && isOpenModal && !selectMenu && (
+        <ModalWindowSelectMenu
+          setDesiredMenuSelectionHendler={setDesiredMenuSelectionHendler}
+          closeModalWindowHendler={closeModalWindowHendler}
+          selectLunchMenuHendler={selectLunchMenuHendler}
         />
-      </>
-    )
+      )}
+
+      <LunchMenuWrapper
+        lunchMenu={lunchMenu}
+        selectLunchHendler={selectLunchHendler}
+        desiredMenuSelection={desiredMenuSelection}
+        isAdmin={isAdmin}
+      />
+    </>
+  ) : (
+    <Loading />
   );
 };
 
