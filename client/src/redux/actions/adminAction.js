@@ -1,7 +1,7 @@
 import { call, takeLatest, put } from "redux-saga/effects";
 import {
   getAllUsersApi,
-  shadeAnOrderApi,
+  placeAnOrderApi,
   updateUserBalanceApi,
 } from "../../api/httpService";
 import {
@@ -14,14 +14,14 @@ import {
   SET_USERS_TOTAL_PAGE,
   UPDATE_BALANCE_USER,
   USERS_LOADED,
-  SHADE_AN_ORDER,
+  PLACE_AN_ORDER,
 } from "../actionTypes";
 import { setUserDataAction } from "./userAction";
 
 export const adminSagaWorker = [
   takeLatest(FETCH_ALL_USERS, fetchAllUsersSaga),
   takeLatest(UPDATE_BALANCE_USER, updateUserBalanceSaga),
-  takeLatest(SHADE_AN_ORDER, shadeAnOrderSaga),
+  takeLatest(PLACE_AN_ORDER, placeAnOrderSaga),
 ];
 
 export const getAllUsersAction = (payload) => ({
@@ -45,8 +45,8 @@ export const updateBalanceUserAction = (payload) => ({
   type: UPDATE_BALANCE_USER,
   payload,
 });
-export const shadeAnOrderAction = () => ({
-  type: SHADE_AN_ORDER,
+export const placeAnOrderAction = () => ({
+  type: PLACE_AN_ORDER,
 });
 
 function* fetchAllUsersSaga({ payload }) {
@@ -84,11 +84,11 @@ function* updateUserBalanceSaga({
     showErrorMessage(message);
   }
 }
-function* shadeAnOrderSaga() {
+function* placeAnOrderSaga() {
   try {
     const {
       data: { message },
-    } = yield call(shadeAnOrderApi);
+    } = yield call(placeAnOrderApi);
     showSuccessMessage(message);
   } catch ({
     response: {

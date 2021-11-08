@@ -12,12 +12,12 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const AdminPage = ({ switchMode, setModeHendler, shadeAnOrder }) => {
+const AdminPage = ({ switchMode, setModeHendler, placeAnOrder }) => {
   return (
     <Container>
       <Switch switchMode={switchMode} setModeHendler={setModeHendler} />
       {switchMode ? (
-        <ChangeUserBalance shadeAnOrder={shadeAnOrder} />
+        <ChangeUserBalance placeAnOrder={placeAnOrder} />
       ) : (
         <ChangeMenu />
       )}
@@ -27,6 +27,6 @@ const AdminPage = ({ switchMode, setModeHendler, shadeAnOrder }) => {
 AdminPage.propTypes = {
   switchMode: PropTypes.bool,
   setModeHendler: PropTypes.func,
-  shadeAnOrder: PropTypes.func,
+  placeAnOrder: PropTypes.func,
 };
 export default AdminPage;

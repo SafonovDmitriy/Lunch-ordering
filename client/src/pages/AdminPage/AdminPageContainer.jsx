@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { shadeAnOrderAction } from "../../redux/actions/adminAction";
+import { placeAnOrderAction } from "../../redux/actions/adminAction";
 import AdminPage from "./AdminPage";
 
 const AdminPageContainer = () => {
@@ -9,14 +9,14 @@ const AdminPageContainer = () => {
   const setModeHendler = () => {
     setSwitchMode(!switchMode);
   };
-  const shadeAnOrder = () => {
-    dispatch(shadeAnOrderAction());
+  const placeAnOrder = () => {
+    dispatch(placeAnOrderAction());
   };
   return (
     <AdminPage
       switchMode={switchMode}
       setModeHendler={setModeHendler}
-      shadeAnOrder={shadeAnOrder}
+      placeAnOrder={placeAnOrder}
     />
   );
 };

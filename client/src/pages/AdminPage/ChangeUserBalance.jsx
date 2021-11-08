@@ -17,13 +17,13 @@ const ShadeAnOrder = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const ChangeUserBalance = ({ shadeAnOrder }) => {
+const ChangeUserBalance = ({ placeAnOrder }) => {
   return (
     <ChangeUserBalanceContainer>
       <UserListContainer />
       <ShadeAnOrder>
-        <Button onClick={shadeAnOrder} padding="5px 10px">
-          Shade an order
+        <Button onClick={placeAnOrder} padding="5px 10px">
+          Place an order
         </Button>
       </ShadeAnOrder>
     </ChangeUserBalanceContainer>
