@@ -3,15 +3,8 @@ const { User } = require("../models");
 class UserController {
   async getUser(req, res) {
     const { userId } = req.user;
-    const user = await User.findById({ _id: userId });
-
-    const _user = {
-      email: user.email,
-      role: user.role,
-      photo: user.photo,
-      balance: user.balance,
-    };
-    res.status(200).json({ user: _user });
+    const user = await User.findById({ _id: userId }, { password: 0 });
+    res.status(200).json({ user });
   }
 
   async logOut(req, res) {
