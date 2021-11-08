@@ -15,7 +15,7 @@ const Container = styled.div`
 const AdminPage = ({ switchMode, setModeHendler, placeAnOrder }) => {
   return (
     <Container>
-      <Switch switchMode={switchMode} setModeHendler={setModeHendler} />
+      <Switch switchMode={!switchMode} setModeHendler={setModeHendler} />
       {switchMode ? (
         <ChangeUserBalance placeAnOrder={placeAnOrder} />
       ) : (
