@@ -1,14 +1,13 @@
-const dateNow = require("../helpers/dateNow");
-const { LunchMenu, UserOrderHistory, OrderHistory } = require("../models");
+const lunchMenuServices = require("../services/lunchMenuServices");
+const orderHistoryServices = require("../services/orderHistoryServices");
+const userOrderHistoryServices = require("../services/userOrderHistoryServices");
 
 class LunchMenuController {
   // /lunch-menu
 
   // /
   async getAllLunch(req, res) {
-    const lunchMenu = await LunchMenu.find({}).populate(
-      "firstDish secondDish salad drink"
-    );
+    const lunchMenu = await lunchMenuServices.getAllLunchMenus();
 
     res.status(200).json({
       message: "The menu has been updated",
@@ -19,24 +18,16 @@ class LunchMenuController {
   async getLunchById(req, res) {}
   // /add
   async createNewLunchMenu(req, res) {
-    const { firstDishID, secondDishID, saladID, drinkID } = req.body;
-    const lunchMenus = await LunchMenu.find({});
+    const lunchMenusLength = await lunchMenuServices.getLengthDocuments();
 
-    const lunchMenusLength = lunchMenus.length;
-
-    const index = lunchMenusLength + 1;
     if (lunchMenusLength >= 4)
       return res.status(500).json({
         message: "Sorry but we can't store more than 4 menu",
       });
-    const newLunchMenu = new LunchMenu({
-      index,
-      firstDish: firstDishID,
-      secondDish: secondDishID,
-      salad: saladID,
-      drink: drinkID,
+    await lunchMenuServices.createNewLunchMenu({
+      ...req.body,
     });
-    await newLunchMenu.save();
+
     res.status(200).json({
       message: "That's all the lanch menu what is in the database",
     });
@@ -44,9 +35,8 @@ class LunchMenuController {
 
   // put
   async updateLunchMenuById(req, res) {
-    const { dishId, dishType, lunchId } = req.body;
-    await LunchMenu.findByIdAndUpdate(lunchId, {
-      [dishType]: dishId,
+    await lunchMenuServices.updateLunchMenuById({
+      ...req.body,
     });
 
     res.status(200).json({ message: "Success" });
@@ -57,31 +47,23 @@ class LunchMenuController {
   // /select
   async getSelectLunchMenu(req, res) {
     const { userId } = req.user;
-
-    const lunchMenu = await UserOrderHistory.findOne({
-      userId,
-      date: dateNow,
-    });
-
-    res
-      .status(200)
-      .json({ selectLunchMenuId: lunchMenu ? lunchMenu.order.menuId : null });
+    const selectLunchMenuId =
+      await userOrderHistoryServices.getIdCurrentOrderForUserWithId(userId);
+    res.status(200).json({ selectLunchMenuId });
   }
   // /select
   async selectLunchMenu(req, res) {
     const { idLunchMenu } = req.body;
     const { userId } = req.user;
-    const todaysOrder = await OrderHistory.findOne({ date: dateNow });
+    const todaysOrder = await orderHistoryServices.checkIsCurrentOrder();
     if (todaysOrder) {
       return res.status(400).json({
         message:
           "Sorry but the administrator has already made the order and left you hungry",
       });
     }
-    const isOldOrder = await UserOrderHistory.findOne({
-      userId,
-      date: dateNow,
-    });
+    const isOldOrder =
+      await userOrderHistoryServices.checkIsCurrentOrdersByIdUser(userId);
     if (isOldOrder)
       return res
         .status(400)
@@ -90,22 +72,8 @@ class LunchMenuController {
     if (!idLunchMenu)
       return res.status(400).json({ message: "Not selected menu" });
 
-    const lunchMenu = await LunchMenu.findById(idLunchMenu);
+    await userOrderHistoryServices.createNewUsersOrder({ userId, idLunchMenu });
 
-    const order = {
-      menuId: lunchMenu._id,
-      firstDish: lunchMenu.firstDish,
-      secondDish: lunchMenu.secondDish,
-      salad: lunchMenu.salad,
-      drink: lunchMenu.drink,
-    };
-
-    const orderLunchMenu = new UserOrderHistory({
-      order,
-      userId,
-      date: dateNow,
-    });
-    await orderLunchMenu.save();
     res.status(200).json({ message: "You have successfully made an order" });
   }
 }
