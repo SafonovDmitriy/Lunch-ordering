@@ -19,7 +19,7 @@ const InformPanel = () => {
   };
   return (
     <InformPanelWrapper>
-      <span>{`Balance: ${balance} `}</span>
+      <span>{`Balance: ${balance} `}&#8372;</span>
       <span>{email}</span>
       <Button onClick={logOut} padding="5px 10px">
         SignOut
