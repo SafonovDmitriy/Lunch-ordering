@@ -1,18 +1,10 @@
-const { Dish, LunchMenu } = require("../models");
+const DishServices = require("../services/dishServices");
 
 class DishController {
   // /dish
   // /
   async getAllDish(req, res) {
-    const dishes = await Dish.find({});
-    const dishesByCategory = dishes.reduce((acc, dish) => {
-      return Object.assign(acc, {
-        [dish.type]: [
-          ...(acc[dish.type] ? acc[dish.type] : []),
-          { _id: dish._id, name: dish.name, image: dish.image },
-        ],
-      });
-    }, {});
+    const dishesByCategory = await DishServices.sortDishesByCategory();
     res.status(200).json({
       message: "That's all the dishes what is in the database",
       dishes: dishesByCategory,
@@ -21,7 +13,7 @@ class DishController {
   // /:id
   async getDishById(req, res) {
     const { id: dishId } = req.params;
-    const dish = await Dish.find({ _id: dishId });
+    const dish = await DishServices.findById(dishId);
 
     res.status(200).json({
       message: "That's all the dishes what is in the database",
@@ -30,13 +22,8 @@ class DishController {
   }
   // /add
   async addDish(req, res) {
-    const { name, type } = req.body;
-    const newDish = new Dish({
-      name,
-      type,
-      image: "img/defaultPlaceholderDish.png",
-    });
-    await newDish.save();
+    await DishServices.createNewDish({ ...req.body });
+
     res.status(200).json({
       message: "Successfully created new dish",
     });
