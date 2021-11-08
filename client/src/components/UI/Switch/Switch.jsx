@@ -27,16 +27,17 @@ const Ball = styled.div`
   background-color: white;
   position: absolute;
   left: 3px;
-  animation: 0.03s
+  animation: 0.2s alternate
     ${({ switchMode }) =>
-      switchMode === "true" ? "ball-move-up" : "ball-move-down"};
-  top: ${({ switchMode }) => (switchMode === "true" ? "3%" : "57%")}; ;
+      switchMode === "true" ? "ball-move-down" : "ball-move-up"};
+  top: ${({ switchMode }) => (switchMode === "true" ? "3%" : "57%")};
 `;
 const Switch = ({ switchMode, setModeHendler }) => {
+  const switchModeString = switchMode.toString();
   return (
     <SwitchModeContainer>
-      <SwitchMode mode={switchMode.toString()} onClick={setModeHendler}>
-        <Ball mode={switchMode.toString()} />
+      <SwitchMode switchMode={switchModeString} onClick={setModeHendler}>
+        <Ball switchMode={switchModeString} />
       </SwitchMode>
     </SwitchModeContainer>
   );
