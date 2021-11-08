@@ -52,11 +52,11 @@ export const placeAnOrderAction = () => ({
 function* fetchAllUsersSaga({ payload }) {
   try {
     const {
-      data: { total, users },
+      data: { totalPage, users },
     } = yield call(getAllUsersApi, { limit: 2, page: payload });
 
     yield put(setUsersAction(users));
-    yield put(setUsersTotalPageAction(total));
+    yield put(setUsersTotalPageAction(totalPage));
   } catch ({
     response: {
       data: { message },

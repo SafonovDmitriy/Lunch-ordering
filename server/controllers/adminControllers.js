@@ -5,21 +5,20 @@ const { User, UserOrderHistory, OrderHistory } = require("../models");
 class AdminController {
   async getUsers(req, res) {
     const { limit, page } = req.query;
+    const users = await User.find(
+      {},
+      { password: 0, role: 0, photo: 0 },
+      {
+        limit: Number(limit),
+        skip: limit * page,
+      }
+    );
+    const usersLength = await User.countDocuments();
+    const totalPage = Math.ceil(usersLength / limit);
 
-    const users = await User.find({});
-    const totalPage = Math.ceil(users.length / limit);
-    const partUsers = chunk(users, limit, page);
-
-    const response = partUsers.reduce((acc, item) => {
-      acc.push({ _id: item._id, email: item.email, balance: item.balance });
-      return acc;
-    }, []);
-    res.status(200).json({
-      message: "Success",
-      users: response,
-      total: totalPage,
-    });
+    res.status(200).json({ users, totalPage });
   }
+
   async updateBalanceUser(req, res) {
     const { selectUserId: _id, balance } = req.body;
     const { userId } = req.user;
@@ -35,7 +34,8 @@ class AdminController {
       mainUser: _id === userId ? { balance } : null,
     });
   }
-  async shadeAnOrder(req, res) {
+
+  async placeAnOrder(req, res) {
     const { userId } = req.user;
     const prevTodaysOrder = await OrderHistory.findOne({ date: dateNow });
     if (prevTodaysOrder) {
@@ -44,26 +44,27 @@ class AdminController {
         .json({ message: "Today I was already placed an order" });
     }
 
-    const userHistory = await UserOrderHistory.find({ date: dateNow }).populate(
-      "order.firstDish order.secondDish order.salad order.drink"
-    );
-    const order = userHistory.reduce((acc, item) => {
-      const { order: ItemOrder } = item;
-
-      Object.values(ItemOrder).forEach((item) => {
-        if (item.name) {
+    const userOrders = await UserOrderHistory.find(
+      { date: dateNow },
+      { _id: 0, userId: 0, date: 0, order: 1, order: { menuId: 0 } }
+    ).populate("order.firstDish order.secondDish order.salad order.drink");
+    const ORDERS_MAP = userOrders.reduce((acc, item) => {
+      Object.values(item.order).forEach((dish) => {
+        if (dish)
           acc = Object.assign(acc, {
-            [item.name]: acc[item.name] ? acc[item.name] + 1 : 1,
+            [dish.name]: acc[dish.name] ? acc[dish.name] + 1 : 1,
           });
-        }
       });
-
       return acc;
     }, {});
-    const todaysOrder = new OrderHistory({ userId, date: dateNow, order });
+
+    const todaysOrder = new OrderHistory({
+      userId,
+      date: dateNow,
+      order: ORDERS_MAP,
+    });
     await todaysOrder.save();
-    console.log(`order`, order);
-    res.status(200).json({ message: "Success" });
+    res.status(200).json({ message: "The order wassubmitted successfully" });
   }
 }
 
