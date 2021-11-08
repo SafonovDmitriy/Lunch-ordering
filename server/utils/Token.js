@@ -7,7 +7,9 @@ class Token {
     this.expiryCookies = new Date(Date.now() + 60 * 60 * 1000);
     this.expiryToken = "1h";
   }
-
+  createEmptyToken() {
+    return jwt.sign({}, this.secretCode);
+  }
   create() {
     return jwt.sign({ _id: this._id }, this.secretCode, {
       expiresIn: this.expiryToken,
