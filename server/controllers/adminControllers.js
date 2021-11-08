@@ -1,5 +1,5 @@
 const dateNow = require("../helpers/dateNow");
-const chunk = require("../helpers/splitAnArrayToChunk");
+
 const { User, UserOrderHistory, OrderHistory } = require("../models");
 
 class AdminController {

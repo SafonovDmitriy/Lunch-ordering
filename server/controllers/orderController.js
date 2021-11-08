@@ -1,4 +1,3 @@
-const chunk = require("../helpers/splitAnArrayToChunk");
 const { UserOrderHistory } = require("../models");
 
 class OrderController {
@@ -8,29 +7,28 @@ class OrderController {
     const { userId } = req.user;
     const { limit, page } = req.query;
 
-    const userHistory = await UserOrderHistory.find({ userId }).populate(
-      "order.firstDish order.secondDish order.salad order.drink"
-    );
-
+    const userHistory = await UserOrderHistory.find(
+      { userId },
+      {},
+      { limit: Number(limit), skip: page * limit }
+    ).populate("order.firstDish order.secondDish order.salad order.drink");
+    const userOrderHistoryLength = await UserOrderHistory.countDocuments();
+    const totalPage = Math.ceil(userOrderHistoryLength / limit);
     const userHistoryToOrder = [...userHistory].reduce((acc, item) => {
-      const {
-        order: { menuId, ...dishes },
-        date,
-        _id,
-      } = item;
+      const { order, date, _id } = item;
+
       const _namesDishes = [];
-      for (const key in dishes) {
-        _namesDishes.push(dishes[key].name);
-      }
+      Object.values(order).forEach((dish) => {
+        if (dish && dish.name) _namesDishes.push(dish.name);
+      });
+
       acc.push({ date, description: _namesDishes.join(", "), id: _id });
       return acc;
     }, []);
-    const partUserHistoryToOrder = chunk(userHistoryToOrder, limit, page);
-    res.status(200).json({
-      message: "Success",
-      userHistory: partUserHistoryToOrder.reverse() || [],
-      total: Math.ceil(userHistoryToOrder.length / limit),
-    });
+
+    res
+      .status(200)
+      .json({ userHistory: userHistoryToOrder.reverse() || [], totalPage });
   }
 }
 module.exports = new OrderController();

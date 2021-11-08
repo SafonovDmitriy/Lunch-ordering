@@ -33,10 +33,10 @@ function* getUserHistoryOrderSaga({ payload }) {
   try {
     yield put(setUserHistoryOrderLoadedAction(false));
     const {
-      data: { userHistory, total },
+      data: { userHistory, totalPage },
     } = yield call(getUsersHistoryApi, { limit: 2, page: payload });
     yield put(setUserHistoryOrderAction(userHistory));
-    yield put(setUserHistoryOrderTotalPageAction(total));
+    yield put(setUserHistoryOrderTotalPageAction(totalPage));
   } catch ({
     response: {
       data: { message },
