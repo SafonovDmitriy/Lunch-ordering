@@ -75,7 +75,7 @@ function* registrationSaga({ payload }) {
       email: payload.email,
       password: payload.password,
     });
-    showSuccessMessage(data.message);
+    showSuccessMessage(data.message, 0);
   } catch ({
     response: {
       data: { message },

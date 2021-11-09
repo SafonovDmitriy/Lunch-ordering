@@ -5,25 +5,40 @@ const congigForNotification = {
   container: "top-right",
   animationIn: ["animate__animated", "animate__fadeIn"],
   animationOut: ["animate__animated", "animate__fadeOut"],
-  dismiss: {
-    duration: TIME_FOR_NOTIFICATION,
-    onScreen: true,
-  },
 };
-export const showSuccessMessage = (message = "") => {
+const dismissForNotification = {
+  pauseOnHover: true,
+  timingFunction: "ease-out",
+  onScreen: true,
+};
+export const showSuccessMessage = (
+  message = "",
+  customeDuration = TIME_FOR_NOTIFICATION
+) => {
   notificationStore.addNotification({
     title: "Success!",
     message,
     type: "success",
     ...congigForNotification,
+    dismiss: {
+      duration: customeDuration,
+      ...dismissForNotification,
+    },
   });
 };
 
-export const showErrorMessage = (message = "") => {
+export const showErrorMessage = (
+  message = "",
+  customeDuration = TIME_FOR_NOTIFICATION
+) => {
   notificationStore.addNotification({
     title: "Error",
     message,
     type: "danger",
     ...congigForNotification,
+    dismiss: {
+      duration: customeDuration,
+      ...dismissForNotification,
+    },
   });
 };
