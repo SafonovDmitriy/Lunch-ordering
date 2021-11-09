@@ -40,7 +40,7 @@ const StatisticsPageContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
-  return isUserHistoryLoaded ? (
+  return isUserHistoryLoaded || !!userHistory.length ? (
     <StatisticsPage
       userHistory={userHistory}
       numberPage={numberPage}
