@@ -23,9 +23,11 @@ const StatisticsPageContainer = () => {
 
   const setNumberPageHendler = (page) => {
     if (page === userHistoryTotalPage) {
+      dispatch(getUserHistoryOrderAction(0));
       return setNumberPage(0);
     }
     if (page < 0) {
+      dispatch(getUserHistoryOrderAction(userHistoryTotalPage - 1));
       return setNumberPage(userHistoryTotalPage - 1);
     }
     setNumberPage(page);

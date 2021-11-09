@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: process.env.REACT_APP_URL_SERVER,
   headers: {
     "Content-Type": "application/json",
@@ -14,16 +14,33 @@ const METHODS_MAP = {
   PUT: "put",
   DELETE: "delete",
 };
-//Request Sheath
+
 export const request = ({ url, method = METHODS_MAP.GET, props = {} }) =>
   instance[method](url, props);
+
+export const requestCancel = ({
+  url,
+  method = METHODS_MAP.GET,
+  cancelToken,
+  props = {},
+}) => {
+  return instance[method](url, { ...props, cancelToken: cancelToken.token });
+};
+
+// eslint-disable-next-line no-unused-vars
+const createCancelToken = () => {
+  let cancelToken = new axios.CancelToken.source();
+  return () => {
+    if (cancelToken) cancelToken.cancel("");
+    cancelToken = new axios.CancelToken.source();
+    return cancelToken;
+  };
+};
 
 // auth
 export const authorizationApi = (form) =>
   request({ url: "/api/auth/authorization", props: { params: form } });
-
 export const logoutApi = () => request({ url: "/api/user/logout" });
-
 export const verifyApi = (form) =>
   request({ url: "/api/auth/verify", props: { params: form } });
 
@@ -36,16 +53,13 @@ export const registrationApi = (form) =>
 
 //lunch-menu
 export const fetchUserApi = () => request({ url: "/api/user" });
-
 export const fetchLunchMenuApi = () => request({ url: "/api/lunch-menu" });
-
 export const selectLunchMenuApi = (props) =>
   request({
     url: "/api/lunch-menu/select",
     method: METHODS_MAP.POST,
     props,
   });
-
 export const getSelectLunchMenuApi = () =>
   request({ url: "/api/lunch-menu/select" });
 
@@ -53,17 +67,34 @@ export const updateLunchMenuApi = (props) =>
   request({ url: "/api/lunch-menu/put", method: METHODS_MAP.PUT, props });
 
 // user-order-history
+const getUsersHistoryApiToken = createCancelToken();
 export const getUsersHistoryApi = (props) =>
-  request({ url: "/api/user-order-history", props: { params: props } });
+  requestCancel({
+    url: "/api/user-order-history",
+    cancelToken: getUsersHistoryApiToken(),
+    props: { params: props },
+  });
 
 // /dish
 export const getDishesApi = () => request({ url: "/api/dish" });
 
 // /admin
+const getAllUsersApiToken = createCancelToken();
 export const getAllUsersApi = (props) =>
-  request({ url: "/api/admin/users", props: { params: props } });
-
+  requestCancel({
+    url: "/api/admin/users",
+    props: { params: props },
+    cancelToken: getAllUsersApiToken(),
+  });
 export const updateUserBalanceApi = (props) =>
   request({ url: "/api/admin/balance", method: METHODS_MAP.PUT, props });
 
 export const placeAnOrderApi = () => request({ url: "/api/admin/order" });
+
+//example how use CancelToken
+// const  instanceWithToken = createCancelToken();
+// const request = () =>
+//   requestCancel({
+//     url
+//     cancelToken: instanceWithToken(),
+//   });

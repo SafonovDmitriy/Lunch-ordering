@@ -17,9 +17,11 @@ const UserListContainer = () => {
 
   const setNumberPageHendler = (page) => {
     if (page === usersTotalPage) {
+      dispatch(getAllUsersAction(0));
       return setNumberPage(0);
     }
     if (page < 0) {
+      dispatch(getAllUsersAction(usersTotalPage - 1));
       return setNumberPage(usersTotalPage - 1);
     }
     setNumberPage(page);
