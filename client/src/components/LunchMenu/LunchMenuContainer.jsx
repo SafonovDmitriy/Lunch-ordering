@@ -27,6 +27,7 @@ const LunchMenuContainer = () => {
   const isAdmin = location.pathname === NAVIGATION_MAP.ADMIN_PAGE;
 
   const lunchMenu = useSelector(lunchMenuSelector);
+
   const selectMenu = useSelector(selectMenuSelector);
   const isLunchMenuLoaded = useSelector(isLunchMenuLoadedSelector);
 
@@ -72,7 +73,7 @@ const LunchMenuContainer = () => {
     dispatch(selectLunchMenuAction(desiredMenuSelection));
   };
 
-  return isLunchMenuLoaded ? (
+  return isLunchMenuLoaded || !!Object.values(lunchMenu).length ? (
     <>
       {!isAdmin && isOpenModal && !selectMenu && (
         <ModalWindowSelectMenu

@@ -11,7 +11,6 @@ import { dishType } from "./types";
 const LunchMenuAdminContainer = (props) => {
   const dispatch = useDispatch();
   const dishes = useSelector(dishesDataSelector);
-
   const isDishesLoaded = useSelector(isDishesloadedSelector);
 
   const changeMenu = ({
@@ -24,7 +23,7 @@ const LunchMenuAdminContainer = (props) => {
     dispatch(updateDishAction({ dishId, dishType, lunchId }));
   };
 
-  return isDishesLoaded ? (
+  return isDishesLoaded || !!Object.keys(dishes).length ? (
     <LunchMenuAdmin {...props} dishes={dishes} changeMenu={changeMenu} />
   ) : (
     <Loading />
