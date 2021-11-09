@@ -14,7 +14,7 @@ const METHODS_MAP = {
   PUT: "put",
   DELETE: "delete",
 };
-
+//Request Sheath
 export const request = ({ url, method = METHODS_MAP.GET, props = {} }) =>
   instance[method](url, props);
 
