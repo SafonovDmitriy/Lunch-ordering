@@ -1,7 +1,7 @@
 const { LunchMenu } = require("../models");
 
 class LunchMenuServices {
-  async getById() {
+  async getById(id) {
     return await LunchMenu.findById(id);
   }
   async getAllLunchMenus() {
