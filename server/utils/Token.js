@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 class Token {
   constructor(props) {
     this.secretCode = process.env.JWT_SECRET_KEY;
-    this._id = props._id || null;
-    this.token = props.token || null;
+    this._id = props && props._id ? props._id : null;
+    this.token = props && props.token ? props.token : null;
     this.expiryCookies = new Date(Date.now() + 60 * 60 * 1000);
     this.expiryToken = "1h";
   }
