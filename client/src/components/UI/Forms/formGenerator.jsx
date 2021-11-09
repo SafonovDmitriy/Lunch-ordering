@@ -50,10 +50,10 @@ const formGenerator = ({
 
   const onSubmitHendler = (e) => {
     e.preventDefault();
-    validationField();
+    const _errors = validationField();
     const _form = getFormKeyAndValue();
     const noEmptyString = Object.values(_form).every((text) => !!text.length);
-    const isNoErrors = Object.values(error).every((error) => !error.length);
+    const isNoErrors = Object.values(_errors).every((error) => !error.length);
     if (noEmptyString && isNoErrors) onSubmit(_form);
   };
 
@@ -84,6 +84,7 @@ const formGenerator = ({
       }
     }
     setError(_errors);
+    return _errors;
   };
   const changeFieldHendler = (e) => {
     let indexChangesItem;
