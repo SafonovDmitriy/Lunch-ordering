@@ -5,7 +5,7 @@ const lunchMenuServices = require("./lunchMenuServices");
 class UserOrderHistoryServices {
   async getUsersHistoryOrders({ userId, limit, page }) {
     const userHistory = await this.makeUserHistory({ userId, limit, page });
-    const totalPage = await this.getTotalPage({ limit });
+    const totalPage = await this.getTotalPage({ limit, userId });
     return { userHistory, totalPage };
   }
   async makeUserHistory({ userId, limit, page }) {
@@ -15,27 +15,31 @@ class UserOrderHistoryServices {
       page,
     });
     return [...userHistory].reduce((acc, item) => {
-      const { order, date, _id } = item;
-
-      const _namesDishes = [];
-      Object.values(order).forEach((dish) => {
-        if (dish && dish.name) _namesDishes.push(dish.name);
+      const namesDishes = [];
+      Object.values(item.order).forEach((dish) => {
+        if (dish && dish.name) namesDishes.push(dish.name);
       });
 
-      acc.push({ date, description: _namesDishes.join(", "), id: _id });
+      acc.push({
+        date: item.date,
+        description: namesDishes.join(", "),
+        id: item._id,
+      });
       return acc;
     }, []);
   }
   async getOrdersUsersHistoryByIdWithPagination({ userId, page, limit }) {
-    return await UserOrderHistory.find(
-      { userId },
-      {},
-      { limit: Number(limit), skip: page * limit }
-    ).populate("order.firstDish order.secondDish order.salad order.drink");
+    return await UserOrderHistory.find({ userId })
+      .sort({ date: -1 })
+      .skip(page * Number(limit))
+      .limit(Number(limit))
+      .populate("order.firstDish order.secondDish order.salad order.drink");
   }
 
-  async getTotalPage({ limit }) {
-    const userOrderHistoryLength = await UserOrderHistory.countDocuments();
+  async getTotalPage({ limit, userId }) {
+    const userOrderHistoryLength = await UserOrderHistory.countDocuments({
+      userId,
+    });
     return Math.ceil(userOrderHistoryLength / limit);
   }
 
