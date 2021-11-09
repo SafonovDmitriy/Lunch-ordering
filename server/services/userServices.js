@@ -2,6 +2,8 @@ const { User } = require("../models");
 const Bcrypt = require("../utils/Bcrypt");
 const Token = require("../utils/Token");
 
+const urlForVerification = (email) =>
+  `${process.env.CLIENT_URL}verification/${email}`;
 class UserServices {
   async getUsers({ limit, page }) {
     const users = await this.getUsersWithPagination({ limit, page });
