@@ -6,7 +6,8 @@ import { userHistoryType } from "./types";
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  height: 95%;
+  height: calc(100% - 40px);
+  margin-top: 15px;
 `;
 
 const TableContainer = styled.div`
@@ -19,7 +20,7 @@ const TableContainer = styled.div`
   border-radius: 15px;
   box-sizing: border-box;
   padding: 10px;
-  margin-top: 10px;
+  height: 98%;
 `;
 const HeaderTable = styled.div`
   display: grid;

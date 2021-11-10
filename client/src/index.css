@@ -4,8 +4,8 @@
 body,
 #root {
   margin: 0;
-  height: 100vh;
-  background-image: url(https://oir.mobi/uploads/posts/2020-01/1579584660_2-p-sinyaya-abstraktsiya-4.jpg);
+  background-color: rgb(234 234 234 / 70%);
+  height: calc(100vh - 20px);
 }
 a:link {
   text-decoration: none;

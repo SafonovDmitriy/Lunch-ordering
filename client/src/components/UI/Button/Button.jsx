@@ -6,14 +6,27 @@ const ButtonStyled = styled.button`
   display: flex;
 
   ${({ padding }) => (padding ? "padding:" + padding : "")};
-  color: #5dcfc3;
+  color: #7a8a88;
   border-radius: 8px;
   align-items: center;
   box-shadow: 2px 1px;
-  transition: all 0.05s;
+  transition: all 0.1s;
+  &:hover {
+    background-color: #dcdcdc;
+    color: #2b2b2b;
+  }
   &:active {
     box-shadow: 0px 0px;
     transform: translateX(2px);
+    background-color: #a5a0a0;
+    color: #2b2b2b;
+  }
+
+  &:disabled {
+    background-color: #ececec;
+    border: none;
+    box-shadow: none;
+    color: #bfbfbf;
   }
 `;
 

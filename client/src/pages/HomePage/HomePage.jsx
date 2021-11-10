@@ -12,7 +12,7 @@ const HomePageBox = styled.div`
   max-width: 1120px;
   height: min-content;
   justify-content: center;
-  margin: auto 0;
+  margin: 10px 0;
 `;
 
 const HomePage = () => {

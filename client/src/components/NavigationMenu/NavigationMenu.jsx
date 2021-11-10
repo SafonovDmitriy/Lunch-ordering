@@ -6,12 +6,28 @@ import { userRoleSelector } from "../../redux/selectors";
 
 const NavigationMenuWrapper = styled.div`
   display: flex;
+  align-items: center;
   gap: 8px;
 `;
 const NavLinkStyles = styled(NavLink)`
-  color: black;
+  padding: 6px;
+  color: #7a8a88;
+  border-radius: 10px;
+  padding: 5px;
+  transition: all 0.1s;
+  border-radius: 10px;
+
   &.active {
-    font-weight: bold;
+    border: solid #afafaf 1px;
+    // padding: 4px;
+    color: #48925f;
+    box-shadow: 2px 1px 3px 0px #9a9a9a;
+  }
+  &:hover {
+    border: solid #afafaf 1px;
+    // padding: 4px;
+    background-color: #dcdcdc;
+    color: #2b2b2b;
   }
 `;
 

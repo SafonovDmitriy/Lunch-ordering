@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import AuthFormWrapper from "../../components/UI/Forms/AuthFormWrapper/AuthFormWrapper";
 import formGenerator from "../../components/UI/Forms/formGenerator";
 import { NAVIGATION_MAP } from "../../constants";
 import {
@@ -14,51 +15,27 @@ const RegistrationPageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-`;
-const RegistrationFormWrapper = styled.div`
-  width: 340px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   flex-direction: column;
-  background-color: #052a6e;
-  border: solid 1px;
-  box-shadow: 3px 3px 2px 0px;
-  border-radius: 10px;
-`;
-
-const FormHeader = styled.div`
-  width: 100%;
-  height: 40px;
-  background-color: #3415b0;
-  border-radius: 7px 7px 0 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const FormHeaderTitle = styled.h1`
-  font-size: 21px;
-  color: #5dcfc3;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 `;
 
 const FormContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  color: white;
-  width: 100%;
-  padding: 30px 25px;
-  box-sizing: border-box;
+  padding: 11px 0;
   & input {
     width: 180px;
-    color: #5dcfc3;
   }
 `;
 const FormLinkBox = styled.div`
   margin: 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   & a {
-    color: #5dcfc3;
+    color: #2b2b2b;
   }
 `;
 
@@ -121,31 +98,31 @@ const RegistrationPage = () => {
   };
   return (
     <RegistrationPageWrapper>
-      <RegistrationFormWrapper>
-        <FormHeader
-          children={
-            <FormHeaderTitle children={"Register with 'Lanch Menu' app"} />
-          }
-        />
-        <FormContent
-          children={formGenerator({
-            form,
-            error,
-            setForm,
-            setError,
-            onSubmit,
-            submitText: "Sign Up",
-          })}
-        />
-        <FormLinkBox
-          children={
-            <Link
-              to={NAVIGATION_MAP.LOGIN_PAGE}
-              children={"Go to Autoriz Page"}
+      <AuthFormWrapper
+        headerTitle="Register with 'Lanch Menu' app"
+        children={
+          <>
+            <FormContent
+              children={formGenerator({
+                form,
+                error,
+                setForm,
+                setError,
+                onSubmit,
+                submitText: "Sign Up",
+              })}
             />
-          }
-        />
-      </RegistrationFormWrapper>
+            <FormLinkBox
+              children={
+                <Link
+                  to={NAVIGATION_MAP.LOGIN_PAGE}
+                  children={"Go to Authorization Page"}
+                />
+              }
+            />
+          </>
+        }
+      />
     </RegistrationPageWrapper>
   );
 };

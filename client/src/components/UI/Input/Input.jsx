@@ -4,18 +4,18 @@ import styled from "styled-components";
 const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 280px;
 `;
 
 const TitleWithInput = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 15px;
 `;
 
 const InputStyled = styled.input`
   width: 180px;
-  color: #5dcfc3;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 2px 9px;
   box-sizing: border-box;
 `;

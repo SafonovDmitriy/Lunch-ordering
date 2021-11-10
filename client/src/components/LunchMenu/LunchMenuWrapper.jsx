@@ -17,6 +17,12 @@ const ContainerContent = styled.div`
       return id === selectMenu && isAdmin === "false" ? "2px" : "0px";
     }}
     coral;
+  ${({ id, selectMenu, isAdmin }) => {
+    return id === selectMenu && isAdmin === "false"
+      ? "box-shadow: 0px 0px 8px 0px coral;"
+      : "";
+  }}
+
   padding: 15px;
   border-radius: 15px;
   box-sizing: border-box;
@@ -33,6 +39,8 @@ const LunchWrapper = styled.div`
   position: relative;
   justify-content: center;
   padding: 0 15px;
+  box-shadow: 5px 3px 10px 2px grey;
+  border-radius: 8px;
 `;
 const IndexLunchMenu = styled.h1`
   position: absolute;

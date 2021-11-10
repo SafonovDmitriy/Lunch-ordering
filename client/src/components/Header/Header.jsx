@@ -9,7 +9,16 @@ const HeaderWrapper = styled.header`
   justify-content: space-between;
   height: 45px;
   padding: 0 15px;
-  background-color: darkcyan;
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    background-color: #cec9c9;
+    height: 1px;
+    width: 100vw;
+  }
 `;
 
 const Header = () => {
