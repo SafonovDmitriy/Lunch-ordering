@@ -21,32 +21,4 @@ protectedRouter.use("/admin", checkUserRole, adminRouter);
 router.use("/auth", authRouter);
 router.use(protectedRouter);
 
-// router.use(
-//   "/user",
-//   passport.authenticate("jwt", { session: false }),
-//   userRouter
-// );
-// router.use(
-//   "/lunch-menu",
-//   passport.authenticate("jwt", { session: false }),
-//   lunchMenuRouter
-// );
-// router.use(
-//   "/dish",
-//   passport.authenticate("jwt", { session: false }),
-//   checkUserRole,
-//   dishRouter
-// );
-// router.use(
-//   "/user-order-history",
-//   passport.authenticate("jwt", { session: false }),
-//   orderRouter
-// );
-// router.use(
-//   "/admin",
-//   passport.authenticate("jwt", { session: false }),
-//   checkUserRole,
-//   adminRouter
-// );
-
 module.exports = router;
