@@ -1,6 +1,6 @@
 const { User } = require("../models");
-const Bcrypt = require("../utils/Bcrypt");
-const Token = require("../utils/Token");
+const BcryptService = require("../utils/BcryptService");
+const TokenService = require("../utils/TokenService");
 
 const urlForVerification = (email) =>
   `${process.env.CLIENT_URL}verification/${email}`;
@@ -38,8 +38,8 @@ class UserServices {
     return User.findById(userId, { password: 0 });
   }
   async createNewUser({ email, password }) {
-    const hashPassword = await new Bcrypt({ password }).hash();
-    const verifyCode = new Token().createEmptyToken();
+    const hashPassword = await BcryptService.hash({ password });
+    const verifyCode = TokenService.createEmptyToken();
     const user = new User({
       email,
       password: hashPassword,

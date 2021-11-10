@@ -1,9 +1,14 @@
-const Token = require("../utils/Token");
-const Bcrypt = require("../utils/Bcrypt");
 const userServices = require("../services/userServices");
+const TokenService = require("../utils/TokenService");
+const BcryptService = require("../utils/BcryptService");
 
 const urlForVerification = (email) =>
   `${process.env.CLIENT_URL}verification/${email}`;
+
+const cookieOptionForToken = {
+  httpOnly: true,
+  expires: new Date(Date.now() + 60 * 60 * 1000),
+};
 class AuthController {
   async signIn(req, res) {
     const { email, password } = req.query;
@@ -14,10 +19,10 @@ class AuthController {
     if (!user) {
       return res.status(401).json({ message: "No such user" });
     }
-    const decodedPass = await new Bcrypt({
+    const decodedPass = await BcryptService.decoded({
       password,
       hashPassword: user.password,
-    }).decoded();
+    });
     if (!decodedPass) {
       return res.status(401).json({ message: "No such user" });
     }
@@ -29,11 +34,12 @@ class AuthController {
           "Unfortunately, you still did not verify your account, we re-sent you verification code",
       });
     }
-    const token = new Token({ _id: user._id });
-    res.cookie("token", token.create(), {
-      httpOnly: true,
-      expires: token.expiryCookies,
-    });
+
+    res.cookie(
+      "token",
+      TokenService.create({ _id: user._id }),
+      cookieOptionForToken
+    );
     res.status(200).json({ message: "Welcome to Lunch Menu" });
   }
 
@@ -63,11 +69,8 @@ class AuthController {
         message: "Incorrect code",
       });
     await userServices.verifyUser({ email });
-    const token = new Token({ _id });
-    res.cookie("token", token.create(), {
-      httpOnly: true,
-      expires: token.expiryCookies,
-    });
+
+    res.cookie("token", TokenService.create({ _id }), cookieOptionForToken);
     res.status(200).json({
       message: "You have successfully passed the verification step",
     });
