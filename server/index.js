@@ -7,7 +7,7 @@ const conectToDataBase = require("./db");
 const passport = require("passport");
 const app = express();
 
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 const corsConfig = {
   origin: true,
   credentials: true,
@@ -24,15 +24,13 @@ app.use("/img", express.static("img"));
 
 app.use("/api", router);
 
-const start = () => {
-  try {
-    conectToDataBase();
+const startServer = () =>
+  app.listen(port, () => {
+    console.log("We are live on " + port);
+  });
 
-    app.listen(port, () => {
-      console.log("We are live on " + port);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-start();
+try {
+  conectToDataBase({ startServer });
+} catch (error) {
+  console.log(error);
+}

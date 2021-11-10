@@ -1,0 +1,1 @@
+(cd ./server && npm run server:dev) & (cd ./client && npm run start)
