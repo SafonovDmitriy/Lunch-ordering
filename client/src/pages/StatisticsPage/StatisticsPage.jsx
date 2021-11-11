@@ -16,32 +16,33 @@ const TableContainer = styled.div`
   gap: 10px;
   width: 70vw;
   background-color: ghostwhite;
-  border: solid 1px;
+
   border-radius: 15px;
   box-sizing: border-box;
   padding: 10px;
   height: 98%;
+  box-shadow: 1px 1px 4px 0px;
 `;
 const HeaderTable = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background-color: burlywood;
+  background-color: rgb(222 184 135 / 30%);
   padding: 10px;
   align-items: center;
-  border: solid 1px;
+
   border-radius: 5px;
   margin-top: 10px;
-  box-shadow: 1px 1px 0px 0px;
+  box-shadow: 1px 1px 4px 0px;
 `;
 const ItemOfHistoryListWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background-color: blanchedalmond;
+  background-color: rgb(255 235 205 / 50%);
   padding: 10px;
   align-items: center;
-  border: solid 1px;
+
   border-radius: 5px;
-  box-shadow: 1px 1px 0px 0px;
+  box-shadow: 1px 1px 4px 0px;
 `;
 const StatisticsPage = ({
   userHistory,

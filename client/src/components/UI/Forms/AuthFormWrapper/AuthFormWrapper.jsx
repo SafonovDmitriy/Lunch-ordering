@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const LoginFormWrapper = styled.div`
   background-color: white;
-  border: solid black 1px;
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0px 0px 10px 0px #4e4e4e;
