@@ -1,5 +1,5 @@
 import { takeLatest, select, put } from "@redux-saga/core/effects";
-import { NAVIGATION_MAP } from "../../constants";
+import { NAVIGATION_MAP, STATUS_ERRORS } from "../../constants";
 import history from "../../history";
 import { CLEAR_DATA, ERROR_HANDLER } from "../actionTypes";
 import { isUserIsEmptySelector } from "../selectors";
@@ -16,7 +16,7 @@ export const errorHandlerAction = (errorStatus) => ({
 
 function* errorHandlerSaga({ errorStatus }) {
   const isUserEmpty = yield select(isUserIsEmptySelector);
-  if (!isUserEmpty && errorStatus === 401) {
+  if (!isUserEmpty && errorStatus === STATUS_ERRORS.UNAUTHORIZED) {
     yield history.push(NAVIGATION_MAP.LOGIN_PAGE);
     yield put(dataClearAction());
   }

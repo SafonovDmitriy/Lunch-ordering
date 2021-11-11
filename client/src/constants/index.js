@@ -6,7 +6,12 @@ export const NAVIGATION_MAP = {
   REGISTRATION_PAGE: "/signUp",
   VERIFICATION_PAGE: "/verification",
 };
+
 export const USER_ROLE_MAP = {
   admin: "ADMIN",
   user: "USER",
+};
+
+export const STATUS_ERRORS = {
+  UNAUTHORIZED: 401,
 };
