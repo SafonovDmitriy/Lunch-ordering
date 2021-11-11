@@ -84,7 +84,7 @@ function* placeAnOrderSaga() {
     const {
       data: { message },
     } = yield call(placeAnOrderApi);
-    showSuccessMessage(message);
+    showSuccessMessage(message, 0);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
     showErrorMessage(response?.data?.message);
