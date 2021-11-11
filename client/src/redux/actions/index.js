@@ -5,6 +5,7 @@ import { userSagaWorker } from "./userAction";
 import { userHistorySagaWorker } from "./userHistoryOrderAction";
 import { dishesSagaWorker } from "./dishesAction";
 import { adminSagaWorker } from "./adminAction";
+import { otherSagaWorker } from "./otherAction";
 
 export function* rootSagaWatcher() {
   yield all([
@@ -14,5 +15,6 @@ export function* rootSagaWatcher() {
     ...userHistorySagaWorker,
     ...dishesSagaWorker,
     ...adminSagaWorker,
+    ...otherSagaWorker,
   ]);
 }

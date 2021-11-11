@@ -1,22 +1,14 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { fetchUserApi } from "../../api/httpService";
-import { NAVIGATION_MAP } from "../../constants";
-import history from "../../history";
-import {
-  CLEAR_DATA,
-  FETCH_USER,
-  SET_USER_DATA,
-  SET_USER_LOADING,
-} from "../actionTypes";
+import { FETCH_USER, SET_USER_DATA, SET_USER_LOADING } from "../actionTypes";
+import { errorHandlerAction } from "./otherAction";
 
 export const userSagaWorker = [takeLatest(FETCH_USER, fetchUserSaga)];
 
 export const userDataFetchAction = () => ({
   type: FETCH_USER,
 });
-export const dataClearAction = () => ({
-  type: CLEAR_DATA,
-});
+
 export const setUserLoadingAction = (payload) => ({
   type: SET_USER_LOADING,
   payload,
@@ -33,9 +25,7 @@ function* fetchUserSaga() {
     const { data } = yield call(fetchUserApi);
     yield put(setUserDataAction(data.user));
   } catch ({ response: { status } }) {
-    if (status === 412) {
-      history.push(NAVIGATION_MAP.LOGIN_PAGE);
-    }
+    yield put(errorHandlerAction(status));
   } finally {
     yield put(setUserLoadingAction(false));
   }

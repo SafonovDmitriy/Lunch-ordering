@@ -17,7 +17,8 @@ import {
   REGISTRATION_TYPE_ACTION,
   VERIFICATION_TYPE_ACTION,
 } from "../actionTypes";
-import { dataClearAction, userDataFetchAction } from "./userAction";
+import { dataClearAction } from "./otherAction";
+import { userDataFetchAction } from "./userAction";
 export const authSagaWorker = [
   takeLatest(AUTHORIZATION_TYPE_ACTION, authorizationSaga),
   takeLatest(REGISTRATION_TYPE_ACTION, registrationSaga),

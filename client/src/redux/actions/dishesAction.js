@@ -6,6 +6,7 @@ import {
   SET_DISHES_LOADED,
   UPDATE_DISH,
 } from "../actionTypes";
+import { errorHandlerAction } from "./otherAction";
 
 export const dishesSagaWorker = [
   takeLatest(FETCH_DISHES, fetchDishesSaga),
@@ -33,16 +34,17 @@ function* fetchDishesSaga() {
     const {
       data: { dishes },
     } = yield call(getDishesApi);
-
     yield put(setDishesAction(dishes));
-  } catch (error) {
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
   } finally {
     yield put(setDishesLoadedAction(true));
   }
 }
 function* updateDishSaga({ payload }) {
   try {
-    const { data } = yield call(updateLunchMenuApi, payload);
-    console.log(`data`, data);
-  } catch (error) {}
+    yield call(updateLunchMenuApi, payload);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+  }
 }

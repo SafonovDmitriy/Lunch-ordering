@@ -8,7 +8,11 @@ import userReducer from "./reducers/userReducer";
 import dishesReducer from "./reducers/dishesReducer";
 import adminReducer from "./reducers/adminReducer";
 
-const saga = createSagaMiddleware();
+const saga = createSagaMiddleware({
+  onError: () => {
+    saga.run(rootSagaWatcher);
+  },
+});
 const reducers = combineReducers({
   user: userReducer,
   lunchMenu: lunchMenuReducer,

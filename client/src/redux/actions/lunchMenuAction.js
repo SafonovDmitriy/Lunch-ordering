@@ -16,6 +16,7 @@ import {
   GET_SELECT_LUNCH_MENU,
   SET_SELECT_LUNCH_MENU,
 } from "../actionTypes";
+import { errorHandlerAction } from "./otherAction";
 
 export const lunchmenuSagaWorker = [
   takeLatest(FETCH_LUNCH_MENU, fetchLunchMenuSaga),
@@ -60,12 +61,9 @@ function* fetchLunchMenuSaga() {
       yield put(setLunchMenuAction(lunchMenu));
       showSuccessMessage(message);
     }
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
   } finally {
     yield put(setLunchMenuLoadedAction(true));
   }
@@ -78,12 +76,9 @@ function* selectLunchMenuSaga({ payload }) {
     } = yield call(selectLunchMenuApi, { idLunchMenu: payload });
     yield put(getSelectLunchMenuAction());
     showSuccessMessage(message);
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
   }
 }
 function* getSelectLunchMenuSaga() {
@@ -92,11 +87,8 @@ function* getSelectLunchMenuSaga() {
       data: { selectLunchMenuId },
     } = yield call(getSelectLunchMenuApi);
     yield put(setSelectLunchMenuAction(selectLunchMenuId));
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
   }
 }

@@ -7,6 +7,7 @@ import {
   SET_USER_HISTORY_ORDER_TOTAL_PAGE,
   SET_USER_HISTORY_ORDER_LOADED,
 } from "../actionTypes";
+import { errorHandlerAction } from "./otherAction";
 
 export const userHistorySagaWorker = [
   takeLatest(GET_USER_HISTORY_ORDER, getUserHistoryOrderSaga),
@@ -37,12 +38,9 @@ function* getUserHistoryOrderSaga({ payload }) {
     } = yield call(getUsersHistoryApi, { limit: 2, page: payload });
     yield put(setUserHistoryOrderAction(userHistory));
     yield put(setUserHistoryOrderTotalPageAction(totalPage));
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
   } finally {
     yield put(setUserHistoryOrderLoadedAction(true));
   }

@@ -1,5 +1,4 @@
 export const FETCH_USER = "FETCH_USER";
-export const CLEAR_DATA = "CLEAR_DATA";
 export const SET_USER_LOADING = "SET_USER_LOADING";
 export const SET_USER_DATA = "SET_USER_DATA";
 
@@ -33,3 +32,6 @@ export const SET_USERS_TOTAL_PAGE = "SET_USERS_TOTAL_PAGE";
 export const UPDATE_BALANCE_USER = "UPDATE_BALANCE_USER";
 export const USERS_LOADED = "USERS_LOADED";
 export const PLACE_AN_ORDER = "PLACE_AN_ORDER";
+
+export const CLEAR_DATA = "CLEAR_DATA";
+export const ERROR_HANDLER = "ERROR_HANDLER";

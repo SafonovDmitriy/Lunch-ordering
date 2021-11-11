@@ -16,6 +16,7 @@ import {
   USERS_LOADED,
   PLACE_AN_ORDER,
 } from "../actionTypes";
+import { errorHandlerAction } from "./otherAction";
 import { setUserDataAction } from "./userAction";
 
 export const adminSagaWorker = [
@@ -57,12 +58,9 @@ function* fetchAllUsersSaga({ payload }) {
 
     yield put(setUsersAction(users));
     yield put(setUsersTotalPageAction(totalPage));
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
   } finally {
     yield put(setUsersLoadedAction(true));
   }
@@ -76,12 +74,9 @@ function* updateUserBalanceSaga({
     } = yield call(updateUserBalanceApi, { balance, selectUserId });
     yield put(getAllUsersAction(numberPage));
     if (mainUser) yield put(setUserDataAction(mainUser));
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
   }
 }
 function* placeAnOrderSaga() {
@@ -90,11 +85,8 @@ function* placeAnOrderSaga() {
       data: { message },
     } = yield call(placeAnOrderApi);
     showSuccessMessage(message);
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
   }
 }
