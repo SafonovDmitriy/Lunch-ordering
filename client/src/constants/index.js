@@ -8,8 +8,8 @@ export const NAVIGATION_MAP = {
 };
 
 export const USER_ROLE_MAP = {
-  admin: "ADMIN",
-  user: "USER",
+  ADMIN: "ADMIN",
+  USER: "USER",
 };
 
 export const STATUS_ERRORS = {

@@ -43,7 +43,7 @@ const NavigationMenu = () => {
   ];
 
   const menuShow =
-    userRole === USER_ROLE_MAP.admin ? adminNavMenu : userNavMenu;
+    userRole === USER_ROLE_MAP.ADMIN ? adminNavMenu : userNavMenu;
 
   return (
     <NavigationMenuWrapper>
