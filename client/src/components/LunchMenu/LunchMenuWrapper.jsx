@@ -32,7 +32,7 @@ const ContainerContent = styled.div`
 const LunchWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 300px;
+  height: 330px;
   width: 500px;
   background-color: aliceblue;
   gap: 10px;
