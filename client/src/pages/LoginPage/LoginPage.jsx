@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import AuthFormWrapper from "../../components/UI/Forms/AuthFormWrapper/AuthFormWrapper";
 import formGenerator from "../../components/UI/Forms/formGenerator";
-import { NAVIGATION_MAP } from "../../constants";
+import { NAVIGATION_MAP, VALIDATION_MASSAGES } from "../../constants";
 
 import { required, validateEmail } from "../../helpers/validationFuncs";
 import { authorizationAction } from "../../redux/actions/authAction";
@@ -44,7 +44,7 @@ const LoginPage = () => {
       name: "email",
 
       validation: [
-        { func: required, message: "The email field must be filled" },
+        { func: required, message: VALIDATION_MASSAGES.REQUIRED("email") },
         {
           func: validateEmail,
           message: "In this field there must be an existing email",
@@ -59,7 +59,7 @@ const LoginPage = () => {
       value: "",
       name: "password",
       validation: [
-        { func: required, message: "The Password field must be filled" },
+        { func: required, message: VALIDATION_MASSAGES.REQUIRED("password") },
       ],
       extra: {
         placeholder: "Password",

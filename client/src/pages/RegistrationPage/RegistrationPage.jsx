@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import AuthFormWrapper from "../../components/UI/Forms/AuthFormWrapper/AuthFormWrapper";
 import formGenerator from "../../components/UI/Forms/formGenerator";
-import { NAVIGATION_MAP } from "../../constants";
+import { NAVIGATION_MAP, VALIDATION_MASSAGES } from "../../constants";
 import {
   required,
   sameFields,
@@ -48,10 +48,10 @@ const RegistrationPage = () => {
       name: "email",
 
       validation: [
-        { func: required, message: "The email field must be filled" },
+        { func: required, message: VALIDATION_MASSAGES.REQUIRED("email") },
         {
           func: validateEmail,
-          message: "In this field there must be an existing email",
+          message: VALIDATION_MASSAGES.VALIDATION_EMAIL,
         },
       ],
       extra: {
@@ -63,7 +63,7 @@ const RegistrationPage = () => {
       value: "",
       name: "password",
       validation: [
-        { func: required, message: "The Password field must be filled" },
+        { func: required, message: VALIDATION_MASSAGES.REQUIRED("password") },
       ],
       extra: {
         placeholder: "Password",
@@ -76,13 +76,13 @@ const RegistrationPage = () => {
       validation: [
         {
           func: required,
-          message: "The Confirm password field must be filled",
+          message: VALIDATION_MASSAGES.REQUIRED("Confirm password"),
         },
         {
           func: sameFields,
           extra: {},
           byField: "password",
-          message: "Confirming password does not meet the original",
+          message: VALIDATION_MASSAGES.SAME_FIELD,
         },
       ],
       extra: {

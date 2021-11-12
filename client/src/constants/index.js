@@ -15,3 +15,8 @@ export const USER_ROLE_MAP = {
 export const STATUS_ERRORS = {
   UNAUTHORIZED: 401,
 };
+export const VALIDATION_MASSAGES = {
+  REQUIRED: ({ name }) => `The ${name} field must be filled`,
+  VALIDATION_EMAIL: "In this field there must be an existing email",
+  SAME_FIELD: "Confirming password does not meet the original",
+};

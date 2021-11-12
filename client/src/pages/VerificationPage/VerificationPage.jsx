@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import AuthFormWrapper from "../../components/UI/Forms/AuthFormWrapper/AuthFormWrapper";
 import formGenerator from "../../components/UI/Forms/formGenerator";
+import { VALIDATION_MASSAGES } from "../../constants";
 import { required } from "../../helpers/validationFuncs";
 import { verifyAction } from "../../redux/actions/authAction";
 
@@ -45,7 +46,7 @@ const VerificationPage = () => {
       value: "",
       name: "code",
       validation: [
-        { func: required, message: "The Code field must be filled" },
+        { func: required, message: VALIDATION_MASSAGES.REQUIRED("Code") },
       ],
       extra: {
         placeholder: "Verification Code",
