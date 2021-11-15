@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 module.exports = {
-  OrderHistorySchema: new mongoose.Schema(
+  orderHistorySchema: new mongoose.Schema(
     {
       order: { type: Object },
       userId: { type: mongoose.Types.ObjectId, require: true, ref: "User" },

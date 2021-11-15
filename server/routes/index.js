@@ -5,6 +5,7 @@ const lunchMenuRouter = require("./lunchMenuRouter");
 const dishRouter = require("./dishRouter");
 const orderRouter = require("./orderRouter");
 const adminRouter = require("./adminRouter");
+const formedMenuRouter = require("./formedMenuRouter.js");
 const { checkUserRole } = require("../middlewares");
 const passport = require("passport");
 
@@ -17,6 +18,7 @@ protectedRouter.use("/lunch-menu", lunchMenuRouter);
 protectedRouter.use("/dish", checkUserRole, dishRouter);
 protectedRouter.use("/user-order-history", orderRouter);
 protectedRouter.use("/admin", checkUserRole, adminRouter);
+protectedRouter.use("/formed-menu", formedMenuRouter);
 
 router.use("/auth", authRouter);
 router.use(protectedRouter);

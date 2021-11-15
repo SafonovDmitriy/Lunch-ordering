@@ -91,6 +91,23 @@ export const updateUserBalanceApi = (props) =>
 
 export const placeAnOrderApi = () => request({ url: "/api/admin/order" });
 
+// /formed-menu
+export const menuFormedTodayApi = () =>
+  request({
+    url: "/api/formed-menu/",
+  });
+export const openMenuApi = () =>
+  request({
+    url: "/api/formed-menu/",
+    method: METHODS_MAP.PUT,
+  });
+export const saveNewTimeForOrderApi = (props) =>
+  request({
+    url: "/api/formed-menu/deadline-time",
+    method: METHODS_MAP.POST,
+    props,
+  });
+
 //example how use CancelToken
 // const  instanceWithToken = createCancelToken();
 // const request = () =>
