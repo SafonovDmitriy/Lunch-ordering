@@ -1,7 +1,9 @@
-import { call, takeLatest, put } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import {
   getAllUsersApi,
+  openMenuApi,
   placeAnOrderApi,
+  saveNewTimeForOrderApi,
   updateUserBalanceApi,
 } from "../../api/httpService";
 import {
@@ -10,12 +12,15 @@ import {
 } from "../../helpers/showNotificationMessage";
 import {
   FETCH_ALL_USERS,
+  OPEN_MENU,
+  PLACE_AN_ORDER,
   SET_USERS,
   SET_USERS_TOTAL_PAGE,
+  TIME_FOR_ORDER,
   UPDATE_BALANCE_USER,
   USERS_LOADED,
-  PLACE_AN_ORDER,
 } from "../actionTypes";
+import { menuFormedTodayAction } from "./lunchMenuAction";
 import { errorHandlerAction } from "./otherAction";
 import { setUserDataAction } from "./userAction";
 
@@ -23,6 +28,8 @@ export const adminSagaWorker = [
   takeLatest(FETCH_ALL_USERS, fetchAllUsersSaga),
   takeLatest(UPDATE_BALANCE_USER, updateUserBalanceSaga),
   takeLatest(PLACE_AN_ORDER, placeAnOrderSaga),
+  takeLatest(TIME_FOR_ORDER, saveNewTimeForOrderSaga),
+  takeLatest(OPEN_MENU, openMenuSaga),
 ];
 
 export const getAllUsersAction = (payload) => ({
@@ -48,6 +55,13 @@ export const updateBalanceUserAction = (payload) => ({
 });
 export const placeAnOrderAction = () => ({
   type: PLACE_AN_ORDER,
+});
+export const saveNewTimeForOrderAction = (payload) => ({
+  type: TIME_FOR_ORDER,
+  payload,
+});
+export const openMenuAction = () => ({
+  type: OPEN_MENU,
 });
 
 function* fetchAllUsersSaga({ payload }) {
@@ -85,6 +99,26 @@ function* placeAnOrderSaga() {
       data: { message },
     } = yield call(placeAnOrderApi);
     showSuccessMessage(message, 0);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
+  }
+}
+function* saveNewTimeForOrderSaga({ payload }) {
+  try {
+    const { data } = yield call(saveNewTimeForOrderApi, payload);
+    yield put(menuFormedTodayAction());
+    showSuccessMessage(data.message, 4000);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
+  }
+}
+function* openMenuSaga() {
+  try {
+    const { data } = yield call(openMenuApi);
+    yield put(menuFormedTodayAction());
+    showSuccessMessage(data.message, 4000);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
     showErrorMessage(response?.data?.message);

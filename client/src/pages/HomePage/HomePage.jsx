@@ -1,7 +1,8 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import { LunchMenu } from "../../components/LunchMenu";
 import { InformPanelAboutTime } from "../../components/InformPanelAboutTime";
+import { LunchMenu } from "../../components/LunchMenu";
 
 const HomePageWrapper = styled.div`
   display: flex;
@@ -16,16 +17,31 @@ const HomePageBox = styled.div`
   height: min-content;
   justify-content: center;
   margin: 10px 0;
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    backdrop-filter: blur(5px);
+    display: ${({ isMenuOpen }) => (isMenuOpen === "true" ? "none" : "")};
+  }
 `;
 
-const HomePage = () => {
+const HomePage = ({ isMenuOpen }) => {
   return (
     <HomePageWrapper>
       <InformPanelAboutTime />
-      <HomePageBox>
+      <HomePageBox isMenuOpen={isMenuOpen.toString()}>
         <LunchMenu />
       </HomePageBox>
     </HomePageWrapper>
   );
+};
+HomePage.propTypes = {
+  isMenuOpen: PropTypes.bool,
 };
 export default HomePage;
