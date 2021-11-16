@@ -1,24 +1,20 @@
 const dateNow = require("../helpers/dateNow");
 const { FormedMenu } = require("../models");
+const FormedMenuServices = require("../services/formedMenuServices.js");
 
 class FormedMenuController {
   // /formed-menu
   // /
   async isTheMenuFormedToday(req, res) {
-    const isFormedMenuToday = await FormedMenu.findOne(
-      { date: dateNow },
-      { deadlineTime: 1, isMenuOpen: 1 }
-    );
+    const isFormedMenuToday =
+      await FormedMenuServices.isTheMenuForTodayForToday();
     res.status(200).json(isFormedMenuToday);
   }
   // /
   async updateMenuFormedToday(req, res) {
-    const formedMenu = await FormedMenu.findOne({ date: dateNow });
+    const formedMenu = await FormedMenuServices.generatedMenuToday();
     if (formedMenu && formedMenu.deadlineTime) {
-      await FormedMenu.findOneAndUpdate(
-        { date: dateNow },
-        { isMenuOpen: true }
-      );
+      FormedMenuServices.openMenuForUsers();
     } else {
       return res
         .status(400)
@@ -28,15 +24,11 @@ class FormedMenuController {
   }
   async saveDeadlineTimeForOrder(req, res) {
     const { deadlineTime } = req.body;
-    const formedMenu = await FormedMenu.findOne({ date: dateNow });
+    const formedMenu = await FormedMenuServices.generatedMenuToday();
     if (formedMenu) {
-      await FormedMenu.findOneAndUpdate({ date: dateNow }, { deadlineTime });
+      await FormedMenuServices.updateDeadLineTime(deadlineTime);
     } else {
-      const _formedMenu = new FormedMenu({
-        date: dateNow,
-        deadlineTime,
-      });
-      await _formedMenu.save();
+      await FormedMenuServices.shapeTheMenuToday(deadlineTime);
     }
     res
       .status(200)
