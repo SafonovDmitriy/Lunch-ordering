@@ -25,6 +25,23 @@ const ChangeMenuBox = styled.div`
   justify-content: center;
   height: min-content;
   position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    backdrop-filter: blur(3px);
+    display: ${({ isMenuOpen }) => (isMenuOpen !== "true" ? "none" : "")};
+  }
+`;
+const SaveMenuTodayBox = styled.div`
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 100%;
   &::after {
     content: "";
     position: absolute;
@@ -51,12 +68,14 @@ const ChangeMenu = () => {
       <SelectDeadLineForOrder />
       <ChangeMenuBox isMenuOpen={isMenuOpen.toString()}>
         <LunchMenu />
+      </ChangeMenuBox>
+      <SaveMenuTodayBox isMenuOpen={isMenuOpen.toString()}>
         <Button
           children={"Save menu today"}
           padding="15px"
           onClick={saveMenuTodayHendler}
         />
-      </ChangeMenuBox>
+      </SaveMenuTodayBox>
     </ChangeMenuContainer>
   );
 };

@@ -7,7 +7,7 @@ const ModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 0;
+  top: 50px;
   bottom: 0;
   left: 0;
   right: 0;
