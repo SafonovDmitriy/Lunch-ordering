@@ -1,6 +1,7 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest, select } from "redux-saga/effects";
 import { fetchUserApi } from "../../api/httpService";
 import { FETCH_USER, SET_USER_DATA, SET_USER_LOADING } from "../actionTypes";
+import { isUserIsEmptySelector } from "../selectors";
 import { errorHandlerAction } from "./otherAction";
 
 export const userSagaWorker = [takeLatest(FETCH_USER, fetchUserSaga)];
@@ -19,14 +20,14 @@ export const setUserDataAction = (payload) => ({
 });
 
 function* fetchUserSaga() {
-  yield put(setUserLoadingAction(true));
-
+  const isEmptyUser = yield select(isUserIsEmptySelector);
+  yield isEmptyUser && put(setUserLoadingAction(true));
   try {
     const { data } = yield call(fetchUserApi);
     yield put(setUserDataAction(data.user));
   } catch ({ response: { status } }) {
     yield put(errorHandlerAction(status));
   } finally {
-    yield put(setUserLoadingAction(false));
+    yield isEmptyUser && put(setUserLoadingAction(false));
   }
 }
