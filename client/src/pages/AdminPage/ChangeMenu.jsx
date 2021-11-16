@@ -20,7 +20,8 @@ const ChangeMenuContainer = styled.div`
 const ChangeMenuBox = styled.div`
   display: flex;
   flex-wrap: wrap;
-  max-width: 1120px;
+  max-width: 1300px;
+  gap: 10px;
   justify-content: center;
   height: min-content;
   position: relative;
