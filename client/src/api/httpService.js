@@ -66,6 +66,12 @@ export const getSelectLunchMenuApi = () =>
 export const updateLunchMenuApi = (props) =>
   request({ url: "/api/lunch-menu/put", method: METHODS_MAP.PUT, props });
 
+export const canselSelectMenuApi = () =>
+  request({
+    url: "/api/lunch-menu/cansel-select-menu",
+    method: METHODS_MAP.POST,
+  });
+
 // user-order-history
 const getUsersHistoryApiToken = createCancelToken();
 export const getUsersHistoryApi = (props) =>
@@ -96,22 +102,16 @@ export const menuFormedTodayApi = () =>
   request({
     url: "/api/formed-menu/",
   });
+
 export const openMenuApi = () =>
   request({
     url: "/api/formed-menu/",
     method: METHODS_MAP.PUT,
   });
+
 export const saveNewTimeForOrderApi = (props) =>
   request({
     url: "/api/formed-menu/deadline-time",
     method: METHODS_MAP.POST,
     props,
   });
-
-//example how use CancelToken
-// const  instanceWithToken = createCancelToken();
-// const request = () =>
-//   requestCancel({
-//     url
-//     cancelToken: instanceWithToken(),
-//   });

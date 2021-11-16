@@ -1,5 +1,6 @@
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import {
+  canselSelectMenuApi,
   fetchLunchMenuApi,
   getSelectLunchMenuApi,
   menuFormedTodayApi,
@@ -19,6 +20,7 @@ import {
   SET_LUNCH_MENU_LOADED,
   SET_SELECT_LUNCH_MENU,
   SET_IS_MENU_OPEN,
+  CANSEL_SELECT_MENU,
 } from "../actionTypes";
 import { deadlineForOrderingSelector, isMenuOpenSelector } from "../selectors";
 import { errorHandlerAction } from "./otherAction";
@@ -29,10 +31,14 @@ export const lunchmenuSagaWorker = [
   takeLatest(SELECT_LUNCH_MENU, selectLunchMenuSaga),
   takeLatest(GET_SELECT_LUNCH_MENU, getSelectLunchMenuSaga),
   takeLatest(MENU_FORMED_TODAY, menuFormedTodaySaga),
+  takeLatest(CANSEL_SELECT_MENU, canselSelectMenuSaga),
 ];
 
 export const lunchMenuFetchAction = () => ({
   type: FETCH_LUNCH_MENU,
+});
+export const canselSelectMenuAction = () => ({
+  type: CANSEL_SELECT_MENU,
 });
 export const setLunchMenuAction = (payload) => ({
   type: SET_LUNCH_MENU,
@@ -96,7 +102,7 @@ function* selectLunchMenuSaga({ payload }) {
     showSuccessMessage(message);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
-    showErrorMessage(response?.data?.message);
+    showErrorMessage(response?.data?.message, 0);
   }
 }
 function* getSelectLunchMenuSaga() {
@@ -122,6 +128,16 @@ function* menuFormedTodaySaga() {
     }
     yield !!isMenuOpen && !_isMenuOpen && put(setIsMenuOpenAction(isMenuOpen));
     yield showSuccessMessage(message);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+  }
+}
+function* canselSelectMenuSaga() {
+  try {
+    const { data } = yield call(canselSelectMenuApi);
+    yield put(getSelectLunchMenuAction());
+    yield put(userDataFetchAction());
+    yield showSuccessMessage(data.message);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
   }

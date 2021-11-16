@@ -90,22 +90,24 @@ class UserOrderHistoryServices {
     });
     await orderLunchMenu.save();
   }
-  async cancelCurrentOrder({ userId, idLunchMenu }) {
+  async cancelCurrentOrder({ userId }) {
     const oldOrder = await UserOrderHistory.findOne({ userId, date: dateNow });
-    const totalPrice = await lunchMenuServices.getTotalPriceByIdMenu(
-      oldOrder.order.menuId
-    );
-    const { balance } = await userServices.findUserById(userId, {
-      balance: 1,
-    });
-    await userServices.updateBalanceForUsers({
-      selectUserId: userId,
-      balance: balance + totalPrice,
-    });
-    await UserOrderHistory.findOneAndDelete({
-      userId,
-      date: dateNow,
-    });
+    if (!!oldOrder) {
+      const totalPrice = await lunchMenuServices.getTotalPriceByIdMenu(
+        oldOrder.order.menuId
+      );
+      const { balance } = await userServices.findUserById(userId, {
+        balance: 1,
+      });
+      await userServices.updateBalanceForUsers({
+        selectUserId: userId,
+        balance: balance + totalPrice,
+      });
+      await UserOrderHistory.findOneAndDelete({
+        userId,
+        date: dateNow,
+      });
+    }
   }
 }
 module.exports = new UserOrderHistoryServices();
