@@ -1,6 +1,7 @@
 const lunchMenuServices = require("../services/lunchMenuServices");
 const orderHistoryServices = require("../services/orderHistoryServices");
 const userOrderHistoryServices = require("../services/userOrderHistoryServices");
+const userServices = require("../services/userServices");
 
 class LunchMenuController {
   // /lunch-menu
@@ -62,15 +63,26 @@ class LunchMenuController {
           "Sorry but the administrator has already made the order and left you hungry",
       });
     }
-    const isOldOrder =
-      await userOrderHistoryServices.checkIsCurrentOrdersByIdUser(userId);
-    if (isOldOrder)
-      return res
-        .status(400)
-        .json({ message: "You have already done an order today" });
+    await userOrderHistoryServices.cancelCurrentOrder({ userId, idLunchMenu });
 
     if (!idLunchMenu)
       return res.status(400).json({ message: "Not selected menu" });
+
+    const { balance } = await userServices.findUserById(userId, { balance: 1 });
+    const totalPrice = await lunchMenuServices.getTotalPriceByIdMenu(
+      idLunchMenu
+    );
+    if (totalPrice > balance) {
+      return res
+        .status(400)
+        .json({ message: "You do not have enough funds for this order." });
+    }
+
+    await userServices.updateBalanceForUsers({
+      selectUserId: userId,
+      balance: balance - totalPrice,
+      userId,
+    });
 
     await userOrderHistoryServices.createNewUsersOrder({ userId, idLunchMenu });
 

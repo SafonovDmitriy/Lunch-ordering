@@ -14,9 +14,10 @@ const ModalWindowSelectMenu = ({
   setDesiredMenuSelectionHendler,
   closeModalWindowHendler,
   selectLunchMenuHendler,
+  selectMenu,
 }) => {
   const cancelClickButtonHendler = () => {
-    setDesiredMenuSelectionHendler(null);
+    setDesiredMenuSelectionHendler(selectMenu || null);
     closeModalWindowHendler();
   };
   const okClickButtonHendler = () => {
@@ -25,8 +26,12 @@ const ModalWindowSelectMenu = ({
   };
   return (
     <Modal open={true} onClose={cancelClickButtonHendler}>
-      <h1>Are you sure you want to choose this menu?</h1>
-      <p>Today you can no longer change your choice</p>
+      {selectMenu ? (
+        <h1>Are you sure you want to replace the selected menu?</h1>
+      ) : (
+        <h1>Are you sure you want to choose this menu?</h1>
+      )}
+
       <ButtonBox>
         <Button padding={"5px 15px"} onClick={cancelClickButtonHendler}>
           Cancel

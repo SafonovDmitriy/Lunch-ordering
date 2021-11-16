@@ -22,6 +22,7 @@ import {
 } from "../actionTypes";
 import { deadlineForOrderingSelector, isMenuOpenSelector } from "../selectors";
 import { errorHandlerAction } from "./otherAction";
+import { userDataFetchAction } from "./userAction";
 
 export const lunchmenuSagaWorker = [
   takeLatest(FETCH_LUNCH_MENU, fetchLunchMenuSaga),
@@ -91,6 +92,7 @@ function* selectLunchMenuSaga({ payload }) {
       data: { message },
     } = yield call(selectLunchMenuApi, { idLunchMenu: payload });
     yield put(getSelectLunchMenuAction());
+    yield put(userDataFetchAction());
     showSuccessMessage(message);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));

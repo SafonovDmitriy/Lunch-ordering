@@ -34,8 +34,8 @@ class UserServices {
   async findUserByEmail({ email }) {
     return await User.findOne({ email });
   }
-  async findUserById({ userId }) {
-    return User.findById(userId, { password: 0 });
+  async findUserById(userId, extra) {
+    return User.findById(userId, extra ? extra : { password: 0 });
   }
   async createNewUser({ email, password }) {
     const hashPassword = await BcryptService.hash({ password });

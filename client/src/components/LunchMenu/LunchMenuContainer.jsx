@@ -47,10 +47,8 @@ const LunchMenuContainer = () => {
   };
 
   const selectLunchHendler = (lunchID) => {
-    if (!selectMenu) {
-      setDesiredMenuSelectionHendler(lunchID);
-      openModalWindowHendler();
-    }
+    setDesiredMenuSelectionHendler(lunchID);
+    openModalWindowHendler();
   };
 
   useEffect(() => {
@@ -75,11 +73,12 @@ const LunchMenuContainer = () => {
 
   return isLunchMenuLoaded || !!Object.values(lunchMenu).length ? (
     <>
-      {!isAdmin && isOpenModal && !selectMenu && (
+      {!isAdmin && isOpenModal && (
         <ModalWindowSelectMenu
           setDesiredMenuSelectionHendler={setDesiredMenuSelectionHendler}
           closeModalWindowHendler={closeModalWindowHendler}
           selectLunchMenuHendler={selectLunchMenuHendler}
+          selectMenu={selectMenu}
         />
       )}
 

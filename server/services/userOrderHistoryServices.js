@@ -1,6 +1,7 @@
 const dateNow = require("../helpers/dateNow");
 const { UserOrderHistory } = require("../models");
 const lunchMenuServices = require("./lunchMenuServices");
+const userServices = require("./userServices");
 
 class UserOrderHistoryServices {
   async getUsersHistoryOrders({ userId, limit, page }) {
@@ -75,7 +76,6 @@ class UserOrderHistoryServices {
 
   async createNewUsersOrder({ userId, idLunchMenu }) {
     const lunchMenu = await lunchMenuServices.getById(idLunchMenu);
-
     const order = {
       menuId: lunchMenu._id,
       firstDish: lunchMenu.firstDish,
@@ -83,13 +83,29 @@ class UserOrderHistoryServices {
       salad: lunchMenu.salad,
       drink: lunchMenu.drink,
     };
-
     const orderLunchMenu = new UserOrderHistory({
       order,
       userId,
       date: dateNow,
     });
     await orderLunchMenu.save();
+  }
+  async cancelCurrentOrder({ userId, idLunchMenu }) {
+    const oldOrder = await UserOrderHistory.findOne({ userId, date: dateNow });
+    const totalPrice = await lunchMenuServices.getTotalPriceByIdMenu(
+      oldOrder.order.menuId
+    );
+    const { balance } = await userServices.findUserById(userId, {
+      balance: 1,
+    });
+    await userServices.updateBalanceForUsers({
+      selectUserId: userId,
+      balance: balance + totalPrice,
+    });
+    await UserOrderHistory.findOneAndDelete({
+      userId,
+      date: dateNow,
+    });
   }
 }
 module.exports = new UserOrderHistoryServices();
