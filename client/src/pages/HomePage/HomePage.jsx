@@ -26,12 +26,16 @@ const HomePageBox = styled.div`
   justify-content: center;
   margin: 10px 0;
 `;
-const HomePage = ({ canselOrderHendler }) => (
+const HomePage = ({ canselOrderHendler, idSelectMenu }) => (
   <>
     <HomePageWrapper>
       <HomePageHeader>
         <InformPanelAboutTime />
-        <Button children="Cansel your order" onClick={canselOrderHendler} />
+        <Button
+          children="Cansel your order"
+          onClick={canselOrderHendler}
+          disabled={!idSelectMenu}
+        />
       </HomePageHeader>
       <HomePageBox>
         <LunchMenu />
@@ -42,5 +46,6 @@ const HomePage = ({ canselOrderHendler }) => (
 
 HomePage.propTypes = {
   canselOrderHendler: PropTypes.func,
+  idSelectMenu: PropTypes.string,
 };
 export default HomePage;

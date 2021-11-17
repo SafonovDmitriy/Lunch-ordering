@@ -13,7 +13,9 @@ import {
   setLunchMenuLoadedAction,
 } from "../../redux/actions/lunchMenuAction";
 import {
+  isAdminSelector,
   isLunchMenuLoadedSelector,
+  isMenuOpenSelector,
   lunchMenuSelector,
   selectMenuLoadingSelector,
   selectMenuSelector,
@@ -32,6 +34,8 @@ const LunchMenuContainer = () => {
   const selectMenu = useSelector(selectMenuSelector);
   const isLunchMenuLoaded = useSelector(isLunchMenuLoadedSelector);
   const selectMenuLoading = useSelector(selectMenuLoadingSelector);
+  const isMenuOpen = useSelector(isMenuOpenSelector);
+  const isUserAdmin = useSelector(isAdminSelector);
   const [desiredMenuSelection, setDesiredMenuSelection] = useState(null);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -53,8 +57,10 @@ const LunchMenuContainer = () => {
   };
 
   useEffect(() => {
-    dispatch(getSelectLunchMenuAction());
-    dispatch(lunchMenuFetchAction());
+    if (isMenuOpen || isUserAdmin) {
+      dispatch(getSelectLunchMenuAction());
+      dispatch(lunchMenuFetchAction());
+    }
 
     if (isAdmin) dispatch(dishesFetchAction());
     return () => {

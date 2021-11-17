@@ -10,6 +10,7 @@ import {
   deadlineForOrderingSelector,
   isMenuOpenSelector,
   lunchMenuSelector,
+  selectMenuSelector,
   userLoadingSelector,
 } from "../../redux/selectors";
 import EndDeadlineTimesModal from "./EndDeadlineTimesModal";
@@ -20,6 +21,7 @@ const HomePageContainer = () => {
   const userLoading = useSelector(userLoadingSelector);
   const lunchMenu = useSelector(lunchMenuSelector);
   const isMenuOpen = useSelector(isMenuOpenSelector);
+  const idSelectMenu = useSelector(selectMenuSelector);
 
   const deadlineForOrdering = useSelector(deadlineForOrderingSelector);
 
@@ -29,6 +31,7 @@ const HomePageContainer = () => {
   const isEndDeadlineTimes = deadlineForOrdering
     ? checkDeadlineTimes(deadlineForOrdering)
     : false;
+
   const isBlur = !isMenuOpen || isEndDeadlineTimes;
 
   useEffect(() => {
@@ -40,7 +43,10 @@ const HomePageContainer = () => {
   }
 
   return !userLoading || !!Object.values(lunchMenu).length ? (
-    <HomePage canselOrderHendler={canselOrderHendler} />
+    <HomePage
+      canselOrderHendler={canselOrderHendler}
+      idSelectMenu={idSelectMenu}
+    />
   ) : (
     <Loading />
   );
