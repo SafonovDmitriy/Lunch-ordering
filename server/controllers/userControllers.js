@@ -8,10 +8,7 @@ class UserController {
   }
 
   async logOut(req, res) {
-    res
-      .clearCookie("token")
-      .status(200)
-      .json({ message: "Return to us quickly" });
+    res.clearCookie("token").status(200).json({});
   }
 }
 

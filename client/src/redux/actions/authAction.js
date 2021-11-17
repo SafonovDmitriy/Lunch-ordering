@@ -42,9 +42,9 @@ export const verifyAction = (payload) => ({
   payload,
 });
 
-function* authorizationSaga({ payload }) {
+function* authorizationSaga({ payload: { email, password } }) {
   try {
-    const { data } = yield call(authorizationApi, payload);
+    const { data } = yield call(authorizationApi, { email, password });
     history.push(NAVIGATION_MAP.HOME_PAGE);
     yield put(userDataFetchAction());
     showSuccessMessage(data.message);
@@ -56,9 +56,9 @@ function* authorizationSaga({ payload }) {
     showErrorMessage(message);
   }
 }
-function* verifySaga({ payload }) {
+function* verifySaga({ payload: { code, email } }) {
   try {
-    const { data } = yield call(verifyApi, payload);
+    const { data } = yield call(verifyApi, { code, email });
     history.push(NAVIGATION_MAP.HOME_PAGE);
     yield put(userDataFetchAction());
     showSuccessMessage(data.message);
@@ -70,12 +70,9 @@ function* verifySaga({ payload }) {
     showErrorMessage(message);
   }
 }
-function* registrationSaga({ payload }) {
+function* registrationSaga({ payload: { email, password } }) {
   try {
-    const { data } = yield call(registrationApi, {
-      email: payload.email,
-      password: payload.password,
-    });
+    const { data } = yield call(registrationApi, { email, password });
     showSuccessMessage(data.message, 0);
   } catch ({
     response: {
@@ -87,12 +84,9 @@ function* registrationSaga({ payload }) {
 }
 function* logoutSaga() {
   try {
-    const {
-      data: { message },
-    } = yield call(logoutApi);
+    yield call(logoutApi);
     yield put(dataClearAction());
     history.push(NAVIGATION_MAP.LOGIN_PAGE);
-    showSuccessMessage(message);
   } catch ({
     response: {
       data: { message },
