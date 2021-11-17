@@ -76,9 +76,9 @@ class LunchMenuController {
           "Sorry but the administrator has already made the order and left you hungry",
       });
     }
-    await userOrderHistoryServices.cancelCurrentOrder({ userId });
 
     if (idLunchMenu) {
+      await userOrderHistoryServices.cancelCurrentOrder({ userId });
       const { balance } = await userServices.findUserById(userId, {
         balance: 1,
       });

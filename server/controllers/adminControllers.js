@@ -1,3 +1,5 @@
+const timeNow = require("../helpers/timeNow");
+const formedMenuServices = require("../services/formedMenuServices");
 const orderHistoryServices = require("../services/orderHistoryServices");
 const UserServices = require("../services/userServices");
 
@@ -30,6 +32,10 @@ class AdminController {
         .status(400)
         .json({ message: "Today I was already placed an order" });
 
+    const isEndDeadLineTime = await formedMenuServices.checkIsEndDeadLineTime();
+    if (!isEndDeadLineTime) {
+      await formedMenuServices.updateDeadLineTime(timeNow);
+    }
     await orderHistoryServices.saveCurrentOrders({ ...req.user });
 
     res.status(200).json({ message: "The order wassubmitted successfully" });
