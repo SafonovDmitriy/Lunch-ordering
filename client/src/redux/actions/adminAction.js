@@ -1,4 +1,4 @@
-import { call, put, takeLatest, select } from "redux-saga/effects";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import {
   getAllUsersApi,
   openMenuApi,
@@ -20,8 +20,15 @@ import {
   UPDATE_BALANCE_USER,
   USERS_LOADED,
 } from "../actionTypes";
-import { userIdSelector, usersSelector } from "../selectors";
-import { menuFormedTodayAction } from "./lunchMenuAction";
+import {
+  deadlineForOrderingSelector,
+  userIdSelector,
+  usersSelector,
+} from "../selectors";
+import {
+  setDeadlineForOrderingAction,
+  setIsMenuOpenAction,
+} from "./lunchMenuAction";
 import { errorHandlerAction } from "./otherAction";
 import { setUserDataAction } from "./userAction";
 
@@ -108,9 +115,12 @@ function* placeAnOrderSaga() {
 }
 function* saveNewTimeForOrderSaga({ payload }) {
   try {
-    const { data } = yield call(saveNewTimeForOrderApi, payload);
-    yield put(menuFormedTodayAction());
-    showSuccessMessage(data.message, 4000);
+    const deadlineTime = yield select(deadlineForOrderingSelector);
+    if (deadlineTime !== payload.deadlineTime) {
+      const { data } = yield call(saveNewTimeForOrderApi, payload);
+      yield put(setDeadlineForOrderingAction(payload.deadlineTime));
+      showSuccessMessage(data.message, 4000);
+    }
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
     showErrorMessage(response?.data?.message);
@@ -119,7 +129,7 @@ function* saveNewTimeForOrderSaga({ payload }) {
 function* openMenuSaga() {
   try {
     const { data } = yield call(openMenuApi);
-    yield put(menuFormedTodayAction());
+    yield put(setIsMenuOpenAction(true));
     showSuccessMessage(data.message, 4000);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));

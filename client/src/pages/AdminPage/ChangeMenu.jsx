@@ -5,7 +5,10 @@ import { LunchMenu } from "../../components/LunchMenu";
 import { Button } from "../../components/UI/Button";
 import { openMenuAction } from "../../redux/actions/adminAction";
 import { menuFormedTodayAction } from "../../redux/actions/lunchMenuAction";
-import { isMenuOpenSelector } from "../../redux/selectors";
+import {
+  deadlineForOrderingSelector,
+  isMenuOpenSelector,
+} from "../../redux/selectors";
 import SelectDeadLineForOrder from "./SelectDeadLineForOrder";
 const ChangeMenuContainer = styled.div`
   display: flex;
@@ -41,6 +44,7 @@ const ChangeMenuBox = styled.div`
 const ChangeMenu = () => {
   const dispatch = useDispatch();
   const isMenuOpen = useSelector(isMenuOpenSelector);
+  const deadlineForOrdering = useSelector(deadlineForOrderingSelector);
   const saveMenuTodayHendler = () => {
     dispatch(openMenuAction());
   };
@@ -58,7 +62,7 @@ const ChangeMenu = () => {
         children={"Save menu today"}
         padding="15px"
         onClick={saveMenuTodayHendler}
-        disabled={!isMenuOpen}
+        disabled={!deadlineForOrdering}
       />
     </ChangeMenuContainer>
   );

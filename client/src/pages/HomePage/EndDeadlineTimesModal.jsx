@@ -1,11 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Modal } from "../../components/UI/Modal";
-import {
-  deadlineForOrderingSelector,
-  isLunchMenuLoadedSelector,
-  selectMenuSelector,
-} from "../../redux/selectors";
+import { isMenuOpenSelector, selectMenuSelector } from "../../redux/selectors";
 const IsNotDeadlineForOrdering = () => (
   <h2 children="The administrator still did not allow to order" />
 );
@@ -15,19 +11,14 @@ const IsSelectMenu = () => (
 const IsNotSelectMenu = () => (
   <h2 children="The time of order possibilities came out, today you can no longer be ordered" />
 );
-const EndDeadlineTimesModal = ({ open = true }) => {
+const EndDeadlineTimesModal = () => {
   const selectMenu = useSelector(selectMenuSelector);
-  const deadlineForOrdering = useSelector(deadlineForOrderingSelector);
-  const isLunchMenuLoaded = useSelector(isLunchMenuLoadedSelector);
-
+  const isMenuOpen = useSelector(isMenuOpenSelector);
   return (
-    isLunchMenuLoaded && (
-      <Modal open={open}>
-        {!deadlineForOrdering && <IsNotDeadlineForOrdering />}
-        {deadlineForOrdering &&
-          (!!selectMenu ? <IsSelectMenu /> : <IsNotSelectMenu />)}
-      </Modal>
-    )
+    <Modal open={true}>
+      {!isMenuOpen && <IsNotDeadlineForOrdering />}
+      {isMenuOpen && (!!selectMenu ? <IsSelectMenu /> : <IsNotSelectMenu />)}
+    </Modal>
   );
 };
 
