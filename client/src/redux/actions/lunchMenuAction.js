@@ -21,6 +21,7 @@ import {
   SET_LUNCH_MENU,
   SET_LUNCH_MENU_LOADED,
   SET_SELECT_LUNCH_MENU,
+  SET_SELECT_LUNCH_MENU_LOADING,
 } from "../actionTypes";
 import {
   deadlineForOrderingSelector,
@@ -60,6 +61,10 @@ export const selectLunchMenuAction = (payload) => ({
   type: SELECT_LUNCH_MENU,
   payload,
 });
+export const selectLunchMenuLoadingAction = (payload) => ({
+  type: SET_SELECT_LUNCH_MENU_LOADING,
+  payload,
+});
 export const getSelectLunchMenuAction = () => ({
   type: GET_SELECT_LUNCH_MENU,
 });
@@ -96,6 +101,7 @@ function* fetchLunchMenuSaga() {
 
 function* selectLunchMenuSaga({ payload: idLunchMenu }) {
   try {
+    yield put(selectLunchMenuLoadingAction(true));
     const {
       data: { message, newBalance },
     } = yield call(selectLunchMenuApi, { idLunchMenu });
@@ -105,6 +111,8 @@ function* selectLunchMenuSaga({ payload: idLunchMenu }) {
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
     showErrorMessage(response?.data?.message, 0);
+  } finally {
+    yield put(selectLunchMenuLoadingAction(false));
   }
 }
 function* getSelectLunchMenuSaga() {

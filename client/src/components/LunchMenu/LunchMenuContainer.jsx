@@ -15,6 +15,7 @@ import {
 import {
   isLunchMenuLoadedSelector,
   lunchMenuSelector,
+  selectMenuLoadingSelector,
   selectMenuSelector,
 } from "../../redux/selectors";
 import { Loading } from "../Loading";
@@ -30,20 +31,20 @@ const LunchMenuContainer = () => {
 
   const selectMenu = useSelector(selectMenuSelector);
   const isLunchMenuLoaded = useSelector(isLunchMenuLoadedSelector);
-
+  const selectMenuLoading = useSelector(selectMenuLoadingSelector);
   const [desiredMenuSelection, setDesiredMenuSelection] = useState(null);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const setDesiredMenuSelectionHendler = (lunchID) => {
-    setDesiredMenuSelection(lunchID);
+    !selectMenuLoading && setDesiredMenuSelection(lunchID);
   };
 
   const closeModalWindowHendler = () => {
     setIsOpenModal(false);
   };
   const openModalWindowHendler = () => {
-    setIsOpenModal(true);
+    !selectMenuLoading && setIsOpenModal(true);
   };
 
   const selectLunchHendler = (lunchID) => {
@@ -65,30 +66,35 @@ const LunchMenuContainer = () => {
 
   useEffect(() => {
     setDesiredMenuSelectionHendler(selectMenu);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectMenu]);
 
   const selectLunchMenuHendler = () => {
     dispatch(selectLunchMenuAction(desiredMenuSelection));
   };
 
-  return isLunchMenuLoaded || !!Object.values(lunchMenu).length ? (
-    <>
-      {!isAdmin && isOpenModal && (
-        <ModalWindowSelectMenu
-          setDesiredMenuSelectionHendler={setDesiredMenuSelectionHendler}
-          closeModalWindowHendler={closeModalWindowHendler}
-          selectLunchMenuHendler={selectLunchMenuHendler}
-          selectMenu={selectMenu}
-        />
-      )}
+  return !selectMenuLoading ? (
+    isLunchMenuLoaded || !!Object.values(lunchMenu).length ? (
+      <>
+        {!isAdmin && isOpenModal && (
+          <ModalWindowSelectMenu
+            setDesiredMenuSelectionHendler={setDesiredMenuSelectionHendler}
+            closeModalWindowHendler={closeModalWindowHendler}
+            selectLunchMenuHendler={selectLunchMenuHendler}
+            selectMenu={selectMenu}
+          />
+        )}
 
-      <LunchMenuWrapper
-        lunchMenu={lunchMenu}
-        selectLunchHendler={selectLunchHendler}
-        desiredMenuSelection={desiredMenuSelection}
-        isAdmin={isAdmin}
-      />
-    </>
+        <LunchMenuWrapper
+          lunchMenu={lunchMenu}
+          selectLunchHendler={selectLunchHendler}
+          desiredMenuSelection={desiredMenuSelection}
+          isAdmin={isAdmin}
+        />
+      </>
+    ) : (
+      <Loading />
+    )
   ) : (
     <Loading />
   );

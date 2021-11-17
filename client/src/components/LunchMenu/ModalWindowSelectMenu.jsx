@@ -1,8 +1,8 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import { Button } from "../UI/Button";
 import { Modal } from "../UI/Modal";
-import PropTypes from "prop-types";
 
 const ButtonBox = styled.div`
   display: flex;
@@ -21,9 +21,10 @@ const ModalWindowSelectMenu = ({
     closeModalWindowHendler();
   };
   const okClickButtonHendler = () => {
-    selectLunchMenuHendler();
+    selectLunchMenuHendler(selectMenu);
     closeModalWindowHendler();
   };
+
   return (
     <Modal open={true} onClose={cancelClickButtonHendler}>
       {selectMenu ? (

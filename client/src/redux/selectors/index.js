@@ -12,7 +12,9 @@ export const userLoadingSelector = (state) => state.user.loading;
 
 export const lunchMenuSelector = (state) => state.lunchMenu.lunchMenu;
 export const isLunchMenuLoadedSelector = (state) => state.lunchMenu.loaded;
-export const selectMenuSelector = (state) => state.lunchMenu.selectMenu;
+export const selectMenuSelector = (state) => state.lunchMenu.selectMenu.idMenu;
+export const selectMenuLoadingSelector = (state) =>
+  state.lunchMenu.selectMenu.loading;
 export const deadlineForOrderingSelector = (state) =>
   state.lunchMenu.deadlineForOrdering;
 export const isMenuOpenSelector = (state) => state.lunchMenu.isMenuOpen;
