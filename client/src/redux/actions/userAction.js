@@ -23,8 +23,10 @@ function* fetchUserSaga() {
   const isEmptyUser = yield select(isUserIsEmptySelector);
   yield isEmptyUser && put(setUserLoadingAction(true));
   try {
-    const { data } = yield call(fetchUserApi);
-    yield put(setUserDataAction(data.user));
+    const {
+      data: { user },
+    } = yield call(fetchUserApi);
+    yield put(setUserDataAction(user));
   } catch ({ response: { status } }) {
     yield put(errorHandlerAction(status));
   } finally {
