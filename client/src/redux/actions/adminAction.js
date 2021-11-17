@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest, select } from "redux-saga/effects";
 import {
   getAllUsersApi,
   openMenuApi,
@@ -20,6 +20,7 @@ import {
   UPDATE_BALANCE_USER,
   USERS_LOADED,
 } from "../actionTypes";
+import { userIdSelector, usersSelector } from "../selectors";
 import { menuFormedTodayAction } from "./lunchMenuAction";
 import { errorHandlerAction } from "./otherAction";
 import { setUserDataAction } from "./userAction";
@@ -79,15 +80,16 @@ function* fetchAllUsersSaga({ payload }) {
     yield put(setUsersLoadedAction(true));
   }
 }
-function* updateUserBalanceSaga({
-  payload: { numberPage, balance, selectUserId },
-}) {
+function* updateUserBalanceSaga({ payload: { balance, selectUserId } }) {
   try {
-    const {
-      data: { mainUser },
-    } = yield call(updateUserBalanceApi, { balance, selectUserId });
-    yield put(getAllUsersAction(numberPage));
-    if (mainUser) yield put(setUserDataAction(mainUser));
+    yield call(updateUserBalanceApi, { balance, selectUserId });
+    const userId = yield select(userIdSelector);
+    const users = yield select(usersSelector);
+    const newUsers = users.map((user) =>
+      user._id === selectUserId ? { ...user, balance: Number(balance) } : user
+    );
+    yield put(setUsersAction(newUsers));
+    if (userId === selectUserId) yield put(setUserDataAction({ balance }));
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
     showErrorMessage(response?.data?.message);

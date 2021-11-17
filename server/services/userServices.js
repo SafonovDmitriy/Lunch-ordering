@@ -27,9 +27,8 @@ class UserServices {
     return Math.ceil(usersLength / limit);
   }
 
-  async updateBalanceForUsers({ selectUserId: _id, balance, userId }) {
+  async updateBalanceForUsers({ selectUserId: _id, balance }) {
     await User.findByIdAndUpdate(_id, { balance });
-    return { mainUser: _id === userId ? { balance } : null };
   }
   async findUserByEmail({ email }) {
     return await User.findOne({ email });

@@ -46,9 +46,7 @@ const UserList = ({
           <span>Balance</span>
         </UserListHeader>
         {users.map((user) => {
-          return (
-            <UserItem key={user._id} user={user} numberPage={numberPage} />
-          );
+          return <UserItem key={user._id} user={user} />;
         })}
         {usersTotalPage > 1 && (
           <Pagination

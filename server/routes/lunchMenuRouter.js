@@ -5,11 +5,7 @@ const { checkUserRole, checkDeadLineTime } = require("../middlewares");
 const router = new Router();
 
 router.get("/", LunchMenuController.getAllLunch);
-router.get(
-  "/select",
-  checkDeadLineTime,
-  LunchMenuController.getSelectLunchMenu
-);
+router.get("/select", LunchMenuController.getSelectLunchMenu);
 router.get("/:id", LunchMenuController.getLunchById);
 router.post(
   "/cansel-select-menu",

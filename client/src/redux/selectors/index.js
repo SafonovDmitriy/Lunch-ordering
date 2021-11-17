@@ -3,6 +3,7 @@ import { USER_ROLE_MAP } from "../../constants";
 export const isUserIsEmptySelector = (state) =>
   !Object.keys(state.user.userData).length;
 export const userRoleSelector = (state) => state.user.userData.role;
+export const userIdSelector = (state) => state.user.userData._id;
 export const isAdminSelector = (state) =>
   state.user.userData.role === USER_ROLE_MAP.ADMIN;
 export const userEmailSelector = (state) => state.user.userData.email;
