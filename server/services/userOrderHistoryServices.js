@@ -92,7 +92,7 @@ class UserOrderHistoryServices {
   }
   async cancelCurrentOrder({ userId }) {
     const oldOrder = await UserOrderHistory.findOne({ userId, date: dateNow });
-    if (!!oldOrder) {
+    if (oldOrder) {
       const totalPrice = await lunchMenuServices.getTotalPriceByIdMenu(
         oldOrder.order.menuId
       );
@@ -107,6 +107,7 @@ class UserOrderHistoryServices {
         userId,
         date: dateNow,
       });
+      return balance + totalPrice;
     }
   }
 }

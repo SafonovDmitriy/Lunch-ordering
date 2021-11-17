@@ -27,7 +27,7 @@ const checkDeadLineTime = async (req, res, next) => {
   if (formedMenu && formedMenu.deadlineTime) {
     const today = date.parse(`${dateNow} ${timeNow}`, "DD.MM.YYYY HH:mm");
     const deadLineTimeMoment = date.parse(
-      `${dateNow} ${deadlineTime}`,
+      `${dateNow} ${formedMenu.deadlineTime}`,
       "DD.MM.YYYY HH:mm"
     );
     const timeBalanceToOrder = date

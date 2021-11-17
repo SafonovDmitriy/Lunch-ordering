@@ -62,7 +62,7 @@ const ChangeMenu = () => {
         children={"Save menu today"}
         padding="15px"
         onClick={saveMenuTodayHendler}
-        disabled={!deadlineForOrdering}
+        disabled={isMenuOpen || !deadlineForOrdering}
       />
     </ChangeMenuContainer>
   );

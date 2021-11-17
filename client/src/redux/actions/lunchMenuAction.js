@@ -11,20 +11,24 @@ import {
   showSuccessMessage,
 } from "../../helpers/showNotificationMessage";
 import {
+  CANSEL_SELECT_MENU,
   FETCH_LUNCH_MENU,
   GET_SELECT_LUNCH_MENU,
   MENU_FORMED_TODAY,
   SELECT_LUNCH_MENU,
   SET_DEADLINE_FOR_OREDERING,
+  SET_IS_MENU_OPEN,
   SET_LUNCH_MENU,
   SET_LUNCH_MENU_LOADED,
   SET_SELECT_LUNCH_MENU,
-  SET_IS_MENU_OPEN,
-  CANSEL_SELECT_MENU,
 } from "../actionTypes";
-import { deadlineForOrderingSelector, isMenuOpenSelector } from "../selectors";
+import {
+  deadlineForOrderingSelector,
+  isMenuOpenSelector,
+  lunchMenuSelector,
+} from "../selectors";
 import { errorHandlerAction } from "./otherAction";
-import { userDataFetchAction } from "./userAction";
+import { setUserDataAction } from "./userAction";
 
 export const lunchmenuSagaWorker = [
   takeLatest(FETCH_LUNCH_MENU, fetchLunchMenuSaga),
@@ -72,15 +76,13 @@ export const menuFormedTodayAction = () => ({
 });
 function* fetchLunchMenuSaga() {
   try {
-    const {
-      lunchMenu: { lunchMenu: lunchMenuList },
-    } = yield select();
-    const JSON_PREV_LUNCH_MENU_LIST = JSON.stringify(lunchMenuList);
+    const lunchMenuList = yield select(lunchMenuSelector);
+    const jsonPrevLunchMenuList = JSON.stringify(lunchMenuList);
     const {
       data: { message, lunchMenu },
     } = yield call(fetchLunchMenuApi);
-    const JSON_LUNCH_MENU_LIST = JSON.stringify(lunchMenu);
-    if (JSON_PREV_LUNCH_MENU_LIST !== JSON_LUNCH_MENU_LIST) {
+    const jsonLunchMenuList = JSON.stringify(lunchMenu);
+    if (jsonPrevLunchMenuList !== jsonLunchMenuList) {
       yield put(setLunchMenuAction(lunchMenu));
       showSuccessMessage(message);
     }
@@ -92,13 +94,13 @@ function* fetchLunchMenuSaga() {
   }
 }
 
-function* selectLunchMenuSaga({ payload }) {
+function* selectLunchMenuSaga({ payload: idLunchMenu }) {
   try {
     const {
-      data: { message },
-    } = yield call(selectLunchMenuApi, { idLunchMenu: payload });
-    yield put(getSelectLunchMenuAction());
-    yield put(userDataFetchAction());
+      data: { message, newBalance },
+    } = yield call(selectLunchMenuApi, { idLunchMenu });
+    yield put(setUserDataAction({ balance: newBalance }));
+    yield put(setSelectLunchMenuAction(idLunchMenu));
     showSuccessMessage(message);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
@@ -123,10 +125,12 @@ function* menuFormedTodaySaga() {
     const {
       data: { deadlineTime, isMenuOpen, message },
     } = yield call(menuFormedTodayApi);
-    if (deadlineForOrdering !== deadlineTime) {
-      yield !!deadlineTime && put(setDeadlineForOrderingAction(deadlineTime));
+    if (deadlineTime && deadlineForOrdering !== deadlineTime) {
+      yield put(setDeadlineForOrderingAction(deadlineTime));
     }
-    yield !!isMenuOpen && !_isMenuOpen && put(setIsMenuOpenAction(isMenuOpen));
+    if (isMenuOpen && !_isMenuOpen) {
+      yield put(setIsMenuOpenAction(isMenuOpen));
+    }
     yield showSuccessMessage(message);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
@@ -134,10 +138,12 @@ function* menuFormedTodaySaga() {
 }
 function* canselSelectMenuSaga() {
   try {
-    const { data } = yield call(canselSelectMenuApi);
-    yield put(getSelectLunchMenuAction());
-    yield put(userDataFetchAction());
-    yield showSuccessMessage(data.message);
+    const {
+      data: { message, newBalance },
+    } = yield call(canselSelectMenuApi);
+    yield put(setUserDataAction({ balance: newBalance }));
+    yield put(setSelectLunchMenuAction(null));
+    yield showSuccessMessage(message);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
   }

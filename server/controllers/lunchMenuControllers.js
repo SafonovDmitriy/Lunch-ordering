@@ -49,10 +49,13 @@ class LunchMenuController {
   // cansel-select-menu/
   async canselSelectMenu(req, res) {
     const { userId } = req.user;
-    await userOrderHistoryServices.cancelCurrentOrder({ userId });
-    res
-      .status(200)
-      .json({ message: "You successfully canceled today's order." });
+    const newBalance = await userOrderHistoryServices.cancelCurrentOrder({
+      userId,
+    });
+    res.status(200).json({
+      message: "You successfully canceled today's order.",
+      newBalance,
+    });
   }
 
   // /select
@@ -99,7 +102,10 @@ class LunchMenuController {
         idLunchMenu,
       });
 
-      res.status(200).json({ message: "You have successfully made an order" });
+      res.status(200).json({
+        message: "You have successfully made an order",
+        newBalance: balance - totalPrice,
+      });
     }
   }
 }
