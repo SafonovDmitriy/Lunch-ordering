@@ -24,7 +24,8 @@ const EndDeadlineTimesModal = ({ open = true }) => {
     isLunchMenuLoaded && (
       <Modal open={open}>
         {!deadlineForOrdering && <IsNotDeadlineForOrdering />}
-        {!!selectMenu ? <IsSelectMenu /> : <IsNotSelectMenu />}
+        {deadlineForOrdering &&
+          (!!selectMenu ? <IsSelectMenu /> : <IsNotSelectMenu />)}
       </Modal>
     )
   );

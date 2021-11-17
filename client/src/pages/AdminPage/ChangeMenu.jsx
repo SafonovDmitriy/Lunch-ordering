@@ -37,22 +37,6 @@ const ChangeMenuBox = styled.div`
     display: ${({ isMenuOpen }) => (isMenuOpen !== "true" ? "none" : "")};
   }
 `;
-const SaveMenuTodayBox = styled.div`
-  display: flex;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    backdrop-filter: blur(3px);
-    display: ${({ isMenuOpen }) => (isMenuOpen !== "true" ? "none" : "")};
-  }
-`;
 
 const ChangeMenu = () => {
   const dispatch = useDispatch();
@@ -69,13 +53,13 @@ const ChangeMenu = () => {
       <ChangeMenuBox isMenuOpen={isMenuOpen.toString()}>
         <LunchMenu />
       </ChangeMenuBox>
-      <SaveMenuTodayBox isMenuOpen={isMenuOpen.toString()}>
-        <Button
-          children={"Save menu today"}
-          padding="15px"
-          onClick={saveMenuTodayHendler}
-        />
-      </SaveMenuTodayBox>
+
+      <Button
+        children={"Save menu today"}
+        padding="15px"
+        onClick={saveMenuTodayHendler}
+        disabled={!isMenuOpen}
+      />
     </ChangeMenuContainer>
   );
 };
