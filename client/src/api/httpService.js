@@ -22,18 +22,20 @@ export const requestCancel = ({
   url,
   method = METHODS_MAP.GET,
   cancelToken,
-  props = {},
+  props,
 }) => {
-  return instance[method](url, { ...props, cancelToken: cancelToken.token });
+  return method !== METHODS_MAP.GET
+    ? instance[method](url, props, { cancelToken: cancelToken.token })
+    : instance[method](url, { ...props, cancelToken: cancelToken.token });
 };
 
 // eslint-disable-next-line no-unused-vars
 const createCancelToken = () => {
-  let cancelToken = new axios.CancelToken.source();
+  let cancelTokenSource = new axios.CancelToken.source();
   return () => {
-    if (cancelToken) cancelToken.cancel("");
-    cancelToken = new axios.CancelToken.source();
-    return cancelToken;
+    if (cancelTokenSource) cancelTokenSource.cancel();
+    cancelTokenSource = new axios.CancelToken.source();
+    return cancelTokenSource;
   };
 };
 
@@ -54,10 +56,13 @@ export const registrationApi = (form) =>
 //lunch-menu
 export const fetchUserApi = () => request({ url: "/api/user" });
 export const fetchLunchMenuApi = () => request({ url: "/api/lunch-menu" });
+
+const selectLunchMenuApiToken = createCancelToken();
 export const selectLunchMenuApi = (props) =>
-  request({
+  requestCancel({
     url: "/api/lunch-menu/select",
     method: METHODS_MAP.POST,
+    cancelToken: selectLunchMenuApiToken(),
     props,
   });
 export const getSelectLunchMenuApi = () =>
@@ -65,6 +70,12 @@ export const getSelectLunchMenuApi = () =>
 
 export const updateLunchMenuApi = (props) =>
   request({ url: "/api/lunch-menu/put", method: METHODS_MAP.PUT, props });
+
+export const canselSelectMenuApi = () =>
+  request({
+    url: "/api/lunch-menu/cansel-select-menu",
+    method: METHODS_MAP.POST,
+  });
 
 // user-order-history
 const getUsersHistoryApiToken = createCancelToken();
@@ -91,10 +102,21 @@ export const updateUserBalanceApi = (props) =>
 
 export const placeAnOrderApi = () => request({ url: "/api/admin/order" });
 
-//example how use CancelToken
-// const  instanceWithToken = createCancelToken();
-// const request = () =>
-//   requestCancel({
-//     url
-//     cancelToken: instanceWithToken(),
-//   });
+// /formed-menu
+export const menuFormedTodayApi = () =>
+  request({
+    url: "/api/formed-menu/",
+  });
+
+export const openMenuApi = () =>
+  request({
+    url: "/api/formed-menu/",
+    method: METHODS_MAP.PUT,
+  });
+
+export const saveNewTimeForOrderApi = (props) =>
+  request({
+    url: "/api/formed-menu/deadline-time",
+    method: METHODS_MAP.POST,
+    props,
+  });

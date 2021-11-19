@@ -41,9 +41,9 @@ function* fetchDishesSaga() {
     yield put(setDishesLoadedAction(true));
   }
 }
-function* updateDishSaga({ payload }) {
+function* updateDishSaga({ payload: { dishId, dishType, lunchId } }) {
   try {
-    yield call(updateLunchMenuApi, payload);
+    yield call(updateLunchMenuApi, { dishId, dishType, lunchId });
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
   }

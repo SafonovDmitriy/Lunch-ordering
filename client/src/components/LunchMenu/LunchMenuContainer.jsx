@@ -13,8 +13,11 @@ import {
   setLunchMenuLoadedAction,
 } from "../../redux/actions/lunchMenuAction";
 import {
+  isAdminSelector,
   isLunchMenuLoadedSelector,
+  isMenuOpenSelector,
   lunchMenuSelector,
+  selectMenuLoadingSelector,
   selectMenuSelector,
 } from "../../redux/selectors";
 import { Loading } from "../Loading";
@@ -30,32 +33,34 @@ const LunchMenuContainer = () => {
 
   const selectMenu = useSelector(selectMenuSelector);
   const isLunchMenuLoaded = useSelector(isLunchMenuLoadedSelector);
-
+  const selectMenuLoading = useSelector(selectMenuLoadingSelector);
+  const isMenuOpen = useSelector(isMenuOpenSelector);
+  const isUserAdmin = useSelector(isAdminSelector);
   const [desiredMenuSelection, setDesiredMenuSelection] = useState(null);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const setDesiredMenuSelectionHendler = (lunchID) => {
-    setDesiredMenuSelection(lunchID);
+    !selectMenuLoading && setDesiredMenuSelection(lunchID);
   };
 
   const closeModalWindowHendler = () => {
     setIsOpenModal(false);
   };
   const openModalWindowHendler = () => {
-    setIsOpenModal(true);
+    !selectMenuLoading && setIsOpenModal(true);
   };
 
   const selectLunchHendler = (lunchID) => {
-    if (!selectMenu) {
-      setDesiredMenuSelectionHendler(lunchID);
-      openModalWindowHendler();
-    }
+    setDesiredMenuSelectionHendler(lunchID);
+    openModalWindowHendler();
   };
 
   useEffect(() => {
-    dispatch(getSelectLunchMenuAction());
-    dispatch(lunchMenuFetchAction());
+    if (isMenuOpen || isUserAdmin) {
+      dispatch(getSelectLunchMenuAction());
+      dispatch(lunchMenuFetchAction());
+    }
 
     if (isAdmin) dispatch(dishesFetchAction());
     return () => {
@@ -67,29 +72,35 @@ const LunchMenuContainer = () => {
 
   useEffect(() => {
     setDesiredMenuSelectionHendler(selectMenu);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectMenu]);
 
   const selectLunchMenuHendler = () => {
     dispatch(selectLunchMenuAction(desiredMenuSelection));
   };
 
-  return isLunchMenuLoaded || !!Object.values(lunchMenu).length ? (
-    <>
-      {!isAdmin && isOpenModal && !selectMenu && (
-        <ModalWindowSelectMenu
-          setDesiredMenuSelectionHendler={setDesiredMenuSelectionHendler}
-          closeModalWindowHendler={closeModalWindowHendler}
-          selectLunchMenuHendler={selectLunchMenuHendler}
-        />
-      )}
+  return !selectMenuLoading ? (
+    isLunchMenuLoaded || !!Object.values(lunchMenu).length ? (
+      <>
+        {!isAdmin && isOpenModal && (
+          <ModalWindowSelectMenu
+            setDesiredMenuSelectionHendler={setDesiredMenuSelectionHendler}
+            closeModalWindowHendler={closeModalWindowHendler}
+            selectLunchMenuHendler={selectLunchMenuHendler}
+            selectMenu={selectMenu}
+          />
+        )}
 
-      <LunchMenuWrapper
-        lunchMenu={lunchMenu}
-        selectLunchHendler={selectLunchHendler}
-        desiredMenuSelection={desiredMenuSelection}
-        isAdmin={isAdmin}
-      />
-    </>
+        <LunchMenuWrapper
+          lunchMenu={lunchMenu}
+          selectLunchHendler={selectLunchHendler}
+          desiredMenuSelection={desiredMenuSelection}
+          isAdmin={isAdmin}
+        />
+      </>
+    ) : (
+      <Loading />
+    )
   ) : (
     <Loading />
   );

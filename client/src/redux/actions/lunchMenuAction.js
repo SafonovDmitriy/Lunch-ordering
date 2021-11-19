@@ -1,34 +1,56 @@
-import { takeLatest, call, put, select } from "redux-saga/effects";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import {
+  canselSelectMenuApi,
   fetchLunchMenuApi,
   getSelectLunchMenuApi,
+  menuFormedTodayApi,
   selectLunchMenuApi,
 } from "../../api/httpService";
 import {
-  showSuccessMessage,
   showErrorMessage,
+  showSuccessMessage,
 } from "../../helpers/showNotificationMessage";
 import {
+  CANSEL_SELECT_MENU,
   FETCH_LUNCH_MENU,
+  GET_SELECT_LUNCH_MENU,
+  MENU_FORMED_TODAY,
   SELECT_LUNCH_MENU,
+  SET_DEADLINE_FOR_OREDERING,
+  SET_IS_MENU_OPEN,
   SET_LUNCH_MENU,
   SET_LUNCH_MENU_LOADED,
-  GET_SELECT_LUNCH_MENU,
   SET_SELECT_LUNCH_MENU,
+  SET_SELECT_LUNCH_MENU_LOADING,
 } from "../actionTypes";
+import {
+  deadlineForOrderingSelector,
+  isMenuOpenSelector,
+  lunchMenuSelector,
+} from "../selectors";
 import { errorHandlerAction } from "./otherAction";
+import { setUserDataAction } from "./userAction";
 
 export const lunchmenuSagaWorker = [
   takeLatest(FETCH_LUNCH_MENU, fetchLunchMenuSaga),
   takeLatest(SELECT_LUNCH_MENU, selectLunchMenuSaga),
   takeLatest(GET_SELECT_LUNCH_MENU, getSelectLunchMenuSaga),
+  takeLatest(MENU_FORMED_TODAY, menuFormedTodaySaga),
+  takeLatest(CANSEL_SELECT_MENU, canselSelectMenuSaga),
 ];
 
 export const lunchMenuFetchAction = () => ({
   type: FETCH_LUNCH_MENU,
 });
+export const canselSelectMenuAction = () => ({
+  type: CANSEL_SELECT_MENU,
+});
 export const setLunchMenuAction = (payload) => ({
   type: SET_LUNCH_MENU,
+  payload,
+});
+export const setDeadlineForOrderingAction = (payload) => ({
+  type: SET_DEADLINE_FOR_OREDERING,
   payload,
 });
 export const setLunchMenuLoadedAction = (payload) => ({
@@ -39,6 +61,10 @@ export const selectLunchMenuAction = (payload) => ({
   type: SELECT_LUNCH_MENU,
   payload,
 });
+export const selectLunchMenuLoadingAction = (payload) => ({
+  type: SET_SELECT_LUNCH_MENU_LOADING,
+  payload,
+});
 export const getSelectLunchMenuAction = () => ({
   type: GET_SELECT_LUNCH_MENU,
 });
@@ -46,18 +72,22 @@ export const setSelectLunchMenuAction = (payload) => ({
   type: SET_SELECT_LUNCH_MENU,
   payload,
 });
-
+export const setIsMenuOpenAction = (payload) => ({
+  type: SET_IS_MENU_OPEN,
+  payload,
+});
+export const menuFormedTodayAction = () => ({
+  type: MENU_FORMED_TODAY,
+});
 function* fetchLunchMenuSaga() {
   try {
+    const lunchMenuList = yield select(lunchMenuSelector);
+    const jsonPrevLunchMenuList = JSON.stringify(lunchMenuList);
     const {
-      lunchMenu: { lunchMenu: lunchMenuList },
-    } = yield select();
-    const JSON_PREV_LUNCH_MENU_LIST = JSON.stringify(lunchMenuList);
-    const { data } = yield call(fetchLunchMenuApi);
-    const { message, lunchMenu } = data;
-    const JSON_LUNCH_MENU_LIST = JSON.stringify(lunchMenu);
-
-    if (JSON_PREV_LUNCH_MENU_LIST !== JSON_LUNCH_MENU_LIST) {
+      data: { message, lunchMenu },
+    } = yield call(fetchLunchMenuApi);
+    const jsonLunchMenuList = JSON.stringify(lunchMenu);
+    if (jsonPrevLunchMenuList !== jsonLunchMenuList) {
       yield put(setLunchMenuAction(lunchMenu));
       showSuccessMessage(message);
     }
@@ -69,16 +99,20 @@ function* fetchLunchMenuSaga() {
   }
 }
 
-function* selectLunchMenuSaga({ payload }) {
+function* selectLunchMenuSaga({ payload: idLunchMenu }) {
   try {
+    yield put(selectLunchMenuLoadingAction(true));
     const {
-      data: { message },
-    } = yield call(selectLunchMenuApi, { idLunchMenu: payload });
-    yield put(getSelectLunchMenuAction());
+      data: { message, newBalance },
+    } = yield call(selectLunchMenuApi, { idLunchMenu });
+    yield put(setUserDataAction({ balance: newBalance }));
+    yield put(setSelectLunchMenuAction(idLunchMenu));
     showSuccessMessage(message);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
-    showErrorMessage(response?.data?.message);
+    showErrorMessage(response?.data?.message, 0);
+  } finally {
+    yield put(selectLunchMenuLoadingAction(false));
   }
 }
 function* getSelectLunchMenuSaga() {
@@ -90,5 +124,35 @@ function* getSelectLunchMenuSaga() {
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
     showErrorMessage(response?.data?.message);
+  }
+}
+function* menuFormedTodaySaga() {
+  try {
+    const deadlineForOrdering = yield select(deadlineForOrderingSelector);
+    const _isMenuOpen = yield select(isMenuOpenSelector);
+    const {
+      data: { deadlineTime, isMenuOpen, message },
+    } = yield call(menuFormedTodayApi);
+    if (deadlineTime && deadlineForOrdering !== deadlineTime) {
+      yield put(setDeadlineForOrderingAction(deadlineTime));
+    }
+    if (isMenuOpen && !_isMenuOpen) {
+      yield put(setIsMenuOpenAction(isMenuOpen));
+    }
+    yield showSuccessMessage(message);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+  }
+}
+function* canselSelectMenuSaga() {
+  try {
+    const {
+      data: { message, newBalance },
+    } = yield call(canselSelectMenuApi);
+    yield put(setUserDataAction({ balance: newBalance }));
+    yield put(setSelectLunchMenuAction(null));
+    yield showSuccessMessage(message);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
   }
 }

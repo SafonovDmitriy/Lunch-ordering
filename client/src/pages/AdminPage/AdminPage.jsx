@@ -12,12 +12,22 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const AdminPage = ({ switchMode, setModeHendler, placeAnOrder }) => {
+const AdminPage = ({
+  switchMode,
+  setModeHendler,
+  placeAnOrder,
+  openModal,
+  onCloseModal,
+}) => {
   return (
     <Container>
       <Switch switchMode={!switchMode} setModeHendler={setModeHendler} />
       {switchMode ? (
-        <ChangeUserBalance placeAnOrder={placeAnOrder} />
+        <ChangeUserBalance
+          placeAnOrder={placeAnOrder}
+          openModal={openModal}
+          onCloseModal={onCloseModal}
+        />
       ) : (
         <ChangeMenu />
       )}
@@ -28,5 +38,7 @@ AdminPage.propTypes = {
   switchMode: PropTypes.bool,
   setModeHendler: PropTypes.func,
   placeAnOrder: PropTypes.func,
+  openModal: PropTypes.bool,
+  onCloseModal: PropTypes.func,
 };
 export default AdminPage;

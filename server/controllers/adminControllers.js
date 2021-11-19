@@ -1,3 +1,5 @@
+const timeNow = require("../helpers/timeNow");
+const formedMenuServices = require("../services/formedMenuServices");
 const orderHistoryServices = require("../services/orderHistoryServices");
 const UserServices = require("../services/userServices");
 
@@ -8,18 +10,19 @@ class AdminController {
   }
 
   async updateBalanceUser(req, res) {
-    const { balance } = req.body;
+    const { balance, selectUserId } = req.body;
+
     if (balance < 0 || !balance.toString().length) {
-      return res.status(400).json({
+      return res.status(415).json({
         message: "Investigious importance",
       });
     }
-    const answer = await UserServices.updateBalanceForUsers({
-      ...req.body,
-      ...req.user,
+    await UserServices.updateBalanceForUsers({
+      selectUserId,
+      balance,
     });
 
-    res.status(200).json(answer);
+    res.status(200).json();
   }
 
   async placeAnOrder(req, res) {
@@ -29,6 +32,10 @@ class AdminController {
         .status(400)
         .json({ message: "Today I was already placed an order" });
 
+    const isEndDeadLineTime = await formedMenuServices.checkIsEndDeadLineTime();
+    if (!isEndDeadLineTime) {
+      await formedMenuServices.updateDeadLineTime(timeNow);
+    }
     await orderHistoryServices.saveCurrentOrders({ ...req.user });
 
     res.status(200).json({ message: "The order wassubmitted successfully" });

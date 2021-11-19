@@ -17,7 +17,6 @@ const UserItemContainer = styled.div`
 `;
 const UserItem = ({
   user: { _id: userId, email: userEmail, balance: userBalance },
-  numberPage,
 }) => {
   const dispatch = useDispatch();
   const [isShowInput, setIsShowInput] = useState(false);
@@ -31,7 +30,7 @@ const UserItem = ({
   };
   const onBlurHendler = (selectUserId) => {
     setIsShowInputHendler();
-    dispatch(updateBalanceUserAction({ selectUserId, balance, numberPage }));
+    dispatch(updateBalanceUserAction({ selectUserId, balance }));
   };
   return (
     <UserItemContainer>

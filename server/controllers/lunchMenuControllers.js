@@ -1,6 +1,7 @@
 const lunchMenuServices = require("../services/lunchMenuServices");
 const orderHistoryServices = require("../services/orderHistoryServices");
 const userOrderHistoryServices = require("../services/userOrderHistoryServices");
+const userServices = require("../services/userServices");
 
 class LunchMenuController {
   // /lunch-menu
@@ -44,6 +45,19 @@ class LunchMenuController {
 
   // delete/:delete
   async deleteLunchMenuById(req, res) {}
+
+  // cansel-select-menu/
+  async canselSelectMenu(req, res) {
+    const { userId } = req.user;
+    const newBalance = await userOrderHistoryServices.cancelCurrentOrder({
+      userId,
+    });
+    res.status(200).json({
+      message: "You successfully canceled today's order.",
+      newBalance,
+    });
+  }
+
   // /select
   async getSelectLunchMenu(req, res) {
     const { userId } = req.user;
@@ -62,19 +76,37 @@ class LunchMenuController {
           "Sorry but the administrator has already made the order and left you hungry",
       });
     }
-    const isOldOrder =
-      await userOrderHistoryServices.checkIsCurrentOrdersByIdUser(userId);
-    if (isOldOrder)
-      return res
-        .status(400)
-        .json({ message: "You have already done an order today" });
 
-    if (!idLunchMenu)
-      return res.status(400).json({ message: "Not selected menu" });
+    if (idLunchMenu) {
+      await userOrderHistoryServices.cancelCurrentOrder({ userId });
+      const { balance } = await userServices.findUserById(userId, {
+        balance: 1,
+      });
+      const totalPrice = await lunchMenuServices.getTotalPriceByIdMenu(
+        idLunchMenu
+      );
+      if (totalPrice > balance) {
+        return res
+          .status(400)
+          .json({ message: "You do not have enough funds for this order." });
+      }
 
-    await userOrderHistoryServices.createNewUsersOrder({ userId, idLunchMenu });
+      await userServices.updateBalanceForUsers({
+        selectUserId: userId,
+        balance: balance - totalPrice,
+        userId,
+      });
 
-    res.status(200).json({ message: "You have successfully made an order" });
+      await userOrderHistoryServices.createNewUsersOrder({
+        userId,
+        idLunchMenu,
+      });
+
+      res.status(200).json({
+        message: "You have successfully made an order",
+        newBalance: balance - totalPrice,
+      });
+    }
   }
 }
 

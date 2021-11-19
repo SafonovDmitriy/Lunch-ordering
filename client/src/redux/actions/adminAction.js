@@ -1,7 +1,9 @@
-import { call, takeLatest, put } from "redux-saga/effects";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import {
   getAllUsersApi,
+  openMenuApi,
   placeAnOrderApi,
+  saveNewTimeForOrderApi,
   updateUserBalanceApi,
 } from "../../api/httpService";
 import {
@@ -10,12 +12,23 @@ import {
 } from "../../helpers/showNotificationMessage";
 import {
   FETCH_ALL_USERS,
+  OPEN_MENU,
+  PLACE_AN_ORDER,
   SET_USERS,
   SET_USERS_TOTAL_PAGE,
+  TIME_FOR_ORDER,
   UPDATE_BALANCE_USER,
   USERS_LOADED,
-  PLACE_AN_ORDER,
 } from "../actionTypes";
+import {
+  deadlineForOrderingSelector,
+  userIdSelector,
+  usersSelector,
+} from "../selectors";
+import {
+  setDeadlineForOrderingAction,
+  setIsMenuOpenAction,
+} from "./lunchMenuAction";
 import { errorHandlerAction } from "./otherAction";
 import { setUserDataAction } from "./userAction";
 
@@ -23,6 +36,8 @@ export const adminSagaWorker = [
   takeLatest(FETCH_ALL_USERS, fetchAllUsersSaga),
   takeLatest(UPDATE_BALANCE_USER, updateUserBalanceSaga),
   takeLatest(PLACE_AN_ORDER, placeAnOrderSaga),
+  takeLatest(TIME_FOR_ORDER, saveNewTimeForOrderSaga),
+  takeLatest(OPEN_MENU, openMenuSaga),
 ];
 
 export const getAllUsersAction = (payload) => ({
@@ -49,6 +64,13 @@ export const updateBalanceUserAction = (payload) => ({
 export const placeAnOrderAction = () => ({
   type: PLACE_AN_ORDER,
 });
+export const saveNewTimeForOrderAction = (payload) => ({
+  type: TIME_FOR_ORDER,
+  payload,
+});
+export const openMenuAction = () => ({
+  type: OPEN_MENU,
+});
 
 function* fetchAllUsersSaga({ payload }) {
   try {
@@ -65,15 +87,16 @@ function* fetchAllUsersSaga({ payload }) {
     yield put(setUsersLoadedAction(true));
   }
 }
-function* updateUserBalanceSaga({
-  payload: { numberPage, balance, selectUserId },
-}) {
+function* updateUserBalanceSaga({ payload: { balance, selectUserId } }) {
   try {
-    const {
-      data: { mainUser },
-    } = yield call(updateUserBalanceApi, { balance, selectUserId });
-    yield put(getAllUsersAction(numberPage));
-    if (mainUser) yield put(setUserDataAction(mainUser));
+    yield call(updateUserBalanceApi, { balance, selectUserId });
+    const userId = yield select(userIdSelector);
+    const users = yield select(usersSelector);
+    const newUsers = users.map((user) =>
+      user._id === selectUserId ? { ...user, balance: Number(balance) } : user
+    );
+    yield put(setUsersAction(newUsers));
+    if (userId === selectUserId) yield put(setUserDataAction({ balance }));
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
     showErrorMessage(response?.data?.message);
@@ -85,6 +108,29 @@ function* placeAnOrderSaga() {
       data: { message },
     } = yield call(placeAnOrderApi);
     showSuccessMessage(message, 0);
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
+  }
+}
+function* saveNewTimeForOrderSaga({ payload }) {
+  try {
+    const deadlineTime = yield select(deadlineForOrderingSelector);
+    if (deadlineTime !== payload.deadlineTime) {
+      const { data } = yield call(saveNewTimeForOrderApi, payload);
+      yield put(setDeadlineForOrderingAction(payload.deadlineTime));
+      showSuccessMessage(data.message, 4000);
+    }
+  } catch ({ response }) {
+    yield put(errorHandlerAction(response?.status));
+    showErrorMessage(response?.data?.message);
+  }
+}
+function* openMenuSaga() {
+  try {
+    const { data } = yield call(openMenuApi);
+    yield put(setIsMenuOpenAction(true));
+    showSuccessMessage(data.message, 4000);
   } catch ({ response }) {
     yield put(errorHandlerAction(response?.status));
     showErrorMessage(response?.data?.message);

@@ -4,7 +4,8 @@ const {
   dishSchema,
   lunchMenuSchema,
   userOrderHistorySchema,
-  OrderHistorySchema,
+  orderHistorySchema,
+  formedMenuSchema,
 } = require("../schemas");
 
 module.exports = {
@@ -12,5 +13,6 @@ module.exports = {
   LunchMenu: mongoose.model("LunchMenu", lunchMenuSchema),
   Dish: mongoose.model("Dish", dishSchema),
   UserOrderHistory: mongoose.model("UserOrderHistory", userOrderHistorySchema),
-  OrderHistory: mongoose.model("OrderHistory", OrderHistorySchema),
+  OrderHistory: mongoose.model("OrderHistory", orderHistorySchema),
+  FormedMenu: mongoose.model("formedMenu", formedMenuSchema),
 };
