@@ -1,12 +1,13 @@
 import date from "date-and-time";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { ShowDeadLineForOrder } from "../../components/ShowDeadLineForOrder";
 import { Button } from "../../components/UI/Button";
 import { dateNow } from "../../helpers/dateNow";
 import { timeNow } from "../../helpers/timeNow";
 import { saveNewTimeForOrderAction } from "../../redux/actions/adminAction";
+import { deadlineForOrderingSelector } from "../../redux/selectors";
 
 const SelectDeadLineForOrderBox = styled.div`
   display: flex;
@@ -20,6 +21,8 @@ const SelectTimeBox = styled.div``;
 
 const SelectDeadLineForOrder = () => {
   const dispatch = useDispatch();
+  const deadlineForOrdering = useSelector(deadlineForOrderingSelector);
+
   const dateNowToday = `${dateNow()} ${timeNow()}`;
   const minTime = date.addMinutes(
     date.parse(dateNowToday, "DD.MM.YYYY HH:mm"),
@@ -84,7 +87,7 @@ const SelectDeadLineForOrder = () => {
         </SelectTimeBox>
         <Button
           padding="5px"
-          children={"Save new Time"}
+          children={!deadlineForOrdering ? "Save Time" : "Save new Time"}
           onClick={saveNewTimeHandler}
         />
       </SelectDeadLineForOrderBox>

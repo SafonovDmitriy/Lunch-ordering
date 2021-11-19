@@ -23,7 +23,7 @@ const ContainerContent = styled.div`
       : "";
   }}
 
-  padding: 5px;
+  padding: 15px;
   border-radius: 15px;
   box-sizing: border-box;
   transition: all 0.2s;

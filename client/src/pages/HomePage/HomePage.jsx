@@ -21,6 +21,7 @@ const HomePageBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   max-width: 1300px;
+  gap: 10px;
   height: min-content;
   justify-content: center;
   margin: 10px 0;
