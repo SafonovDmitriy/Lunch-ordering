@@ -18,6 +18,9 @@ const SelectDeadLineForOrderBox = styled.div`
   padding: 10px;
 `;
 const SelectTimeBox = styled.div``;
+const SelectTime = styled.select`
+  padding: 1px 10px;
+`;
 
 const SelectDeadLineForOrder = () => {
   const dispatch = useDispatch();
@@ -28,6 +31,7 @@ const SelectDeadLineForOrder = () => {
     date.parse(dateNowToday, "DD.MM.YYYY HH:mm"),
     30
   );
+  const initialMinutesArray = ["00", 15, 30, 45];
   const minHours = Number(date.format(minTime, "HH"));
   const minMinutes = Number(date.format(minTime, "mm"));
   const hoursArray = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].filter(
@@ -35,7 +39,6 @@ const SelectDeadLineForOrder = () => {
   );
 
   const [hours, setHours] = useState(hoursArray[0]);
-  const initialMinutesArray = ["00", 15, 30, 45];
   const [minutesArray, setMinutesArray] = useState(initialMinutesArray);
   const [minutes, setMinutes] = useState(minutesArray[0]);
 
@@ -65,15 +68,15 @@ const SelectDeadLineForOrder = () => {
       <ShowDeadLineForOrder />
       <SelectDeadLineForOrderBox>
         <SelectTimeBox>
-          <select
+          <SelectTime
             onChange={setHoursHandler}
             value={hours}
             children={hoursArray.map((hour) => (
-              <option value={hour} key={hour} children={hour} />
+              <option value={hour} key={hour} children={Number(hour)} />
             ))}
           />
           {` : `}
-          <select
+          <SelectTime
             onChange={setMinutesHandler}
             value={minutes}
             children={minutesArray.map((minute) => (
