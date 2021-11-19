@@ -20,7 +20,7 @@ const TableContainer = styled.div`
   border-radius: 15px;
   box-sizing: border-box;
   padding: 10px;
-  height: 98%;
+  height: 90vh;
   box-shadow: 1px 1px 4px 0px;
 `;
 const HeaderTable = styled.div`
