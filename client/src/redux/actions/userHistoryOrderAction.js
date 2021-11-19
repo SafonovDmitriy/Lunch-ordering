@@ -38,9 +38,9 @@ function* getUserHistoryOrderSaga({ payload }) {
     } = yield call(getUsersHistoryApi, { limit: 10, page: payload });
     yield put(setUserHistoryOrderAction(userHistory));
     yield put(setUserHistoryOrderTotalPageAction(totalPage));
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
-    showErrorMessage(response?.data?.message);
+  } catch ({ status, data }) {
+    yield put(errorHandlerAction(status));
+    showErrorMessage(data?.message);
   } finally {
     yield put(setUserHistoryOrderLoadedAction(true));
   }

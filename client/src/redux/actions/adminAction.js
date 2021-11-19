@@ -80,9 +80,9 @@ function* fetchAllUsersSaga({ payload }) {
 
     yield put(setUsersAction(users));
     yield put(setUsersTotalPageAction(totalPage));
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
-    showErrorMessage(response?.data?.message);
+  } catch ({ data, status }) {
+    yield put(errorHandlerAction(status));
+    showErrorMessage(data?.message);
   } finally {
     yield put(setUsersLoadedAction(true));
   }
@@ -97,9 +97,9 @@ function* updateUserBalanceSaga({ payload: { balance, selectUserId } }) {
     );
     yield put(setUsersAction(newUsers));
     if (userId === selectUserId) yield put(setUserDataAction({ balance }));
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
-    showErrorMessage(response?.data?.message);
+  } catch ({ data, status }) {
+    yield put(errorHandlerAction(status));
+    showErrorMessage(data?.message);
   }
 }
 function* placeAnOrderSaga() {
@@ -108,9 +108,9 @@ function* placeAnOrderSaga() {
       data: { message },
     } = yield call(placeAnOrderApi);
     showSuccessMessage(message, 0);
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
-    showErrorMessage(response?.data?.message);
+  } catch ({ data, status }) {
+    yield put(errorHandlerAction(status));
+    showErrorMessage(data?.message);
   }
 }
 function* saveNewTimeForOrderSaga({ payload }) {
@@ -121,9 +121,9 @@ function* saveNewTimeForOrderSaga({ payload }) {
       yield put(setDeadlineForOrderingAction(payload.deadlineTime));
       showSuccessMessage(data.message, 4000);
     }
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
-    showErrorMessage(response?.data?.message);
+  } catch ({ data, status }) {
+    yield put(errorHandlerAction(status));
+    showErrorMessage(data?.message);
   }
 }
 function* openMenuSaga() {
@@ -131,8 +131,8 @@ function* openMenuSaga() {
     const { data } = yield call(openMenuApi);
     yield put(setIsMenuOpenAction(true));
     showSuccessMessage(data.message, 4000);
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
-    showErrorMessage(response?.data?.message);
+  } catch ({ data, status }) {
+    yield put(errorHandlerAction(status));
+    showErrorMessage(data?.message);
   }
 }

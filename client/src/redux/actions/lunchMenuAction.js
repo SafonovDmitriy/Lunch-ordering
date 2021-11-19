@@ -108,9 +108,9 @@ function* selectLunchMenuSaga({ payload: idLunchMenu }) {
     yield put(setUserDataAction({ balance: newBalance }));
     yield put(setSelectLunchMenuAction(idLunchMenu));
     showSuccessMessage(message);
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
-    showErrorMessage(response?.data?.message, 0);
+  } catch ({ status, data }) {
+    yield put(errorHandlerAction(status));
+    showErrorMessage(data?.message, 0);
   } finally {
     yield put(selectLunchMenuLoadingAction(false));
   }
@@ -121,9 +121,9 @@ function* getSelectLunchMenuSaga() {
       data: { selectLunchMenuId },
     } = yield call(getSelectLunchMenuApi);
     yield put(setSelectLunchMenuAction(selectLunchMenuId));
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
-    showErrorMessage(response?.data?.message);
+  } catch ({ status, data }) {
+    yield put(errorHandlerAction(status));
+    showErrorMessage(data?.message);
   }
 }
 function* menuFormedTodaySaga() {
@@ -140,8 +140,8 @@ function* menuFormedTodaySaga() {
       yield put(setIsMenuOpenAction(isMenuOpen));
     }
     yield showSuccessMessage(message);
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
+  } catch ({ status }) {
+    yield put(errorHandlerAction(status));
   }
 }
 function* canselSelectMenuSaga() {
@@ -152,7 +152,7 @@ function* canselSelectMenuSaga() {
     yield put(setUserDataAction({ balance: newBalance }));
     yield put(setSelectLunchMenuAction(null));
     yield showSuccessMessage(message);
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
+  } catch ({ status }) {
+    yield put(errorHandlerAction(status));
   }
 }

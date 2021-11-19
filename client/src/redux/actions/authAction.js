@@ -48,12 +48,8 @@ function* authorizationSaga({ payload: { email, password } }) {
     history.push(NAVIGATION_MAP.HOME_PAGE);
     yield put(userDataFetchAction());
     showSuccessMessage(data.message);
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ data }) {
+    showErrorMessage(data.message);
   }
 }
 function* verifySaga({ payload: { code, email } }) {
@@ -62,24 +58,16 @@ function* verifySaga({ payload: { code, email } }) {
     history.push(NAVIGATION_MAP.HOME_PAGE);
     yield put(userDataFetchAction());
     showSuccessMessage(data.message);
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ data }) {
+    showErrorMessage(data.message);
   }
 }
 function* registrationSaga({ payload: { email, password } }) {
   try {
     const { data } = yield call(registrationApi, { email, password });
     showSuccessMessage(data.message, 0);
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ data }) {
+    showErrorMessage(data.message);
   }
 }
 function* logoutSaga() {
@@ -87,11 +75,7 @@ function* logoutSaga() {
     yield call(logoutApi);
     yield put(dataClearAction());
     history.push(NAVIGATION_MAP.LOGIN_PAGE);
-  } catch ({
-    response: {
-      data: { message },
-    },
-  }) {
-    showErrorMessage(message);
+  } catch ({ data }) {
+    showErrorMessage(data.message);
   }
 }

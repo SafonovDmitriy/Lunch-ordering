@@ -35,8 +35,8 @@ function* fetchDishesSaga() {
       data: { dishes },
     } = yield call(getDishesApi);
     yield put(setDishesAction(dishes));
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
+  } catch ({ status }) {
+    yield put(errorHandlerAction(status));
   } finally {
     yield put(setDishesLoadedAction(true));
   }
@@ -44,7 +44,7 @@ function* fetchDishesSaga() {
 function* updateDishSaga({ payload: { dishId, dishType, lunchId } }) {
   try {
     yield call(updateLunchMenuApi, { dishId, dishType, lunchId });
-  } catch ({ response }) {
-    yield put(errorHandlerAction(response?.status));
+  } catch ({ status }) {
+    yield put(errorHandlerAction(status));
   }
 }

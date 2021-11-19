@@ -27,7 +27,7 @@ function* fetchUserSaga() {
       data: { user },
     } = yield call(fetchUserApi);
     yield put(setUserDataAction(user));
-  } catch ({ response: { status } }) {
+  } catch ({ status }) {
     yield put(errorHandlerAction(status));
   } finally {
     yield isEmptyUser && put(setUserLoadingAction(false));

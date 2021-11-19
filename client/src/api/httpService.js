@@ -8,6 +8,11 @@ export const instance = axios.create({
   withCredentials: true,
 });
 
+instance.interceptors.response.use(
+  (res) => Promise.resolve(res),
+  (error) => Promise.reject(error.response)
+);
+
 const METHODS_MAP = {
   GET: "get",
   POST: "post",
