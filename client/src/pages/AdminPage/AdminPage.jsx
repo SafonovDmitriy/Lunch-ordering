@@ -8,7 +8,6 @@ import ChangeUserBalance from "./ChangeUserBalance";
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 10px;
   align-items: center;
 `;
 
