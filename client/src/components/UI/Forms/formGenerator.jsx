@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { Button } from "../Button";
 import { Input } from "../Input";
 
-const LoginForm = styled.form`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -102,24 +102,19 @@ const formGenerator = ({
     setForm(_form);
   };
 
-  for (const field of form) {
-    _formJSX.push(createField(field));
-  }
+  for (const field of form) _formJSX.push(createField(field));
 
   const disabledBtn = Object.values(error).every((item) => !!item.length);
 
   return form.length ? (
-    <LoginForm
-      className={className ? className : null}
-      onSubmit={onSubmitHendler}
-    >
+    <Form className={className ? className : null} onSubmit={onSubmitHendler}>
       {_formJSX}
       {!!submitText && (
         <Button disabled={disabledBtn} type="submit" padding="10px 30px">
           {submitText}
         </Button>
       )}
-    </LoginForm>
+    </Form>
   ) : null;
 };
 export default formGenerator;
