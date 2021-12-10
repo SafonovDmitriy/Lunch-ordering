@@ -5,10 +5,10 @@ const BcryptService = require("../utils/BcryptService");
 const urlForVerification = (email) =>
   `${process.env.CLIENT_URL}verification/${email}`;
 
-const cookieOptionForToken = {
+const cookieOptionForToken = () => ({
   httpOnly: true,
   expires: new Date(Date.now() + 60 * 60 * 1000),
-};
+});
 class AuthController {
   async signIn(req, res) {
     const { email, password } = req.query;
@@ -38,7 +38,7 @@ class AuthController {
     res.cookie(
       "token",
       TokenService.create({ _id: user._id }),
-      cookieOptionForToken
+      cookieOptionForToken()
     );
     res.status(200).json({ message: "Welcome to Lunch Menu" });
   }
@@ -70,7 +70,7 @@ class AuthController {
       });
     await userServices.verifyUser({ email });
 
-    res.cookie("token", TokenService.create({ _id }), cookieOptionForToken);
+    res.cookie("token", TokenService.create({ _id }), cookieOptionForToken());
     res.status(200).json({
       message: "You have successfully passed the verification step",
     });
