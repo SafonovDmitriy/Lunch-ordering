@@ -11,8 +11,10 @@ The administrator may also edit the menu and summarize today's orders into one a
 
 ## Toolkit.
 
-client: react prop-types redux saga styled-components
-server: express mongoose passport
+### client: 
+react prop-types redux saga styled-components
+### server: 
+express mongoose passport
 
 ## Available scripts.
 
